@@ -1,0 +1,19 @@
+.gitattributes
+  s_17a852bebe789c::t_ab55035acee1c3 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "c37563b5feb362f1da6140c44505edeffebb1287",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
