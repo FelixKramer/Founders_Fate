@@ -33,6 +33,9 @@ from openai import APIError, APIStatusError, RateLimitError
 
 from . import cache as response_cache
 from . import circuit_breaker as breaker
+from . import pricing
+from . import spend_cap
+from . import telemetry
 from .errors import AllProvidersFailed, RateLimitedByGateway
 from .mock import deterministic_completion, deterministic_json
 from .routing import RoutingConfig, get_routing_config
@@ -107,6 +110,7 @@ def complete(
     stage: Stage,
     messages: list[dict[str, str]],
     user_id: str | None = None,
+    user_tier: str | None = None,
     simulation_id: str | None = None,
     response_format: dict[str, Any] | None = None,
     extra_overrides: dict[str, Any] | None = None,
@@ -150,7 +154,7 @@ def complete(
         text = deterministic_completion(messages, stage.value)
         # In mock mode we still pretend telemetry happened so call sites that
         # depend on UsageLog existing (e.g. tests of the spend-cap path) work.
-        _record_telemetry_stub(
+        telemetry.emit(
             stage=stage.value,
             model="mock",
             tier=tier_cfg.tier,
@@ -175,7 +179,7 @@ def complete(
                 temperature=temperature, max_tokens=max_tokens,
             )
             if hit is not None:
-                _record_telemetry_stub(
+                telemetry.emit(
                     stage=stage.value,
                     model=hit.model,
                     tier=tier_cfg.tier,
@@ -192,8 +196,10 @@ def complete(
                 )
                 return hit.text
 
-    # --- Pre-call spend cap check (M4.5.8 will replace) ---
-    _spend_cap_check_stub(user_id, tier_cfg.tier)
+    # --- Pre-call spend cap check ---
+    # We don't know exact cost yet; check against history-only. The hard
+    # cap protects against runaway loops more than against single big calls.
+    spend_cap.check_before_call(user_id, user_tier or "free")
 
     # --- Real call with failover ---
     client = _openrouter_client()
@@ -210,7 +216,8 @@ def complete(
                 client, model, messages, temperature, max_tokens, response_format
             )
             latency_ms = int((time.monotonic() - started) * 1000)
-            _record_telemetry_stub(
+            cost = pricing.cost_usd(model, usage["input_tokens"], usage["output_tokens"])
+            telemetry.emit(
                 stage=stage.value,
                 model=model,
                 tier=tier_cfg.tier,
@@ -219,12 +226,13 @@ def complete(
                 simulation_id=simulation_id,
                 input_tokens=usage["input_tokens"],
                 output_tokens=usage["output_tokens"],
-                cost_usd=0.0,  # filled in by M4.5.4/4.5.7 with model pricing table
+                cost_usd=cost,
                 latency_ms=latency_ms,
                 cache_hit=False,
                 attempt=attempt_idx,
                 error_category=None,
             )
+            spend_cap.record_actual(user_id, user_tier or "free", cost)
             response_cache.put(
                 stage=stage, model=model, messages=messages,
                 temperature=temperature, max_tokens=max_tokens,
@@ -251,7 +259,7 @@ def complete(
         finally:
             if error_category is not None:
                 latency_ms = int((time.monotonic() - started) * 1000)
-                _record_telemetry_stub(
+                telemetry.emit(
                     stage=stage.value,
                     model=model,
                     tier=tier_cfg.tier,
@@ -278,6 +286,7 @@ def complete_json(
     stage: Stage,
     messages: list[dict[str, str]],
     user_id: str | None = None,
+    user_tier: str | None = None,
     simulation_id: str | None = None,
     extra_overrides: dict[str, Any] | None = None,
     cache: bool = True,
@@ -289,6 +298,7 @@ def complete_json(
         stage=stage,
         messages=messages,
         user_id=user_id,
+        user_tier=user_tier,
         simulation_id=simulation_id,
         response_format={"type": "json_object"},
         extra_overrides=extra_overrides,
@@ -304,7 +314,7 @@ def complete_json(
 
 
 # ----------------------------------------------------------------------
-# Stubs — replaced in subsequent M4.5 commits
+# Helpers
 # ----------------------------------------------------------------------
 
 def _rough_token_count(messages: list[dict[str, str]]) -> int:
@@ -316,12 +326,3 @@ def _rough_token_count(messages: list[dict[str, str]]) -> int:
     return total
 
 
-def _spend_cap_check_stub(_user_id: str | None, _tier: str) -> None:
-    # Replaced in M4.5.8.
-    return None
-
-
-def _record_telemetry_stub(**_kwargs: Any) -> None:
-    # Replaced in M4.5.7 with a POST to /api/internal/usage on Next.js.
-    # For now we just log so dev can see the shape.
-    logger.debug("usage stub: %s", _kwargs)
