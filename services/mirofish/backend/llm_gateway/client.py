@@ -31,6 +31,8 @@ from typing import Any
 from openai import OpenAI
 from openai import APIError, APIStatusError, RateLimitError
 
+from . import cache as response_cache
+from . import circuit_breaker as breaker
 from .errors import AllProvidersFailed, RateLimitedByGateway
 from .mock import deterministic_completion, deterministic_json
 from .routing import RoutingConfig, get_routing_config
@@ -165,25 +167,30 @@ def complete(
         )
         return text
 
-    # --- Cache check (M4.5.4 will replace this no-op) ---
-    cached = _cache_get_stub(stage, messages, temperature, max_tokens) if cache else None
-    if cached is not None:
-        _record_telemetry_stub(
-            stage=stage.value,
-            model=cached["model"],
-            tier=tier_cfg.tier,
-            provider="cache",
-            user_id=user_id,
-            simulation_id=simulation_id,
-            input_tokens=cached.get("input_tokens", 0),
-            output_tokens=cached.get("output_tokens", 0),
-            cost_usd=0.0,
-            latency_ms=0,
-            cache_hit=True,
-            attempt=1,
-            error_category=None,
-        )
-        return cached["text"]
+    # --- Cache check ---
+    if cache:
+        for candidate_model in tier_cfg.candidates():
+            hit = response_cache.get(
+                stage=stage, model=candidate_model, messages=messages,
+                temperature=temperature, max_tokens=max_tokens,
+            )
+            if hit is not None:
+                _record_telemetry_stub(
+                    stage=stage.value,
+                    model=hit.model,
+                    tier=tier_cfg.tier,
+                    provider="cache",
+                    user_id=user_id,
+                    simulation_id=simulation_id,
+                    input_tokens=hit.input_tokens,
+                    output_tokens=hit.output_tokens,
+                    cost_usd=0.0,
+                    latency_ms=0,
+                    cache_hit=True,
+                    attempt=1,
+                    error_category=None,
+                )
+                return hit.text
 
     # --- Pre-call spend cap check (M4.5.8 will replace) ---
     _spend_cap_check_stub(user_id, tier_cfg.tier)
@@ -193,8 +200,7 @@ def complete(
     attempts: list[tuple[str, str]] = []
     last_429 = False
     for attempt_idx, model in enumerate(tier_cfg.candidates(), start=1):
-        # Breaker check (M4.5.5 will replace).
-        if _breaker_open_stub(model):
+        if breaker.is_open(model):
             attempts.append((model, "breaker_open"))
             continue
         started = time.monotonic()
@@ -219,8 +225,14 @@ def complete(
                 attempt=attempt_idx,
                 error_category=None,
             )
-            _cache_set_stub(stage, messages, temperature, max_tokens, model, text, usage)
-            _breaker_record_success_stub(model)
+            response_cache.put(
+                stage=stage, model=model, messages=messages,
+                temperature=temperature, max_tokens=max_tokens,
+                text=text,
+                input_tokens=usage["input_tokens"],
+                output_tokens=usage["output_tokens"],
+            )
+            breaker.record_success(model)
             return text
         except RateLimitError as exc:
             error_category = "rate_limit"
@@ -254,7 +266,7 @@ def complete(
                     attempt=attempt_idx,
                     error_category=error_category,
                 )
-                _breaker_record_failure_stub(model, error_category)
+                breaker.record_failure(model, error_category)
 
     if last_429 and all(e.startswith("429") for _, e in attempts):
         raise RateLimitedByGateway(stage.value, attempts)
@@ -304,27 +316,8 @@ def _rough_token_count(messages: list[dict[str, str]]) -> int:
     return total
 
 
-def _cache_get_stub(*_args: Any, **_kwargs: Any) -> dict[str, Any] | None:
-    return None
-
-
-def _cache_set_stub(*_args: Any, **_kwargs: Any) -> None:
-    return None
-
-
-def _breaker_open_stub(_model: str) -> bool:
-    return False
-
-
-def _breaker_record_success_stub(_model: str) -> None:
-    return None
-
-
-def _breaker_record_failure_stub(_model: str, _category: str) -> None:
-    return None
-
-
 def _spend_cap_check_stub(_user_id: str | None, _tier: str) -> None:
+    # Replaced in M4.5.8.
     return None
 
 
