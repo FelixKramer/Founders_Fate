@@ -1,0 +1,151 @@
+# Founder Fate — full dev stack
+#
+# Usage:
+#   cd infra
+#   docker compose up -d
+#
+# Services:
+#   web        Next.js app (port 3000)
+#   mirofish   Python sim service (port 8000, internal-only in prod)
+#   postgres   Postgres 16 (port 5432)
+#   redis      Redis 7 (port 6379) — LLM cache, spend counters, circuit-breaker state
+#   caddy      Reverse proxy (port 81) — mirrors prod routing
+#
+# Optional profiles:
+#   pgadmin    DB GUI (port 5050)  — `docker compose --profile debug up`
+
+name: founderfate
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ff-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: founderfate
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: ff-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  mirofish:
+    build:
+      context: ../services/mirofish
+      dockerfile: Dockerfile
+    container_name: ff-mirofish
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      FLASK_ENV: development
+      MIROFISH_INTERNAL_TOKEN: ${MIROFISH_INTERNAL_TOKEN:-dev-internal-token}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_BASE_URL: https://openrouter.ai/api/v1
+      OPENROUTER_APP_NAME: FounderFate
+      ZEP_API_KEY: ${ZEP_API_KEY:-}
+      ZEP_BASE_URL: ${ZEP_BASE_URL:-}
+      REDIS_URL: redis://redis:6379/0
+      SERVER_SECRET: ${SERVER_SECRET:-dev-server-secret-change-me}
+      LLM_GATEWAY_MODE: ${LLM_GATEWAY_MODE:-live}
+      USAGE_LOG_ENDPOINT: http://web:3000/api/internal/usage
+      USAGE_LOG_TOKEN: ${MIROFISH_INTERNAL_TOKEN:-dev-internal-token}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+    volumes:
+      - mirofish_uploads:/data/uploads
+      - ../scenarios:/data/scenarios:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8000/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: ../app
+      dockerfile: Dockerfile
+    container_name: ff-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/founderfate
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-dev-nextauth-secret-change-me}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+      STRIPE_PRO_PRICE_ID: ${STRIPE_PRO_PRICE_ID:-}
+      STRIPE_ENTERPRISE_PRICE_ID: ${STRIPE_ENTERPRISE_PRICE_ID:-}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:-}
+      MIROFISH_URL: http://mirofish:8000
+      MIROFISH_INTERNAL_TOKEN: ${MIROFISH_INTERNAL_TOKEN:-dev-internal-token}
+      UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
+      UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
+      SERVER_SECRET: ${SERVER_SECRET:-dev-server-secret-change-me}
+      EMAIL_INDEX_PEPPER: ${EMAIL_INDEX_PEPPER:-dev-pepper-change-me}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      AMPLITUDE_KEY: ${AMPLITUDE_KEY:-}
+      ADMIN_EMAILS: ${ADMIN_EMAILS:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mirofish:
+        condition: service_started
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: ff-caddy
+    restart: unless-stopped
+    ports:
+      - "81:81"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ff-pgadmin
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@founderfate.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - debug
+
+volumes:
+  postgres_data:
+  mirofish_uploads:
+  caddy_data:
+  caddy_config:

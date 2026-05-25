@@ -1,0 +1,15 @@
+# Mirrors prod routing locally. In prod, Vercel serves /app and
+# the Fly.io machine serves MiroFish on its internal address.
+# In dev, this Caddy fronts both so we can hit one host.
+
+:81 {
+	# /api/internal/* and the rest of the app stay on Next.js
+	handle {
+		reverse_proxy web:3000 {
+			header_up Host {host}
+			header_up X-Forwarded-For {remote_host}
+			header_up X-Forwarded-Proto {scheme}
+			header_up X-Real-IP {remote_host}
+		}
+	}
+}

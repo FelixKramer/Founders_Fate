@@ -1,0 +1,73 @@
+version: "3.8"
+
+# ============================================
+# LaunchPad Development Stack
+# ============================================
+# PostgreSQL + PostgREST = Your Database IS Your API
+# 
+# Usage:
+#   docker-compose up -d
+# 
+# This starts:
+#   - PostgreSQL on port 5432
+#   - PostgREST on port 3001 (auto-maps tables to REST)
+#   - pgAdmin on port 5050 (database GUI)
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: launchpad-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: launchpad
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgrest/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./postgrest/auth.sql:/docker-entrypoint-initdb.d/02-auth.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # PostgREST — Auto-generates REST API from your database
+  rest:
+    image: postgrest/postgrest:v12.2.0
+    container_name: launchpad-rest
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      PGRST_DB_URI: postgres://authenticator:authenticator_password@postgres:5432/launchpad
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${NEXTAUTH_SECRET:-change-me-in-production}
+      PGRST_SERVER_PORT: 3001
+      PGRST_OPENAPI_MODE: follow-privileges
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # pgAdmin — Database management GUI (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: launchpad-pgadmin
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@launchpad.dev
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - debug
+
+volumes:
+  postgres_data:
