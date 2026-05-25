@@ -1,0 +1,38 @@
+services/mirofish/backend/llm_gateway/pricing.py
+  s_17a852bebe789c::t_899d6f8ff86e7f 1-47
+services/mirofish/backend/tests/llm_gateway/test_telemetry.py
+  s_17a852bebe789c::t_a5c15792df842a 1-92
+services/mirofish/backend/llm_gateway/spend_cap.py
+  s_17a852bebe789c::t_53d957058a3846 1-122
+services/mirofish/backend/llm_gateway/client.py
+  s_17a852bebe789c::t_2d8ebf7dd702f7 199-201
+  s_17a852bebe789c::t_64ed9d063506b5 36-38
+  s_17a852bebe789c::t_136ce9eca109f7 113
+  s_17a852bebe789c::t_33b81d0b79f6dd 219,229,235
+  s_17a852bebe789c::t_dc014ad27c03d5 317
+  s_17a852bebe789c::t_bc9b82210be9c6 289,301
+  s_17a852bebe789c::t_2ce940041040b9 157,182,220,262
+  s_17a852bebe789c::t_0da7105a2df0c8 202
+app/src/app/api/internal/usage/route.ts
+  s_17a852bebe789c::t_577640b47f1427 1-68
+services/mirofish/backend/llm_gateway/telemetry.py
+  s_17a852bebe789c::t_190fae6647ccd0 1-198
+services/mirofish/backend/tests/llm_gateway/test_spend_cap.py
+  s_17a852bebe789c::t_f9fb9de75bb7f0 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "698f4b9226e32682791bbbfb31df8369ca9429c1",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
