@@ -1,0 +1,38 @@
+services/mirofish/backend/pyproject.toml
+  s_17a852bebe789c::t_f68857925f4562 35-40,48-50
+  s_17a852bebe789c::t_9476de5c7462a4 64-87
+services/mirofish/backend/llm_gateway/mock.py
+  s_17a852bebe789c::t_9f7c90f510f838 1-43
+services/mirofish/backend/llm_gateway/client.py
+  s_17a852bebe789c::t_35b6ac1a307093 1-334
+services/mirofish/backend/llm_gateway/__init__.py
+  s_17a852bebe789c::t_5e582ff1c70b67 1-40
+services/mirofish/backend/tests/llm_gateway/test_routing.py
+  s_17a852bebe789c::t_9bb8e7c8c8e0fc 1-105
+services/mirofish/config/llm-routing.yaml
+  s_17a852bebe789c::t_9f01829158bcbf 1-62
+services/mirofish/backend/llm_gateway/errors.py
+  s_17a852bebe789c::t_15dc46aaffc1a7 1-50
+services/mirofish/backend/llm_gateway/routing.py
+  s_17a852bebe789c::t_e7b743f55fe768 1-192
+services/mirofish/backend/tests/llm_gateway/test_mock_mode.py
+  s_17a852bebe789c::t_d2271ebedcd5cf 1-39
+services/mirofish/backend/llm_gateway/stages.py
+  s_17a852bebe789c::t_7799e7925365e1 1-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "21ddd60e3b043eede2aa209a70e9fb4407bd8011",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
