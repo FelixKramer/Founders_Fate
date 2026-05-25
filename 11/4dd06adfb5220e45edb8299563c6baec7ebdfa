@@ -1,0 +1,34 @@
+services/mirofish/backend/llm_gateway/redis_client.py
+  s_17a852bebe789c::t_1f1b2b60ab0a0f 1-108
+services/mirofish/backend/llm_gateway/cache.py
+  s_17a852bebe789c::t_a3bcc918169b10 1-126
+services/mirofish/backend/tests/llm_gateway/test_cache.py
+  s_17a852bebe789c::t_99166421d675dc 1-150
+services/mirofish/backend/llm_gateway/circuit_breaker.py
+  s_17a852bebe789c::t_deadc6763070ee 1-126
+services/mirofish/backend/llm_gateway/client.py
+  s_17a852bebe789c::t_27e97c5eb4a36f 320
+  s_17a852bebe789c::t_d0e055cfe28887 269
+  s_17a852bebe789c::t_d856994fe77427 170-193
+  s_17a852bebe789c::t_718819f70b558b 34-35
+  s_17a852bebe789c::t_5401cc61d9154e 228-235
+  s_17a852bebe789c::t_8fbc3775205f9a 203
+services/mirofish/backend/tests/llm_gateway/test_circuit_breaker.py
+  s_17a852bebe789c::t_46b9bfdd491831 1-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "114dd06adfb5220e45edb8299563c6baec7ebdfa",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
