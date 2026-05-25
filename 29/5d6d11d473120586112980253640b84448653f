@@ -1,0 +1,39 @@
+app/sentry.edge.config.ts
+  s_17a852bebe789c::t_a68d01cfcbf230 1-10
+app/sentry.server.config.ts
+  s_17a852bebe789c::t_2b049f8dd464de 1-10
+app/package.json
+  s_17a852bebe789c::t_7039002e0d7df4 51-55
+app/src/lib/guards.ts
+  s_17a852bebe789c::t_5b0509a60ed432 1-110
+app/src/lib/errors.ts
+  s_17a852bebe789c::t_51474e81d73f8a 1-239
+app/instrumentation.ts
+  s_17a852bebe789c::t_e08ab224a70b22 1-11
+app/sentry.client.config.ts
+  s_17a852bebe789c::t_691bf9bff3c74a 1-12
+app/src/lib/rate-limit.ts
+  s_17a852bebe789c::t_991766446daec6 1-95
+app/src/lib/analytics.ts
+  s_17a852bebe789c::t_11131a844c32c4 1-128
+app/src/lib/analytics-client.ts
+  s_17a852bebe789c::t_21238351b75e45 1-62
+app/src/lib/mirofish.ts
+  s_17a852bebe789c::t_132df48e6155f0 1-285
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "295d6d11d473120586112980253640b84448653f",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
