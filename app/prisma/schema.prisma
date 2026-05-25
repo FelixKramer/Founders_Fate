@@ -1,10 +1,23 @@
+// Founder Fate Prisma schema
+// Postgres in prod (Neon/Supabase/Fly). SQLite optional for local dev via env.
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------------
+// Auth (NextAuth Prisma adapter conventions)
+// ------------------------------------------------------------
+
+enum UserRole {
+  user
+  support
+  admin
 }
 
 model User {
@@ -14,10 +27,24 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  accounts      Account[]
-  sessions      Session[]
-  subscriptions Subscription[]
-  apiKeys       ApiKey[]
+
+  // Founder Fate additions
+  role          UserRole  @default(user)
+  emailHash     String?   @unique // bcrypt(pepper + email) for lookup; nullable until backfilled
+  suspended     Boolean   @default(false)
+
+  // Relations
+  accounts          Account[]
+  sessions          Session[]
+  subscriptions     Subscription[]
+  apiKeys           ApiKey[]
+  profile           Profile?
+  simulations       SimulationRecord[]
+  shares            Share[]
+  usageLogs         UsageLog[]
+  adminActions      AdminAuditLog[]      @relation("AdminActor")
+  adminActionsOnMe  AdminAuditLog[]      @relation("AdminTarget")
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -56,27 +83,234 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// ------------------------------------------------------------
+// Billing (Stripe)
+// ------------------------------------------------------------
+
 model Subscription {
-  id                   String   @id @default(cuid())
-  userId               String
-  stripeCustomerId     String?  @unique
-  stripeSubscriptionId String?  @unique
-  stripePriceId        String?
+  id                     String   @id @default(cuid())
+  userId                 String
+  stripeCustomerId       String?  @unique
+  stripeSubscriptionId   String?  @unique
+  stripePriceId          String?
   stripeCurrentPeriodEnd DateTime?
-  status               String   @default("inactive")
-  plan                 String   @default("free")
-  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
+  status                 String   @default("inactive")
+  plan                   String   @default("free") // free | pro | enterprise
+  user                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model ApiKey {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
   name      String
-  key       String   @unique
+  key       String    @unique
   lastUsed  DateTime?
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// ------------------------------------------------------------
+// Founder Fate domain — Profile, Decision DNA
+// ------------------------------------------------------------
+
+enum Archetype {
+  b2b_saas
+  b2c
+  marketplace
+  hardware
+  solo
+}
+
+model Profile {
+  id                     String     @id @default(cuid())
+  userId                 String     @unique
+  archetype              Archetype
+  tier                   String     @default("free") // mirrors latest Subscription.plan; denormalised for fast guard reads
+  cognitiveBaseline      Json // {risk_tolerance, optimism_bias, sector_familiarity, decision_velocity}
+  simulationCount        Int        @default(0)
+  dnaReportAvailable     Boolean    @default(false)
+  cognitiveBaselineStale Boolean    @default(false)
+  lastActiveAt           DateTime   @default(now())
+  createdAt              DateTime   @default(now())
+  user                   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ------------------------------------------------------------
+// Simulations
+// ------------------------------------------------------------
+
+enum SimulationStatus {
+  queued
+  running
+  completed
+  failed
+  cancelled
+}
+
+model SimulationRecord {
+  id           String            @id // sim_<cuid>
+  userId       String
+  scenarioId   String
+  status       SimulationStatus  @default(queued)
+  jobRef       String? // pointer into MiroFish uploads/simulations/<id>
+  variables    Json
+  variableHash String // sha256 of normalized variables — used for dup-detection
+  topInsight   String?
+  errorMessage String?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime          @default(now())
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shares       Share[]
+  usageLogs    UsageLog[]
+
+  @@index([userId, status])
+  @@index([scenarioId, status])
+  @@index([userId, scenarioId, variableHash]) // dup detection
+}
+
+// ------------------------------------------------------------
+// Sharing
+// ------------------------------------------------------------
+
+model Share {
+  id           String           @id // shr_<cuid>
+  simulationId String
+  userId       String
+  expiresAt    DateTime
+  viewCount    Int              @default(0)
+  revokedAt    DateTime?
+  createdAt    DateTime         @default(now())
+  simulation   SimulationRecord @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+}
+
+// ------------------------------------------------------------
+// LLM gateway telemetry — drives FR-A03 dashboard and spend caps
+// ------------------------------------------------------------
+
+model UsageLog {
+  id            String   @id @default(cuid())
+  userId        String?
+  simulationId  String?
+  stage         String // ontology_gen | agent_persona | cascade_step | node_narrative | dna_synthesis | premortem_iter | premortem_synth | custom_model_ontology
+  model         String // resolved upstream model id (e.g. "openrouter/deepseek/deepseek-v3")
+  tier          String // S | M | L
+  provider      String // openrouter | openai-direct | anthropic-direct | deepseek-direct
+  inputTokens   Int
+  outputTokens  Int
+  costUsd       Decimal  @db.Decimal(10, 6)
+  latencyMs     Int
+  cacheHit      Boolean  @default(false)
+  attempt       Int      @default(1)
+  errorCategory String? // null on success
+  createdAt     DateTime @default(now())
+  user          User?              @relation(fields: [userId], references: [id], onDelete: SetNull)
+  simulation    SimulationRecord?  @relation(fields: [simulationId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([simulationId])
+  @@index([model, createdAt])
+  @@index([tier, provider, createdAt])
+}
+
+// Rolled-up nightly from UsageLog; keeps the admin dashboard fast.
+model UsageDailyAgg {
+  id             String   @id @default(cuid())
+  day            DateTime @db.Date
+  userId         String?
+  tier           String?
+  model          String?
+  stage          String?
+  callCount      Int
+  totalInputTok  Int
+  totalOutputTok Int
+  totalCostUsd   Decimal  @db.Decimal(12, 6)
+  cacheHits      Int
+
+  @@unique([day, userId, tier, model, stage], name: "agg_grain")
+  @@index([day])
+}
+
+// ------------------------------------------------------------
+// Feature flags & routing config (admin-editable per FR-A05)
+// ------------------------------------------------------------
+
+model FeatureFlag {
+  key         String   @id // marketplace_enabled | premortem_enabled | custom_models_enabled | signups_open | ...
+  enabled     Boolean  @default(false)
+  description String?
+  updatedAt   DateTime @updatedAt
+  updatedById String?
+}
+
+// ------------------------------------------------------------
+// Admin audit log (every privileged action emits a row)
+// ------------------------------------------------------------
+
+model AdminAuditLog {
+  id           String   @id @default(cuid())
+  actorId      String // admin/support user performing the action
+  targetUserId String? // user the action targeted, if any
+  action       String // tier_override | suspend | unsuspend | gdpr_delete | impersonate_start | impersonate_end | refund | feature_flag_toggle | scenario_publish | llm_routing_update | ...
+  resource     String? // free-text resource id (sim_..., shr_..., flag key, etc.)
+  before       Json?
+  after        Json?
+  ip           String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+  actor        User     @relation("AdminActor", fields: [actorId], references: [id], onDelete: Restrict)
+  targetUser   User?    @relation("AdminTarget", fields: [targetUserId], references: [id], onDelete: SetNull)
+
+  @@index([actorId, createdAt])
+  @@index([targetUserId, createdAt])
+  @@index([action, createdAt])
+}
+
+// ------------------------------------------------------------
+// Alpha/beta invite codes
+// ------------------------------------------------------------
+
+model InviteCode {
+  code        String    @id
+  createdById String
+  maxUses     Int       @default(1)
+  usedCount   Int       @default(0)
+  expiresAt   DateTime?
+  notes       String?
+  redemptions InviteRedemption[]
+  createdAt   DateTime  @default(now())
+}
+
+model InviteRedemption {
+  id           String     @id @default(cuid())
+  code         String
+  redeemedById String
+  redeemedAt   DateTime   @default(now())
+  inviteCode   InviteCode @relation(fields: [code], references: [code], onDelete: Cascade)
+
+  @@unique([code, redeemedById])
+}
+
+// ------------------------------------------------------------
+// Lightweight analytics buffer (mirror of what we send to Amplitude)
+// — useful for debugging and as a backup if Amplitude is down
+// ------------------------------------------------------------
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  userId    String?
+  name      String
+  props     Json
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+
+  @@index([name, createdAt])
+  @@index([userId, createdAt])
 }

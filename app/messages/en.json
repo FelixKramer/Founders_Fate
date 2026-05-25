@@ -1,0 +1,73 @@
+{
+  "fate": {
+    "common": {
+      "simulation": "Simulation",
+      "scenario": "Scenario",
+      "consequenceTree": "Consequence Tree",
+      "counterfactual": "Counterfactual Replay",
+      "dnaReport": "Decision DNA Report",
+      "preMortem": "Pre-Mortem",
+      "archetype": "Founder Archetype",
+      "variables": "Variables",
+      "results": "Results",
+      "share": "Share",
+      "compare": "Compare",
+      "upgrade": "Upgrade to Pro",
+      "marketplace": "Marketplace",
+      "profile": "My Decision Profile"
+    },
+    "home": {
+      "heroTitle": "Rehearse the Future Before You Fund It",
+      "heroDesc": "Founder Fate simulates the long-term consequences of your hiring, fundraising, and strategy decisions. See what your choices cost before you pay the price.",
+      "startFree": "Start Free Simulation",
+      "alreadySimulations": "You have {count} simulations. Continue where you left off."
+    },
+    "simulation": {
+      "run": "Run Simulation",
+      "estimatedRuntime": "Estimated runtime: {seconds}s",
+      "progress": "Simulating {stage}...",
+      "stageOntology": "ontology mapping",
+      "stagePopulation": "agent population",
+      "stageTimeCompression": "time compression",
+      "stageCascade": "consequence cascade",
+      "completed": "Simulation complete",
+      "failed": "Simulation failed",
+      "topInsight": "Key Insight",
+      "survivalProbability": "Survival Probability",
+      "burnRate": "Monthly Burn",
+      "projectedRevenue": "Projected Revenue",
+      "headcount": "Headcount"
+    },
+    "dna": {
+      "title": "Your Decision DNA",
+      "simsRemaining": "{count} more simulations to unlock your full DNA report",
+      "cognitiveBias": "Cognitive Bias",
+      "decisionPattern": "Decision Pattern",
+      "severityHigh": "High Impact",
+      "severityMedium": "Medium Impact",
+      "recommendation": "Recommendation"
+    },
+    "premortem": {
+      "title": "Pre-Mortem Report",
+      "iterationCount": "{count} iterations simulated",
+      "topFailureMode": "Most Likely Failure Mode",
+      "mitigation": "Recommended Mitigation",
+      "download": "Download PDF Report"
+    },
+    "errors": {
+      "simulationLimit": "You have {count} active simulations. Wait or cancel one before starting another.",
+      "tierRestricted": "This scenario requires {tier} tier. Upgrade to access.",
+      "scenarioUnavailable": "Scenario template is temporarily unavailable. Generic fallback loaded.",
+      "concurrentLimit": "Too many requests. Please wait {seconds} seconds.",
+      "fileTooLarge": "File exceeds {limit}MB limit.",
+      "unsupportedBrowser": "Founder Fate requires a modern browser. Some features may not work."
+    },
+    "archetypes": {
+      "b2b_saas": "B2B SaaS",
+      "b2c": "B2C / Consumer",
+      "marketplace": "Marketplace",
+      "hardware": "Hardware",
+      "solo": "Solo Founder"
+    }
+  }
+}
