@@ -1,0 +1,62 @@
+# LLM routing configuration.
+#
+# Edited by admins via /admin/flags UI; hot-reloaded by the gateway
+# (mtime polled every 30s). Changes here do not require a deploy.
+#
+# Schema:
+#   tiers.<S|M|L>.primary       — OpenRouter model id used first
+#   tiers.<S|M|L>.fallbacks     — ordered list; tried on 429/5xx or breaker-open
+#   tiers.<S|M|L>.temperature   — default; per-stage may override
+#   tiers.<S|M|L>.max_tokens    — hard cap to keep cost predictable
+#   stage_tier                  — which tier serves each PRD-defined stage
+#   stage_overrides             — per-stage temperature/max_tokens overrides
+#
+# Stage names are validated against gateway.stages.Stage; an unknown
+# stage in this file fails the gateway init.
+
+version: 1
+
+tiers:
+  S:
+    primary: deepseek/deepseek-chat        # ~$0.27/1M in
+    fallbacks:
+      - qwen/qwen-2.5-72b-instruct
+      - openai/gpt-4o-mini
+    temperature: 0.5
+    max_tokens: 2048
+  M:
+    primary: openai/gpt-4o-mini            # ~$0.15 in / $0.60 out
+    fallbacks:
+      - anthropic/claude-3-5-haiku
+      - deepseek/deepseek-chat
+    temperature: 0.4
+    max_tokens: 4096
+  L:
+    primary: anthropic/claude-3-opus       # premium synthesis only
+    fallbacks:
+      - openai/gpt-4o
+      - anthropic/claude-3-5-sonnet
+    temperature: 0.3
+    max_tokens: 8192
+
+# PRD §6.5 — defines which model tier handles which simulation pipeline stage.
+stage_tier:
+  ontology_gen: M
+  agent_persona: S
+  cascade_step: S
+  node_narrative: M
+  dna_synthesis: L
+  premortem_iter: S
+  premortem_synth: L
+  custom_model_ontology: M
+
+# Optional overrides per stage.
+stage_overrides:
+  cascade_step:
+    temperature: 0.6        # encourage variety across agents in the cascade
+  dna_synthesis:
+    temperature: 0.2        # synthesis wants precision
+    max_tokens: 6144
+  premortem_synth:
+    temperature: 0.2
+    max_tokens: 8192
