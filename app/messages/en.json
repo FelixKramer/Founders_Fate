@@ -45,7 +45,36 @@
       "decisionPattern": "Decision Pattern",
       "severityHigh": "High Impact",
       "severityMedium": "Medium Impact",
-      "recommendation": "Recommendation"
+      "recommendation": "Recommendation",
+      "tabLabel": "Decision DNA",
+      "heading": "Your Decision DNA",
+      "basedOn": "Based on {count} simulations",
+      "riskProfile": {
+        "label": "Risk Profile",
+        "aggressive": "Aggressive",
+        "balanced": "Balanced",
+        "conservative": "Conservative"
+      },
+      "archetypeConsistency": "Archetype consistency",
+      "biasesHeading": "Cognitive Biases",
+      "patternsHeading": "Decision Patterns",
+      "blindSpotsHeading": "Blind Spots",
+      "recommendationsHeading": "Recommendations",
+      "contradictionHeading": "Interesting contradiction",
+      "summaryHeading": "Your founder profile",
+      "notReady": {
+        "heading": "Complete 3 simulations to unlock",
+        "progress": "{count}/3 simulations completed",
+        "cta": "Browse scenarios",
+        "generate": "Generate your Decision DNA"
+      },
+      "generating": {
+        "heading": "Generating your report…",
+        "step1": "Analysing your simulation history",
+        "step2": "Identifying cognitive patterns",
+        "step3": "Generating personalised report"
+      },
+      "ready": "Your Decision DNA report is ready!"
     },
     "premortem": {
       "title": "Pre-Mortem Report",
@@ -258,6 +287,7 @@
       "tabs": {
         "overview": "Overview",
         "settings": "Settings",
+        "dna": "Decision DNA",
         "danger": "Danger Zone"
       },
       "overview": {

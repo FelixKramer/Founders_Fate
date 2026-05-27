@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Pencil, Check, Loader2, AlertTriangle } from "lucide-react";
+import { DNAReportView } from "@/components/profile/DNAReportView";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +26,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CCPAToggle } from "@/components/compliance/CCPAToggle";
+import { SharesTab } from "@/components/profile/SharesTab";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -37,6 +41,7 @@ type Profile = {
   timezone: string | null;
   allowBenchmark: boolean;
   marketingEmails: boolean;
+  ccpaOptOut: boolean;
   createdAt: string;
 };
 
@@ -336,6 +341,12 @@ function SettingsTab({ data }: { data: ProfileResponse }) {
         </div>
       </div>
 
+      {/* CCPA opt-out (M13.1b) */}
+      <div className="space-y-4">
+        <h3 className="text-sm font-semibold">California Privacy Rights (CCPA)</h3>
+        <CCPAToggle defaultOptOut={data.profile?.ccpaOptOut ?? false} />
+      </div>
+
       <Button onClick={handleSave} disabled={saveState === "saving"} className="w-full sm:w-auto">
         {saveState === "saving" ? (
           <>
@@ -436,8 +447,41 @@ function DangerTab() {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
+const VALID_TABS = ["overview", "settings", "dna", "shares", "danger"] as const;
+type TabValue = (typeof VALID_TABS)[number];
+
 export default function ProfilePage() {
   const t = useTranslations("fate.profile");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Respect ?tab=dna (or other values) from the URL — used by DNAReadyBadge toast CTA.
+  const tabParam = searchParams.get("tab");
+  const initialTab: TabValue =
+    VALID_TABS.includes(tabParam as TabValue) ? (tabParam as TabValue) : "overview";
+
+  const [activeTab, setActiveTab] = useState<TabValue>(initialTab);
+
+  // Keep URL in sync when user switches tabs.
+  function handleTabChange(value: string) {
+    const tab = value as TabValue;
+    setActiveTab(tab);
+    const params = new URLSearchParams(searchParams.toString());
+    if (tab === "overview") {
+      params.delete("tab");
+    } else {
+      params.set("tab", tab);
+    }
+    const qs = params.toString();
+    router.replace(qs ? `?${qs}` : "/profile", { scroll: false });
+  }
+
+  // If the tab param changes externally (e.g. back/forward), sync state.
+  useEffect(() => {
+    if (tabParam && VALID_TABS.includes(tabParam as TabValue)) {
+      setActiveTab(tabParam as TabValue);
+    }
+  }, [tabParam]);
 
   const { data, isLoading, isError } = useQuery<ProfileResponse>({
     queryKey: ["profile"],
@@ -465,10 +509,12 @@ export default function ProfilePage() {
       <div className="max-w-3xl mx-auto px-4 py-12 space-y-8">
         <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
 
-        <Tabs defaultValue="overview" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
           <TabsList>
             <TabsTrigger value="overview">{t("tabs.overview")}</TabsTrigger>
             <TabsTrigger value="settings">{t("tabs.settings")}</TabsTrigger>
+            <TabsTrigger value="dna">{t("tabs.dna")}</TabsTrigger>
+            <TabsTrigger value="shares">{t("tabs.shares")}</TabsTrigger>
             <TabsTrigger value="danger">{t("tabs.danger")}</TabsTrigger>
           </TabsList>
 
@@ -478,6 +524,14 @@ export default function ProfilePage() {
 
           <TabsContent value="settings" className="pt-2">
             <SettingsTab data={data} />
+          </TabsContent>
+
+          <TabsContent value="dna" className="pt-2">
+            <DNAReportView />
+          </TabsContent>
+
+          <TabsContent value="shares" className="pt-2">
+            <SharesTab />
           </TabsContent>
 
           <TabsContent value="danger" className="pt-2">

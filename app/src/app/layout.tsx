@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ReactQueryProvider } from "@/components/query-provider";
 import { UpgradeDialog } from "@/components/billing/UpgradeDialog";
+import { CookieBanner } from "@/components/compliance/CookieBanner";
+import { DNAReadyBadge } from "@/components/profile/DNAReadyBadge";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,6 +63,8 @@ export default async function RootLayout({
             >
               {children}
               <UpgradeDialog />
+              <DNAReadyBadge />
+              <CookieBanner />
               <Toaster />
             </ThemeProvider>
           </ReactQueryProvider>
