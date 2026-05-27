@@ -6,6 +6,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ReactQueryProvider } from "@/components/query-provider";
+import { UpgradeDialog } from "@/components/billing/UpgradeDialog";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,6 +60,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <UpgradeDialog />
               <Toaster />
             </ThemeProvider>
           </ReactQueryProvider>
