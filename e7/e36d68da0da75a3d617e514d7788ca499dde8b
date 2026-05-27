@@ -1,0 +1,24 @@
+app/src/app/scenarios/page.tsx
+  s_17a852bebe789c::t_9200176c5158ef 10-12,14-17
+app/src/app/api/sim/share/[code]/route.ts
+  s_17a852bebe789c::t_458f66a48c1c9b 87-97,99-105,107
+  s_17a852bebe789c::t_e2c94679ca9cda 24-27
+app/src/app/api/scenarios/route.ts
+  s_17a852bebe789c::t_0582dd115e8136 9-12,20-44,52-87,89-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "e7e36d68da0da75a3d617e514d7788ca499dde8b",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
