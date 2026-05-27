@@ -1,0 +1,42 @@
+app/src/app/billing/page.tsx
+  s_17a852bebe789c::t_b0dba14ad55cbc 1-134
+app/src/components/admin/UserActionPanel.tsx
+  s_17a852bebe789c::t_a422e7d1d9d5c7 1-321
+app/src/app/api/admin/users/[userId]/suspend/route.ts
+  s_17a852bebe789c::t_199eea4bf3e8e1 1-35
+app/src/app/api/admin/users/[userId]/impersonate/route.ts
+  s_17a852bebe789c::t_bacbf4515dad89 1-45
+app/src/app/api/billing/spend/route.ts
+  s_17a852bebe789c::t_b1324d228c14c1 1-53
+app/src/app/(admin)/admin/users/page.tsx
+  s_17a852bebe789c::t_86d0f236ccb4d4 1-271
+app/src/app/billing/success/page.tsx
+  s_17a852bebe789c::t_b9ded482ed6368 1-28
+app/src/app/api/admin/users/[userId]/tier/route.ts
+  s_17a852bebe789c::t_da29b9537b8847 1-51
+app/src/stores/upgrade-dialog-store.ts
+  s_17a852bebe789c::t_ad8969656f3745 1-36
+app/src/app/layout.tsx
+  s_17a852bebe789c::t_717e37bf9f54fb 63
+  s_17a852bebe789c::t_5549a7e001b4d7 9
+app/src/app/api/admin/users/[userId]/gdpr-delete/route.ts
+  s_17a852bebe789c::t_7e7a9187a2eb23 1-33
+app/src/components/billing/BillingSuccessClient.tsx
+  s_17a852bebe789c::t_e79000f8bf985c 1-109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ade21aba17ea17fcf4b3aae078f2b861e4ac74bc",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
