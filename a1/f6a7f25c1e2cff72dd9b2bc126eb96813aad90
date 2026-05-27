@@ -1,0 +1,21 @@
+services/mirofish/backend/tests/simulation/test_pipeline.py
+  s_17a852bebe789c::t_7daa947588275d 1-86
+services/mirofish/backend/api/progress.py
+  s_17a852bebe789c::t_14cd1a0d2ca665 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a1f6a7f25c1e2cff72dd9b2bc126eb96813aad90",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
