@@ -1,29 +1,23 @@
-FROM python:3.11
-
-# 安装 Node.js （满足 >=18）及必要工具
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends nodejs npm \
-  && rm -rf /var/lib/apt/lists/*
-
-# 从 uv 官方镜像复制 uv
-COPY --from=ghcr.io/astral-sh/uv:0.9.26 /uv /uvx /bin/
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# 先复制依赖描述文件以利用缓存
-COPY package.json package-lock.json ./
-COPY frontend/package.json frontend/package-lock.json ./frontend/
-COPY backend/pyproject.toml backend/uv.lock ./backend/
+# Install system deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-# 安装依赖（Node + Python）
-RUN npm ci \
-  && npm ci --prefix frontend \
-  && cd backend && uv sync --frozen
+COPY backend/pyproject.toml ./
+RUN pip install --no-cache-dir -e ".[prod]" 2>/dev/null || pip install --no-cache-dir -e .
 
-# 复制项目源码
-COPY . .
+COPY backend/ .
 
-EXPOSE 3000 5001
+# Copy routing config
+COPY config/ ./config/
 
-# 同时启动前后端（开发模式）
-CMD ["npm", "run", "dev"]
+EXPOSE 8000
+
+ENV PYTHONUNBUFFERED=1
+ENV LLM_GATEWAY_MODE=live
+
+CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120", "app:create_app()"]
