@@ -1,0 +1,30 @@
+app/messages/en.json
+  s_17a852bebe789c::t_250e66aea9d490 63-73
+  s_17a852bebe789c::t_34c644b27d2c66 124-168
+app/src/app/api/sim/[id]/progress/route.ts
+  s_17a852bebe789c::t_f6bfb2c233de62 1-181
+app/src/app/api/sim/active/route.ts
+  s_17a852bebe789c::t_a727c5dd3b142c 1-38
+app/src/lib/analytics.ts
+  s_17a852bebe789c::t_c3a1bc435beecb 26,29-32,35-37
+app/src/app/api/sim/[id]/results/route.ts
+  s_17a852bebe789c::t_2b4e8112b2812b 1-52
+app/src/app/api/sim/[id]/cancel/route.ts
+  s_17a852bebe789c::t_928f240b586bf1 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "6d6ce623cfc7c6a930cadac2ce909ff8c33b2f80",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
