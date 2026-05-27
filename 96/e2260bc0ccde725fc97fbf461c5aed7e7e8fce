@@ -1,0 +1,56 @@
+app/src/app/api/sim/share/__tests__/rate-limit.test.ts
+  s_17a852bebe789c::t_c2ac75b131ca18 1-95
+app/src/components/sim/ResultsView.tsx
+  s_17a852bebe789c::t_9d0846c42fe81b 46
+  s_17a852bebe789c::t_4a3ca611933867 9,11,20
+  s_17a852bebe789c::t_01615ef78baf8e 68,71-81
+  s_17a852bebe789c::t_8e11471e3dc7c5 224-230
+  s_17a852bebe789c::t_7042f8d3c9374b 27
+  s_17a852bebe789c::t_32043bc7449e8b 231-233
+services/mirofish/backend/tests/simulation/test_sanitizer.py
+  s_17a852bebe789c::t_408cb2cbeac9ba 1-154
+services/mirofish/backend/api/internal.py
+  s_17a852bebe789c::t_ed70f0e23c6231 124-130
+app/src/components/sim/PublicResultsView.tsx
+  s_17a852bebe789c::t_40df47e683d523 1-11,13-157,161-163
+  s_17a852bebe789c::t_60985355274d9e 12
+  s_17a852bebe789c::t_2a8dc89b930fe3 158-160
+app/src/app/api/sim/[id]/share-status/route.ts
+  s_17a852bebe789c::t_734069a0b4f966 1-57
+app/src/components/sim/ConsequenceTree.tsx
+  s_17a852bebe789c::t_d3028dd24d7cf9 51
+  s_17a852bebe789c::t_36cd0becad26e8 311-336
+  s_17a852bebe789c::t_71ebd187c8363f 364
+app/src/components/sim/ShareModal.tsx
+  s_17a852bebe789c::t_45e1bc3bd10dd0 1-306
+app/src/lib/analytics.ts
+  s_17a852bebe789c::t_72502cd49881f8 43
+app/vitest.config.ts
+  s_17a852bebe789c::t_eb8cb27f76edc9 1-11
+app/src/app/api/sim/__tests__/idor.test.ts
+  s_17a852bebe789c::t_273ed8726cb05d 1-151
+app/package.json
+  s_17a852bebe789c::t_d79985dabe437a 92
+  s_17a852bebe789c::t_49f5ff8cda0eb3 106-107
+services/mirofish/backend/simulation/sanitizer.py
+  s_17a852bebe789c::t_57fb07cd9c4406 1-81
+app/src/app/api/sim/share/[code]/route.ts
+  s_17a852bebe789c::t_6041eff86065bd 9-13,18-20
+  s_17a852bebe789c::t_9112d4a7f35e8c 96-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "96e2260bc0ccde725fc97fbf461c5aed7e7e8fce",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
