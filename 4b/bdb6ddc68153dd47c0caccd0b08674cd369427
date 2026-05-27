@@ -1,0 +1,23 @@
+services/mirofish/backend/tests/simulation/test_progress.py
+  s_17a852bebe789c::t_134c8f6b7a85f1 1-154
+services/mirofish/backend/tests/simulation/test_dna.py
+  s_17a852bebe789c::t_860a2b95938c71 1-221
+services/mirofish/backend/tests/simulation/test_zep_wrapper.py
+  s_17a852bebe789c::t_788d7b888ddb04 1-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "4bbdb6ddc68153dd47c0caccd0b08674cd369427",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
