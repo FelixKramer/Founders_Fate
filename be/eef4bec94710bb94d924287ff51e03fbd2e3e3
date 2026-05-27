@@ -1,0 +1,25 @@
+app/src/app/(admin)/admin/llm/page.tsx
+  s_17a852bebe789c::t_315d42e8c3032e 1-290
+app/src/components/admin/AdminLLMCharts.tsx
+  s_17a852bebe789c::t_d4891bd3f66366 1-131
+app/src/components/admin/SimulationDetailSheet.tsx
+  s_17a852bebe789c::t_8e65e53c243615 1-171
+app/src/app/(admin)/admin/simulations/page.tsx
+  s_17a852bebe789c::t_a68238766f5f02 1-254
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "beeef4bec94710bb94d924287ff51e03fbd2e3e3",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
