@@ -45,4 +45,17 @@ jobs:
           DATABASE_URL: postgresql://placeholder:placeholder@localhost:5432/placeholder
           NEXTAUTH_SECRET: placeholder
           NEXTAUTH_URL: http://localhost:3000
+          NEXT_PUBLIC_SENTRY_RELEASE: ${{ github.sha }}
         run: bun run build
+
+      - name: Upload sourcemaps to Sentry
+        if: github.event_name == 'push'
+        run: |
+          npx @sentry/cli releases new ${{ github.sha }}
+          npx @sentry/cli releases set-commits ${{ github.sha }} --auto
+          npx @sentry/cli releases files ${{ github.sha }} upload-sourcemaps ./app/.next --url-prefix '~/_next'
+          npx @sentry/cli releases finalize ${{ github.sha }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: founderfate
+          SENTRY_PROJECT: founderfate-app
