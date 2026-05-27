@@ -68,6 +68,88 @@
       "marketplace": "Marketplace",
       "hardware": "Hardware",
       "solo": "Solo Founder"
+    },
+    "scenarios": {
+      "heading": "Choose Your Scenario",
+      "subtitle": "Select a high-stakes decision to simulate. Each scenario runs a multi-agent consequence tree.",
+      "difficulty": {
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "minutesEstimate": "{minutes} min",
+      "startSimulation": "Start Simulation",
+      "notCompatible": "Not compatible with your archetype",
+      "filterByArchetype": "Filter by archetype"
+    },
+    "onboarding": {
+      "ageGate": {
+        "title": "Age Verification",
+        "question": "Are you 18 or older?",
+        "yes": "Yes, I'm 18 or older",
+        "no": "No, I'm under 18",
+        "blocked": "You must be 18 or older to use Founder Fate."
+      },
+      "archetype": {
+        "title": "Choose Your Founder Archetype",
+        "subtitle": "Pick the model that best describes your startup. This shapes your simulations.",
+        "continue": "Continue"
+      },
+      "questionnaire": {
+        "title": "Tell Us About Your Mindset",
+        "subtitle": "Answer honestly — these calibrate your Decision DNA.",
+        "scaleMin": "Strongly disagree",
+        "scaleMax": "Strongly agree",
+        "continue": "Continue",
+        "submitting": "Saving...",
+        "questions": {
+          "q1": "I have raised (or plan to raise) venture capital.",
+          "q2": "I am comfortable with high-risk, high-reward bets.",
+          "q3": "My primary metric is revenue growth, not profitability.",
+          "q4": "I have a co-founder or technical partner.",
+          "q5": "I have shipped a product to paying customers before."
+        }
+      }
+    },
+    "profile": {
+      "title": "My Profile",
+      "tabs": {
+        "overview": "Overview",
+        "settings": "Settings",
+        "danger": "Danger Zone"
+      },
+      "overview": {
+        "displayName": "Display Name",
+        "archetype": "Archetype",
+        "memberSince": "Member Since",
+        "tier": "Plan",
+        "editName": "Edit name",
+        "saveName": "Save"
+      },
+      "settings": {
+        "title": "Account Settings",
+        "displayName": "Display Name",
+        "email": "Email",
+        "timezone": "Timezone",
+        "privacy": "Privacy",
+        "allowBenchmark": "Allow my simulation results to be used for anonymised benchmarking",
+        "marketingEmails": "Receive product update emails",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "saved": "Saved!"
+      },
+      "danger": {
+        "title": "Danger Zone",
+        "deleteAccount": "Delete Account",
+        "deleteWarning": "This action is permanent and cannot be undone. All your simulations, DNA reports, and profile data will be deleted.",
+        "confirmDialog": {
+          "title": "Delete your account?",
+          "description": "Type DELETE to confirm. This will permanently erase all your data.",
+          "placeholder": "Type DELETE to confirm",
+          "confirm": "Delete my account",
+          "cancel": "Cancel"
+        }
+      }
     }
   }
 }

@@ -73,6 +73,16 @@ export async function middleware(request: NextRequest) {
     if ((token as { suspended?: boolean }).suspended) {
       return NextResponse.redirect(new URL("/suspended", request.url));
     }
+
+    // M3.1: Redirect to onboarding if the user hasn't completed it yet.
+    // Only applies to /hub (not to /onboarding itself, to avoid redirect loops).
+    if (
+      (pathname === "/hub" || pathname.startsWith("/hub/")) &&
+      !request.cookies.get("ff_onboarding_done")?.value
+    ) {
+      return NextResponse.redirect(new URL("/onboarding/archetype", request.url));
+    }
+
     return NextResponse.next();
   }
 
