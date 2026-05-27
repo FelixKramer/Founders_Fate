@@ -1,0 +1,27 @@
+services/mirofish/backend/simulation/backtest.py
+  s_17a852bebe789c::t_2618e468389708 1-74
+services/mirofish/backend/simulation/pipeline.py
+  s_17a852bebe789c::t_0d5ea5da753b97 1-278
+services/mirofish/backend/llm_gateway/stages.py
+  s_17a852bebe789c::t_41da91808f16f6 23-27,40-41,46-48
+services/mirofish/config/llm-routing.yaml
+  s_17a852bebe789c::t_fffb1d7e93ec9e 52-56
+services/mirofish/backend/simulation/oasis_runner.py
+  s_17a852bebe789c::t_a0f59a0521e9b7 1-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "835c878dd02fc004430818f81ea8ba96a893909a",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
