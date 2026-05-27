@@ -1,0 +1,27 @@
+app/src/components/profile/SharesTab.tsx
+  s_17a852bebe789c::t_3cd6181fd2541a 1-262
+app/src/app/api/profile/shares/route.ts
+  s_17a852bebe789c::t_d93d8e9070fd5f 1-43
+app/src/app/sim/compare/page.tsx
+  s_17a852bebe789c::t_706836f40fb8b5 1-320
+app/messages/en.json
+  s_17a852bebe789c::t_44b3b3952845bc 285-308,315,338-342
+app/src/app/api/sim/compare/route.ts
+  s_17a852bebe789c::t_29b6bc43db95f0 1-90
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ee3c445e1cc7a0b3f417d72e17f5ee4bf0f6218c",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
