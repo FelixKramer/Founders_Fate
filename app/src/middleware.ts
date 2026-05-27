@@ -20,6 +20,10 @@ const PUBLIC_PREFIXES = [
   "/sim/share/", // /sim/share/<code> read-only page
   "/billing/success", // post-checkout landing page (session_id param is enough)
   "/pricing", // public pricing page
+  "/terms", // terms of service
+  "/privacy", // privacy policy
+  "/cookies", // cookie policy
+  "/waitlist", // alpha waitlist signup
 ];
 
 // Admin console.
@@ -107,5 +111,11 @@ export const config = {
     "/pricing",
     "/dashboard/:path*",
     "/admin/:path*",
+    "/terms",
+    "/terms/:path*",
+    "/privacy",
+    "/cookies",
+    "/waitlist",
+    "/waitlist/:path*",
   ],
 };

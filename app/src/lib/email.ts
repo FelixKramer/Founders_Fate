@@ -54,6 +54,74 @@ export async function sendReEngagementEmail(user: EmailUser): Promise<void> {
   });
 }
 
+// ─── Waitlist confirmation email ──────────────────────────────────────────────
+
+/**
+ * Send a confirmation email to someone who joined the alpha waitlist.
+ * Silently stubs if RESEND_API_KEY is not set.
+ */
+export async function sendWaitlistConfirmationEmail(email: string): Promise<void> {
+  const subject = "You're on the Founder Fate waitlist"
+  const html = buildWaitlistHTML()
+
+  const resend = await getResend()
+  if (!resend) {
+    console.log('[email stub] waitlist confirmation not sent — RESEND_API_KEY not set', {
+      to: email,
+      subject,
+    })
+    return
+  }
+
+  await resend.emails.send({
+    from: 'Founder Fate <hello@founderfate.ai>',
+    to: email,
+    subject,
+    html,
+  })
+}
+
+function buildWaitlistHTML(): string {
+  const baseUrl = process.env.NEXTAUTH_URL ?? 'https://founderfate.ai'
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You're on the Founder Fate waitlist</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #111; background: #fff;">
+
+  <h2 style="color: #4f46e5; margin-bottom: 8px;">You're on the list.</h2>
+  <p style="color: #374151; line-height: 1.6;">
+    Thanks for signing up for Founder Fate alpha access. We're inviting the first
+    100 founders in waves — you'll hear from us soon.
+  </p>
+  <p style="color: #374151; line-height: 1.6;">
+    <strong>Founder Fate</strong> lets you run consequence simulations before making
+    your highest-stakes decisions — hiring, fundraising, pivots. Most founders
+    discover a blind spot they'd never noticed before.
+  </p>
+  <p style="color: #374151; line-height: 1.6;">
+    We'll be in touch with your invite code.
+  </p>
+
+  <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;">
+
+  <p style="color: #9ca3af; font-size: 12px; line-height: 1.6;">
+    You're receiving this because you signed up for the Founder Fate alpha waitlist.<br>
+    <a href="${baseUrl}/privacy" style="color: #9ca3af;">Privacy Policy</a><br>
+    Founder Fate &middot; San Francisco, CA &middot; CAN-SPAM compliant
+  </p>
+
+</body>
+</html>`.trim()
+}
+
+// ─── Re-engagement email ───────────────────────────────────────────────────────
+
 function buildReEngagementHTML(name: string): string {
   const baseUrl = process.env.NEXTAUTH_URL ?? "https://founderfate.ai";
 
