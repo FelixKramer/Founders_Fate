@@ -1,0 +1,22 @@
+services/mirofish/Dockerfile
+  s_17a852bebe789c::t_f08198945cc383 10
+  s_17a852bebe789c::t_4b255053d474f2 1,3,5-8,11,13,15-16,18,20-21,23
+services/mirofish/fly.toml
+  s_17a852bebe789c::t_ecaac1098443e1 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "03767a3fb6f37755c1e70d608be22eac4f244838",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
