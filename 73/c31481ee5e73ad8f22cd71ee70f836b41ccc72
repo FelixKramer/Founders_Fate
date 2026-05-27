@@ -1,0 +1,35 @@
+app/src/app/hub/page.tsx
+  s_17a852bebe789c::t_2068138d83189f 16
+  s_17a852bebe789c::t_9fce99d15db582 183-190
+  s_17a852bebe789c::t_afff8f0f331951 80-99
+app/src/app/profile/page.tsx
+  s_17a852bebe789c::t_761c7e685500ec 452
+  s_17a852bebe789c::t_8e140c1667cc7d 523-525,545-555
+  s_17a852bebe789c::t_a0555bd7277480 32
+app/src/components/profile/ModelsTab.tsx
+  s_17a852bebe789c::t_0372636dc056cf 1-285
+app/src/app/api/models/[modelId]/route.ts
+  s_17a852bebe789c::t_501161578f4dc3 1-17
+app/src/components/hub/CustomModelsSection.tsx
+  s_17a852bebe789c::t_b08ab8f4cd830b 1-76
+app/src/app/api/models/route.ts
+  s_17a852bebe789c::t_0c122d8dbee018 1-106
+app/src/app/api/models/[modelId]/status/route.ts
+  s_17a852bebe789c::t_74682e705146f6 1-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "73c31481ee5e73ad8f22cd71ee70f836b41ccc72",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
