@@ -1,0 +1,25 @@
+app/src/app/(admin)/admin/health/page.tsx
+  s_17a852bebe789c::t_a1ee04d0c2288a 1-183
+app/src/app/api/admin/audit/export/route.ts
+  s_17a852bebe789c::t_d12f561665bf5b 1-66
+app/src/app/(admin)/admin/audit/page.tsx
+  s_17a852bebe789c::t_f8376a5f6889d6 1-204
+app/src/app/api/admin/health/route.ts
+  s_17a852bebe789c::t_2e5a4173d40bfd 1-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "9c465a1efe3e264a8d51dde601b4406e3bf05271",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
