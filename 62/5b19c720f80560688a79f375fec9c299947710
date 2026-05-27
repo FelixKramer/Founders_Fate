@@ -1,0 +1,27 @@
+app/src/app/sim/[id]/page.tsx
+  s_17a852bebe789c::t_f7c771496654e0 1-48
+app/src/components/ui/progress-steps.tsx
+  s_17a852bebe789c::t_a82692b9f6ff43 3
+  s_17a852bebe789c::t_7f92ed2cd6fe70 12
+  s_17a852bebe789c::t_35d9f210825333 1-2,4-11,13-103
+app/src/components/sim/SimulationStatusBadge.tsx
+  s_17a852bebe789c::t_e19d781fa2f8f3 1-56
+app/src/components/sim/SimProgressView.tsx
+  s_17a852bebe789c::t_771d0c93acef40 1-334
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "625b19c720f80560688a79f375fec9c299947710",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
