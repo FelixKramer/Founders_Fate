@@ -1,0 +1,20 @@
+app/src/app/layout.tsx
+  s_17a852bebe789c::t_bd696433226ac8 66
+  s_17a852bebe789c::t_d4a17d4fa752fb 13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "06bc0b92d088481c1e294184ece1b9252aee463c",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
