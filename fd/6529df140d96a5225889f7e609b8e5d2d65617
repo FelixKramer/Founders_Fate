@@ -1,0 +1,25 @@
+app/src/components/scenarios/ArchetypeCompatibilityBadge.tsx
+  s_17a852bebe789c::t_09542d38a06142 1-92
+app/src/app/scenarios/page.tsx
+  s_17a852bebe789c::t_e38a068e697581 1-27
+app/src/components/scenarios/ScenarioGrid.tsx
+  s_17a852bebe789c::t_2998bbab2c930f 1-29
+app/src/components/scenarios/ScenarioCard.tsx
+  s_17a852bebe789c::t_e69ad9fd8f8142 1-122
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "fd6529df140d96a5225889f7e609b8e5d2d65617",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
