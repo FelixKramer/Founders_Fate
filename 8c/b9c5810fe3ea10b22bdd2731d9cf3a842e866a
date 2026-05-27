@@ -1,0 +1,32 @@
+app/src/components/sim/SimProgressView.tsx
+  s_17a852bebe789c::t_31561e0dc79533 30
+  s_17a852bebe789c::t_ff764a55cf2040 148-173
+app/src/app/profile/page.tsx
+  s_17a852bebe789c::t_6e17e5a5e845c4 560-563
+  s_17a852bebe789c::t_da5cbdfa8f1576 33
+  s_17a852bebe789c::t_96ff41073f854a 453
+  s_17a852bebe789c::t_a5f6cc511fde37 527
+app/src/app/hub/page.tsx
+  s_17a852bebe789c::t_5c241e41e18f15 120-130
+  s_17a852bebe789c::t_488fa1c4358e4e 17
+app/src/components/profile/AchievementsTab.tsx
+  s_17a852bebe789c::t_e7ea7c9bfcab4c 1-129
+app/src/components/hub/StreakWidget.tsx
+  s_17a852bebe789c::t_6e15b1528b7877 1-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "8cb9c5810fe3ea10b22bdd2731d9cf3a842e866a",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
