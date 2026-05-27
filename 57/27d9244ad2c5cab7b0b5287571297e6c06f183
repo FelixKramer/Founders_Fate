@@ -1,0 +1,24 @@
+app/src/app/(admin)/admin/moderation/page.tsx
+  s_17a852bebe789c::t_f93eb7ed266cf1 1-103
+app/src/app/(admin)/admin/emails/page.tsx
+  s_17a852bebe789c::t_5acfe0add7203a 1-120
+app/src/components/admin/AdminShell.tsx
+  s_17a852bebe789c::t_cf7b7515864609 31-34
+  s_17a852bebe789c::t_37b4e1cd0efbf6 46-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5727d9244ad2c5cab7b0b5287571297e6c06f183",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
