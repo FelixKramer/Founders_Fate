@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ALL_SCENARIOS, getScenariosForArchetype } from "@/lib/scenarios";
@@ -10,8 +11,9 @@ import { RecommendedBanner } from "@/components/hub/RecommendedBanner";
 import { Badge } from "@/components/ui/badge";
 import { HubScenarioGridClient } from "@/components/hub/HubScenarioGridClient";
 import { QuotaBar } from "@/components/billing/QuotaBar";
-import { MONTHLY_SIM_QUOTA } from "@/lib/tier";
+import { MONTHLY_SIM_QUOTA, hasTier } from "@/lib/tier";
 import type { Tier } from "@/lib/tier";
+import { CustomModelsSection } from "@/components/hub/CustomModelsSection";
 
 const ARCHETYPE_LABELS: Record<string, string> = {
   b2b_saas: "B2B SaaS",
@@ -75,6 +77,26 @@ export default async function HubPage() {
   // Recommended scenarios for the user's archetype
   const recommended = archetype ? getScenariosForArchetype(archetype) : [];
 
+  // Custom models (Pro+): only ready models with quality score >= 0.7
+  const customModels = hasTier(userTier, "pro")
+    ? await db.customModel.findMany({
+        where: {
+          userId: session.user.id,
+          status: "ready",
+          qualityScore: { gte: 0.7 },
+        },
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          qualityScore: true,
+          sourceType: true,
+          scenarioJson: true,
+        },
+      })
+    : [];
+
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
@@ -129,6 +151,27 @@ export default async function HubPage() {
           </section>
         )}
 
+        {/* Enterprise Pre-Mortem CTA */}
+        {hasTier(userTier, "enterprise") && (
+          <section className="rounded-xl border border-indigo-200 bg-indigo-50 dark:border-indigo-800 dark:bg-indigo-950/30 px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 className="text-base font-semibold text-indigo-900 dark:text-indigo-200">
+                Enterprise Pre-Mortem
+              </h2>
+              <p className="text-sm text-indigo-700 dark:text-indigo-400 mt-0.5">
+                Upload a business plan (PDF/DOCX) or paste a URL to run a Monte Carlo failure
+                analysis across hundreds of scenarios.
+              </p>
+            </div>
+            <Link
+              href="/premortem"
+              className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition-colors shrink-0"
+            >
+              Run Pre-Mortem &rarr;
+            </Link>
+          </section>
+        )}
+
         {/* All scenarios */}
         <section>
           <h2 className="mb-3 text-lg font-semibold">{t("allScenariosHeading")}</h2>
@@ -137,6 +180,14 @@ export default async function HubPage() {
             userArchetype={archetype ?? undefined}
           />
         </section>
+
+        {/* Custom domain models (Pro+) */}
+        {customModels.length > 0 && (
+          <section>
+            <h2 className="mb-3 text-lg font-semibold">Your Custom Models</h2>
+            <CustomModelsSection models={customModels} />
+          </section>
+        )}
       </div>
     </main>
   );

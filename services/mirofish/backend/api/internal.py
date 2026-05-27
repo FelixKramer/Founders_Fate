@@ -11,6 +11,9 @@ Endpoints:
   GET    /internal/v1/dna/report/<user_id>
   POST   /internal/v1/models/extract
   GET    /internal/v1/models/<job_id>/status
+  POST   /internal/v1/premortem/parse-and-run
+  GET    /internal/v1/premortem/<job_id>/status
+  GET    /internal/v1/premortem/<job_id>/pdf
 """
 from __future__ import annotations
 
@@ -22,7 +25,7 @@ import threading
 import uuid
 from typing import Any
 
-from flask import Blueprint, abort, jsonify, request
+from flask import Blueprint, abort, jsonify, request, send_file
 
 from llm_gateway import Stage, complete_json
 from simulation.ontology_extractor import (
@@ -411,3 +414,82 @@ def model_extract_status(job_id: str):  # type: ignore[return]
     if status is None:
         abort(404, description=f"Ontology job {job_id!r} not found")
     return jsonify(status), 200
+
+
+# ── POST /internal/v1/premortem/parse-and-run ─────────────────────────────────
+
+
+@internal_bp.post("/premortem/parse-and-run")
+def premortem_parse_and_run():  # type: ignore[return]
+    """Accept multipart (file or url) + metadata, parse content, kick off pre-mortem."""
+    from simulation.doc_parser import parse_pdf, parse_docx, parse_url  # noqa: PLC0415
+    from simulation.premortem import PremortemRequest, run_premortem_async  # noqa: PLC0415
+
+    scenario_name = request.form.get("scenario_name", "Pre-Mortem Analysis")
+    user_id = request.form.get("user_id", "unknown")
+
+    content = ""
+    if "file" in request.files:
+        f = request.files["file"]
+        file_bytes = f.read()
+        filename = (f.filename or "").lower()
+        if filename.endswith(".pdf"):
+            content = parse_pdf(file_bytes)
+        elif filename.endswith(".docx"):
+            content = parse_docx(file_bytes)
+        else:
+            content = file_bytes.decode("utf-8", errors="replace")[:10000]
+    elif url := request.form.get("url"):
+        content = parse_url(url)
+    else:
+        abort(400, description="provide file or url")
+
+    job_id = str(uuid.uuid4())
+    req = PremortemRequest(
+        job_id=job_id,
+        user_id=user_id,
+        content=content,
+        scenario_name=scenario_name,
+    )
+    run_premortem_async(req)
+    return jsonify({"job_id": job_id, "status": "queued"}), 202
+
+
+# ── GET /internal/v1/premortem/<job_id>/status ────────────────────────────────
+
+
+@internal_bp.get("/premortem/<job_id>/status")
+def premortem_job_status(job_id: str):  # type: ignore[return]
+    """Return current status/progress of a pre-mortem job."""
+    from simulation.premortem import get_job_status  # noqa: PLC0415
+
+    status = get_job_status(job_id)
+    if status is None:
+        abort(404, description=f"Pre-mortem job {job_id!r} not found")
+    return jsonify(status), 200
+
+
+# ── GET /internal/v1/premortem/<job_id>/pdf ───────────────────────────────────
+
+
+@internal_bp.get("/premortem/<job_id>/pdf")
+def premortem_job_pdf(job_id: str):  # type: ignore[return]
+    """Generate (if needed) and stream the PDF report for a completed job."""
+    from simulation.premortem import load_report  # noqa: PLC0415
+    from simulation.premortem_pdf import generate_pdf  # noqa: PLC0415
+    from pathlib import Path  # noqa: PLC0415
+
+    report = load_report(job_id)
+    if report is None:
+        abort(404, description="report not ready")
+
+    pdf_path = Path(f"/data/uploads/premortem/{job_id}.pdf")
+    if not pdf_path.exists():
+        generate_pdf(report, pdf_path)
+
+    return send_file(
+        str(pdf_path),
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=f"premortem-{job_id[:8]}.pdf",
+    )

@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { CCPAToggle } from "@/components/compliance/CCPAToggle";
 import { SharesTab } from "@/components/profile/SharesTab";
+import ModelsTab from "@/components/profile/ModelsTab";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -448,7 +449,7 @@ function DangerTab() {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-const VALID_TABS = ["overview", "settings", "dna", "shares", "danger"] as const;
+const VALID_TABS = ["overview", "settings", "dna", "shares", "models", "danger"] as const;
 type TabValue = (typeof VALID_TABS)[number];
 
 export default function ProfilePage() {
@@ -519,6 +520,9 @@ export default function ProfilePage() {
             <TabsTrigger value="settings">{t("tabs.settings")}</TabsTrigger>
             <TabsTrigger value="dna">{t("tabs.dna")}</TabsTrigger>
             <TabsTrigger value="shares">{t("tabs.shares")}</TabsTrigger>
+            {(data.user.tier === "pro" || data.user.tier === "enterprise") && (
+              <TabsTrigger value="models">Domain Models</TabsTrigger>
+            )}
             <TabsTrigger value="danger">{t("tabs.danger")}</TabsTrigger>
           </TabsList>
 
@@ -536,6 +540,19 @@ export default function ProfilePage() {
 
           <TabsContent value="shares" className="pt-2">
             <SharesTab />
+          </TabsContent>
+
+          <TabsContent value="models" className="pt-2">
+            {data.user.tier === "pro" || data.user.tier === "enterprise" ? (
+              <ModelsTab />
+            ) : (
+              <div className="rounded-lg border border-dashed p-8 text-center space-y-2">
+                <p className="font-semibold">Pro feature</p>
+                <p className="text-sm text-muted-foreground">
+                  Custom domain models are available on the Pro plan and above.
+                </p>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="danger" className="pt-2">
