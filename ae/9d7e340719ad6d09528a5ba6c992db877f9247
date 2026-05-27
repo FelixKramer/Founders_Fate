@@ -1,0 +1,33 @@
+app/src/data/scenarios/pricing-strategy.json
+  s_17a852bebe789c::t_e9085f23b03b21 1-61
+app/src/data/scenarios/gtm-sensitivity.json
+  s_17a852bebe789c::t_01edb243379091 1-61
+app/src/data/scenarios/vp-hire-timing.json
+  s_17a852bebe789c::t_13203a07e8965a 1-55
+app/src/data/scenarios/hiring-plan-ab.json
+  s_17a852bebe789c::t_0051d69ed78fd5 1-49
+app/src/data/scenarios/pivot-timing.json
+  s_17a852bebe789c::t_9bff5414cf04a6 1-57
+.gitignore
+  s_17a852bebe789c::t_ad6258e22263c2 52-53
+app/src/data/scenarios/bridge-round.json
+  s_17a852bebe789c::t_d30b6b7a2fe2f7 1-56
+app/src/data/scenarios/seed-round-sizing.json
+  s_17a852bebe789c::t_72e2e924305046 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ae9d7e340719ad6d09528a5ba6c992db877f9247",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
