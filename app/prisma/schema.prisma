@@ -144,6 +144,11 @@ model Profile {
   timezone               String?
   allowBenchmark         Boolean    @default(true)
   marketingEmails        Boolean    @default(true)
+  // M9 additions — Decision DNA
+  dnaJobId               String?
+  dnaJobStartedAt        DateTime?
+  dnaReportReady         Boolean    @default(false)
+  dnaReportAt            DateTime?
   user                   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

@@ -1,11 +1,16 @@
 /**
- * POST /api/profile/dna
- *
- * Triggers Decision DNA report generation. Requires >= 3 completed
- * simulations across distinct scenarios. Calls MiroFish stub endpoint;
- * handles 404 gracefully (queued response).
+ * POST /api/profile/dna  — trigger Decision DNA report generation
+ * GET  /api/profile/dna  — (not used; status is at /api/profile/dna/status)
  *
  * Auth: requireSession()
+ *
+ * POST flow:
+ *  1. Count completed simulations across distinct scenarioIds (require >= 3).
+ *  2. If < 3: return { ready: false, simulations_needed: N }.
+ *  3. Build simulation_summaries from SimulationRecord rows.
+ *  4. POST to MiroFish /internal/v1/dna/generate with summaries.
+ *  5. Store job_id + dnaJobStartedAt on Profile.
+ *  6. Return { queued: true, job_id }.
  */
 
 import { NextResponse } from "next/server";
@@ -20,21 +25,64 @@ const MIROFISH_TOKEN = process.env.MIROFISH_INTERNAL_TOKEN ?? "";
 
 const REQUIRED_SCENARIOS = 3;
 
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+type SimulationSummary = {
+  simulation_id: string;
+  scenario_id: string;
+  archetype: string;
+  decision_option_id: string;
+  key_risks: string[];
+  confidence_score: number;
+  outcome_type: "high_risk" | "balanced" | "conservative";
+};
+
+// ─── Helper: derive outcome_type from stored record ───────────────────────────
+
+function deriveOutcomeType(
+  variables: Record<string, unknown>,
+): "high_risk" | "balanced" | "conservative" {
+  // Best-effort: if the simulation stored result JSON with confidence, use it.
+  // Otherwise fall back to "balanced".
+  const conf = typeof variables?.confidence_score === "number"
+    ? (variables.confidence_score as number)
+    : 0.5;
+  if (conf >= 0.7) return "conservative";
+  if (conf <= 0.35) return "high_risk";
+  return "balanced";
+}
+
+// ─── POST ────────────────────────────────────────────────────────────────────
+
 export const POST = withErrorHandling(async (req: Request) => {
   const user = await requireSession();
   await enforceLimit(limiters.write, rateLimitKey(req, user.id));
 
-  // Count distinct completed scenarios for this user.
+  // Fetch completed simulations with distinct scenario IDs.
   const completedSims = await db.simulationRecord.findMany({
     where: {
       userId: user.id,
       status: "completed",
     },
-    select: { scenarioId: true },
-    distinct: ["scenarioId"],
+    select: {
+      id: true,
+      scenarioId: true,
+      decisionOptionId: true,
+      archetype: true,
+      variables: true,
+    },
+    orderBy: { createdAt: "desc" },
   });
 
-  const distinctCount = completedSims.length;
+  // Deduplicate by scenarioId (keep the most recent per scenario).
+  const seenScenarios = new Set<string>();
+  const distinctSims = completedSims.filter((s) => {
+    if (seenScenarios.has(s.scenarioId)) return false;
+    seenScenarios.add(s.scenarioId);
+    return true;
+  });
+
+  const distinctCount = distinctSims.length;
 
   if (distinctCount < REQUIRED_SCENARIOS) {
     return NextResponse.json(
@@ -47,7 +95,30 @@ export const POST = withErrorHandling(async (req: Request) => {
     );
   }
 
-  // Call MiroFish DNA generation endpoint (stub — may return 404).
+  // Build simulation_summaries payload for MiroFish.
+  const simulation_summaries: SimulationSummary[] = distinctSims.map((s) => {
+    const vars = (s.variables as Record<string, unknown>) ?? {};
+    const keyRisks = Array.isArray(vars.key_risks)
+      ? (vars.key_risks as string[]).slice(0, 5)
+      : [];
+    const confidenceScore =
+      typeof vars.confidence_score === "number"
+        ? (vars.confidence_score as number)
+        : 0.5;
+
+    return {
+      simulation_id: s.id,
+      scenario_id: s.scenarioId,
+      archetype: s.archetype ?? "unknown",
+      decision_option_id: s.decisionOptionId ?? "unknown",
+      key_risks: keyRisks,
+      confidence_score: confidenceScore,
+      outcome_type: deriveOutcomeType(vars),
+    };
+  });
+
+  // POST to MiroFish DNA generation endpoint.
+  let jobId: string | null = null;
   try {
     const mfRes = await fetch(`${MIROFISH_URL}/internal/v1/dna/generate`, {
       method: "POST",
@@ -55,32 +126,36 @@ export const POST = withErrorHandling(async (req: Request) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${MIROFISH_TOKEN}`,
       },
-      body: JSON.stringify({ user_id: user.id }),
-      signal: AbortSignal.timeout(10_000),
+      body: JSON.stringify({
+        user_id: user.id,
+        simulation_summaries,
+      }),
+      signal: AbortSignal.timeout(15_000),
     });
 
-    if (mfRes.status === 404) {
-      // Stub not implemented yet — queue it gracefully.
-      return NextResponse.json(
-        { queued: true, message: "DNA generation queued" },
-        { status: 202 },
+    if (mfRes.ok) {
+      const mfBody = await mfRes.json().catch(() => ({}));
+      jobId = (mfBody as { job_id?: string }).job_id ?? null;
+    } else {
+      // Non-2xx from MiroFish — still record that we tried.
+      const errText = await mfRes.text().catch(() => "");
+      console.warn(
+        `[dna/route] MiroFish returned ${mfRes.status}: ${errText.slice(0, 200)}`,
       );
     }
-
-    if (!mfRes.ok) {
-      // Non-404 error from MiroFish — still queue gracefully.
-      return NextResponse.json(
-        { queued: true, message: "DNA generation queued" },
-        { status: 202 },
-      );
-    }
-  } catch {
-    // Network error — queue gracefully.
-    return NextResponse.json(
-      { queued: true, message: "DNA generation queued" },
-      { status: 202 },
-    );
+  } catch (err) {
+    // Network error — log and continue; job_id stays null.
+    console.warn("[dna/route] MiroFish unreachable:", err);
   }
+
+  // Persist job_id on Profile regardless of MiroFish outcome.
+  await db.profile.update({
+    where: { userId: user.id },
+    data: {
+      ...(jobId ? { dnaJobId: jobId } : {}),
+      dnaJobStartedAt: new Date(),
+    },
+  });
 
   void track(
     "fate_dna_triggered",
@@ -88,5 +163,8 @@ export const POST = withErrorHandling(async (req: Request) => {
     { userId: user.id },
   );
 
-  return NextResponse.json({ queued: true }, { status: 202 });
+  return NextResponse.json(
+    { queued: true, job_id: jobId },
+    { status: 202 },
+  );
 });
