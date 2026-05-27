@@ -219,6 +219,40 @@
         "cta": "Start simulating →"
       }
     },
+    "admin": {
+      "nav": {
+        "overview": "Overview",
+        "users": "Users",
+        "simulations": "Simulations",
+        "llm": "LLM Dashboard",
+        "flags": "Feature Flags",
+        "invites": "Invites",
+        "health": "Health",
+        "audit": "Audit Log"
+      },
+      "users": {
+        "searchPlaceholder": "Search by email or name…",
+        "tierOverride": "Override tier",
+        "suspend": "Suspend user",
+        "unsuspend": "Unsuspend user",
+        "impersonate": "Impersonate",
+        "gdprDelete": "GDPR Delete"
+      },
+      "flags": {
+        "heading": "Feature Flags",
+        "toggleSuccess": "Flag updated"
+      },
+      "invites": {
+        "heading": "Alpha Invites",
+        "generateButton": "Generate invite code",
+        "copyLink": "Copy link"
+      },
+      "health": {
+        "heading": "System Health",
+        "lastChecked": "Last checked {time} ago",
+        "refresh": "Refresh"
+      }
+    },
     "profile": {
       "title": "My Profile",
       "tabs": {
