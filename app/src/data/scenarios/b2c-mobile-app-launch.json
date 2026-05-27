@@ -1,0 +1,74 @@
+{
+  "id": "b2c-mobile-app-launch",
+  "title": "B2C Mobile App Launch",
+  "description": "Model the first 6 months of a mobile app launch across iOS and Android. Optimize CAC, retention, and monetization timing to reach sustainable growth before cash runs out.",
+  "archetype_compatibility": ["b2c"],
+  "difficulty": "intermediate",
+  "estimated_minutes": 20,
+  "decision": {
+    "prompt": "Choose your primary user acquisition and monetization strategy for launch.",
+    "options": [
+      {
+        "id": "paid-ua-freemium",
+        "label": "Paid UA + freemium funnel",
+        "description": "Invest heavily in Meta and TikTok ads to drive installs, then convert free users to paid over 7-14 days. Scalable but costly if CAC exceeds LTV."
+      },
+      {
+        "id": "influencer-seeding",
+        "label": "Micro-influencer seeding",
+        "description": "Allocate 60% of budget to micro-influencers (10k-200k followers) for authentic reach. Lower CAC but less predictable volume and harder to measure ROI."
+      },
+      {
+        "id": "aso-organic-first",
+        "label": "ASO + organic-first",
+        "description": "Invest in App Store Optimization and content marketing before paid spend. Slower ramp but builds a defensible organic moat and lower blended CAC."
+      }
+    ]
+  },
+  "parameters": {
+    "launch_budget_usd": {
+      "label": "Launch Marketing Budget ($)",
+      "type": "number",
+      "default": 50000,
+      "min": 10000,
+      "max": 500000,
+      "description": "Total budget for paid UA across Meta, TikTok, and ASA in the first 6 months."
+    },
+    "target_cac_usd": {
+      "label": "Target CAC ($)",
+      "type": "number",
+      "default": 8,
+      "min": 1,
+      "max": 50,
+      "description": "Cost per install you're willing to accept in month 1."
+    },
+    "day30_retention": {
+      "label": "Day-30 Retention Target",
+      "type": "percentage",
+      "default": 0.25,
+      "description": "Percentage of day-1 users still active at day 30 (e.g. 0.25 = 25%)."
+    },
+    "free_to_paid_conversion": {
+      "label": "Free-to-Paid Conversion Rate",
+      "type": "percentage",
+      "default": 0.03,
+      "description": "Percentage of free users who convert to paid within 30 days of hitting the paywall."
+    },
+    "monthly_subscription_price_usd": {
+      "label": "Monthly Subscription Price ($)",
+      "type": "number",
+      "default": 9,
+      "min": 2,
+      "max": 50,
+      "description": "Price per month for the paid tier. Drives LTV and payback period calculations."
+    },
+    "paywall_timing_days": {
+      "label": "Paywall Timing (Days After Install)",
+      "type": "select",
+      "default": "7",
+      "options": ["1", "3", "7", "14", "30"],
+      "description": "When users first encounter the paywall or subscription prompt after installing."
+    }
+  },
+  "tags": ["b2c", "mobile", "consumer", "growth", "monetization"]
+}

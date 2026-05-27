@@ -1,7 +1,7 @@
 /**
  * Scenario library — schema, static data, and lookup helpers.
  *
- * All 7 scenario JSON files are imported statically so they are
+ * All 12 scenario JSON files are imported statically so they are
  * bundled at build time and available in both server and edge runtimes
  * without any dynamic I/O.
  */
@@ -75,6 +75,11 @@ import gtmSensitivityRaw from "@/data/scenarios/gtm-sensitivity.json";
 import bridgeRoundRaw from "@/data/scenarios/bridge-round.json";
 import vpHireTimingRaw from "@/data/scenarios/vp-hire-timing.json";
 import pricingStrategyRaw from "@/data/scenarios/pricing-strategy.json";
+import b2cMobileAppLaunchRaw from "@/data/scenarios/b2c-mobile-app-launch.json";
+import hardwareStartupFundraisingRaw from "@/data/scenarios/hardware-startup-fundraising.json";
+import soloFounderProductizationRaw from "@/data/scenarios/solo-founder-productization.json";
+import postSeriesAStrategicPivotRaw from "@/data/scenarios/post-series-a-strategic-pivot.json";
+import internationalExpansionRaw from "@/data/scenarios/international-expansion.json";
 
 // Validate each scenario at module load time — fails loudly during build
 // if any JSON drifts out of sync with the schema.
@@ -86,6 +91,11 @@ export const ALL_SCENARIOS: Scenario[] = [
   bridgeRoundRaw,
   vpHireTimingRaw,
   pricingStrategyRaw,
+  b2cMobileAppLaunchRaw,
+  hardwareStartupFundraisingRaw,
+  soloFounderProductizationRaw,
+  postSeriesAStrategicPivotRaw,
+  internationalExpansionRaw,
 ].map((raw) => validateScenario(raw));
 
 // ---- Lookup helpers ----

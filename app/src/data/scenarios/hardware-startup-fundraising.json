@@ -1,0 +1,77 @@
+{
+  "id": "hardware-startup-fundraising",
+  "title": "Hardware Startup: Seed Round Decision",
+  "description": "Your hardware product has early customer validation. Decide whether to bootstrap the first manufacturing run, raise a seed round, or pursue crowdfunding — each path has very different timelines, dilution, and failure modes.",
+  "archetype_compatibility": ["hardware"],
+  "difficulty": "advanced",
+  "estimated_minutes": 25,
+  "decision": {
+    "prompt": "Choose your capital strategy for the first manufacturing run.",
+    "options": [
+      {
+        "id": "seed-round",
+        "label": "Raise a seed round",
+        "description": "Raise $500k-$1.5M from angels or a pre-seed fund. Faster capital but meaningful dilution (15-25%) and board dynamics to manage. Requires 3-6 months of fundraising."
+      },
+      {
+        "id": "crowdfunding",
+        "label": "Launch on Kickstarter or Indiegogo",
+        "description": "Pre-sell to backers to fund the manufacturing run without dilution. Validates demand publicly and generates press, but exposes your roadmap and creates delivery risk."
+      },
+      {
+        "id": "bootstrap-presales",
+        "label": "Bootstrap via direct pre-sales",
+        "description": "Sell directly to early enterprise or prosumer customers at a premium. Slowest path but zero dilution and real revenue from day one."
+      }
+    ]
+  },
+  "parameters": {
+    "minimum_order_quantity": {
+      "label": "Minimum Order Quantity (units)",
+      "type": "number",
+      "default": 1000,
+      "min": 100,
+      "max": 10000,
+      "description": "Number of units in the first production run. Affects unit economics dramatically."
+    },
+    "unit_cogs_usd": {
+      "label": "Unit COGS ($)",
+      "type": "number",
+      "default": 85,
+      "min": 10,
+      "max": 500,
+      "description": "Cost of goods sold per unit at the MOQ volume."
+    },
+    "target_gross_margin": {
+      "label": "Target Gross Margin",
+      "type": "percentage",
+      "default": 0.45,
+      "description": "Target gross margin — drives retail price and long-term sustainability."
+    },
+    "seed_raise_amount_usd": {
+      "label": "Seed Raise Target ($)",
+      "type": "number",
+      "default": 750000,
+      "min": 250000,
+      "max": 3000000,
+      "description": "Target amount to raise if pursuing a venture seed round."
+    },
+    "manufacturing_lead_time_weeks": {
+      "label": "Manufacturing Lead Time (weeks)",
+      "type": "number",
+      "default": 16,
+      "min": 8,
+      "max": 52,
+      "description": "Weeks from purchase order to finished goods at your factory."
+    },
+    "months_of_runway": {
+      "label": "Months of Runway Remaining",
+      "type": "number",
+      "default": 9,
+      "min": 2,
+      "max": 24,
+      "description": "How many months of personal or existing cash you have before needing product revenue."
+    }
+  },
+  "tags": ["hardware", "manufacturing", "fundraising", "seed", "crowdfunding"]
+}
