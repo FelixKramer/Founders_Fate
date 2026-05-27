@@ -9,6 +9,7 @@ import { ReactQueryProvider } from "@/components/query-provider";
 import { UpgradeDialog } from "@/components/billing/UpgradeDialog";
 import { CookieBanner } from "@/components/compliance/CookieBanner";
 import { DNAReadyBadge } from "@/components/profile/DNAReadyBadge";
+import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,6 +66,7 @@ export default async function RootLayout({
               <UpgradeDialog />
               <DNAReadyBadge />
               <CookieBanner />
+              <FeedbackWidget />
               <Toaster />
             </ThemeProvider>
           </ReactQueryProvider>
