@@ -1,0 +1,22 @@
+app/src/app/sim/[id]/results/page.tsx
+  s_17a852bebe789c::t_9553511e1b8fa5 7,9-10,19,25,28-30,70-80,84-88,90-102,106-113
+app/src/components/sim/ResultsView.tsx
+  s_17a852bebe789c::t_1ae21b69155df2 113
+  s_17a852bebe789c::t_a28de811d2747e 1-112,114-247
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "8f5b0f872653f7c57c780836430895e442e7c603",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
