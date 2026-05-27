@@ -1,0 +1,38 @@
+app/prisma/migrations/0005_m13_m15_compliance/migration.sql
+  s_17a852bebe789c::t_c833dce4f7ed95 1-15
+app/src/components/compliance/CookieBanner.tsx
+  s_17a852bebe789c::t_e958dad84a6b6f 1-92
+app/src/app/api/compliance/ccpa/route.ts
+  s_17a852bebe789c::t_353ab31e6a9177 1-47
+app/prisma/schema.prisma
+  s_17a852bebe789c::t_abc85ad69ee02c 152-155
+  s_17a852bebe789c::t_62f460e6df546a 189-190
+app/src/lib/cookie-consent.ts
+  s_17a852bebe789c::t_25ee69f5df5ab4 1-41
+app/src/app/cookies/page.tsx
+  s_17a852bebe789c::t_60a61779ebbdb1 1-92
+app/src/app/privacy/page.tsx
+  s_17a852bebe789c::t_dade1265699e53 1-68
+app/src/components/compliance/CCPAToggle.tsx
+  s_17a852bebe789c::t_a117b1a9d3ff75 1-75
+app/next.config.ts
+  s_17a852bebe789c::t_45a12a34f17b63 13-42
+app/src/components/compliance/DisclaimerFooter.tsx
+  s_17a852bebe789c::t_36a78a8f136e38 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3b9248019fc2da432a13946777b07198b4ebf552",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
