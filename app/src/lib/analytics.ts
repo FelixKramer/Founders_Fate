@@ -23,14 +23,18 @@ export type EventMap = {
   fate_profile_created: { archetype: string; question_count: number };
   fate_scenario_loaded: { scenario_id: string; archetype_match: boolean };
   fate_variable_adjusted: { scenario_id: string; variable_name: string; new_value: string | number };
-  fate_simulation_started: { scenario_id: string; variable_count: number; estimated_runtime: number };
+  fate_simulation_started: { scenario_id: string; archetype: string; tier: string; variable_count?: number; estimated_runtime?: number };
   fate_simulation_completed: {
     scenario_id: string;
-    actual_runtime: number;
-    node_count: number;
-    top_insight: string;
+    simulation_id: string;
+    actual_runtime?: number;
+    node_count?: number;
+    top_insight?: string;
   };
   fate_simulation_failed: { scenario_id: string; error_category: string; retry_count: number };
+  fate_results_viewed: { scenario_id: string; simulation_id: string };
+  fate_premortem_run: { simulation_id: string; perspective: string };
+  fate_dna_triggered: { user_id: string; distinct_scenarios: number };
   fate_tree_node_clicked: { simulation_id: string; node_id: string; depth: number; has_narrative: boolean };
   fate_counterfactual_viewed: { simulation_id: string; node_id: string; narrative_length_chars: number };
   fate_simulation_compared: { sim1_id: string; sim2_id: string; delta_count: number };

@@ -60,7 +60,17 @@
       "scenarioUnavailable": "Scenario template is temporarily unavailable. Generic fallback loaded.",
       "concurrentLimit": "Too many requests. Please wait {seconds} seconds.",
       "fileTooLarge": "File exceeds {limit}MB limit.",
-      "unsupportedBrowser": "Founder Fate requires a modern browser. Some features may not work."
+      "unsupportedBrowser": "Founder Fate requires a modern browser. Some features may not work.",
+      "monthlyQuotaExceeded": "You've used your free simulations this month. Upgrade to Pro for unlimited simulations.",
+      "tooManyActiveSims": "You already have {limit} simulations running. Cancel or wait for one to finish.",
+      "duplicateSimulation": "You already have this simulation running. Wait for it to complete before starting another.",
+      "simulationNotComplete": "This simulation hasn't finished yet. Check back in a moment.",
+      "shareExpired": "This share link has expired or no longer exists.",
+      "premortemUnavailable": "Pre-mortem analysis is temporarily unavailable. Please try again.",
+      "dnaNeedMoreSims": "Complete {count} more simulation(s) across different scenarios to unlock your Decision DNA report.",
+      "onboardingRequired": "Please complete your profile setup before running simulations.",
+      "upstreamUnavailable": "The simulation engine is temporarily unavailable. Please try again in a moment.",
+      "invalidPerspective": "Please choose a perspective: optimist, pessimist, or realist."
     },
     "archetypes": {
       "b2b_saas": "B2B SaaS",
@@ -109,6 +119,51 @@
           "q4": "I have a co-founder or technical partner.",
           "q5": "I have shipped a product to paying customers before."
         }
+      }
+    },
+    "hub": {
+      "welcome": "Welcome back, {name}!",
+      "welcomeNew": "Welcome to Founder Fate",
+      "continueHeading": "Continue where you left off",
+      "recommendedHeading": "Recommended for you",
+      "allScenariosHeading": "All scenarios",
+      "noActiveSims": "No active simulations"
+    },
+    "sim": {
+      "new": {
+        "decisionHeading": "Choose your decision",
+        "parametersHeading": "Configure parameters",
+        "runButton": "Run Simulation",
+        "runningButton": "Starting simulation…",
+        "estimatedTime": "Estimated: ~{minutes} min"
+      },
+      "progress": {
+        "heading": "Running simulation…",
+        "reconnecting": "Reconnecting…",
+        "cancelButton": "Cancel simulation",
+        "cancelConfirm": "Are you sure you want to cancel this simulation?",
+        "stages": {
+          "ontology_gen": "Building founder DNA ontology",
+          "dna_synthesis": "Synthesising agent personas",
+          "cascade_step": "Running consequence cascade",
+          "narrative_gen": "Generating narrative"
+        }
+      },
+      "error": {
+        "spend_cap_exceeded": "Spend limit reached",
+        "llm_unavailable": "AI service temporarily unavailable",
+        "internal_error": "Simulation failed",
+        "retry": "Try Again",
+        "backToHub": "Back to Hub"
+      },
+      "results": {
+        "heading": "Simulation Results",
+        "narrative": "What happens",
+        "keyRisks": "Key risks",
+        "upsideScenarios": "Upside scenarios",
+        "confidence": "Confidence score",
+        "timeline": "{months}-month outlook",
+        "treeComingSoon": "Consequence tree visualisation coming soon"
       }
     },
     "profile": {
