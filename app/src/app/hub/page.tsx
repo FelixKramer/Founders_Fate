@@ -9,6 +9,9 @@ import { ActiveSimsRow } from "@/components/hub/ActiveSimsRow";
 import { RecommendedBanner } from "@/components/hub/RecommendedBanner";
 import { Badge } from "@/components/ui/badge";
 import { HubScenarioGridClient } from "@/components/hub/HubScenarioGridClient";
+import { QuotaBar } from "@/components/billing/QuotaBar";
+import { MONTHLY_SIM_QUOTA } from "@/lib/tier";
+import type { Tier } from "@/lib/tier";
 
 const ARCHETYPE_LABELS: Record<string, string> = {
   b2b_saas: "B2B SaaS",
@@ -28,6 +31,8 @@ export default async function HubPage() {
   const t = await getTranslations("fate.hub");
 
   // Fetch profile for archetype + displayName
+  const userTier = ((session.user as { tier?: string }).tier ?? "free") as Tier;
+
   const profile = await db.profile.findUnique({
     where: { userId: session.user.id },
     select: { archetype: true, displayName: true },
@@ -35,6 +40,19 @@ export default async function HubPage() {
 
   const archetype = profile?.archetype ?? null;
   const displayName = profile?.displayName ?? session.user.name ?? null;
+
+  // Quota usage: count sims created this calendar month
+  const startOfMonth = new Date();
+  startOfMonth.setUTCDate(1);
+  startOfMonth.setUTCHours(0, 0, 0, 0);
+  const simsThisMonth = await db.simulationRecord.count({
+    where: {
+      userId: session.user.id,
+      createdAt: { gte: startOfMonth },
+      status: { not: "cancelled" },
+    },
+  });
+  const simQuota = MONTHLY_SIM_QUOTA[userTier];
 
   // Fetch recent simulations (active + completed, latest 5)
   const recentSims = await db.simulationRecord.findMany({
@@ -60,6 +78,11 @@ export default async function HubPage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
+
+        {/* Quota bar — only shown to free-tier users */}
+        {simQuota !== -1 && (
+          <QuotaBar used={simsThisMonth} total={simQuota} tier={userTier} />
+        )}
 
         {/* Welcome banner */}
         <section className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">

@@ -11,11 +11,16 @@ const PROTECTED_PREFIXES = [
   "/profile",
   "/premortem",
   "/onboarding",
+  "/billing", // billing management requires auth (/billing/success is carved out below)
   "/dashboard", // legacy boilerplate path — middleware redirects to /hub
 ];
 
 // Pages anyone can hit even when logged out / suspended.
-const PUBLIC_PREFIXES = ["/sim/share/"]; // /sim/share/<code> read-only page
+const PUBLIC_PREFIXES = [
+  "/sim/share/", // /sim/share/<code> read-only page
+  "/billing/success", // post-checkout landing page (session_id param is enough)
+  "/pricing", // public pricing page
+];
 
 // Admin console.
 const ADMIN_PREFIX = "/admin";
@@ -98,6 +103,8 @@ export const config = {
     "/profile/:path*",
     "/premortem/:path*",
     "/onboarding/:path*",
+    "/billing/:path*",
+    "/pricing",
     "/dashboard/:path*",
     "/admin/:path*",
   ],
