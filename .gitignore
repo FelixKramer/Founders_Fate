@@ -49,6 +49,8 @@ prisma/migrations/dev/
 # uploads / runtime data
 uploads/
 data/
+# allow static scenario data bundled in the app
+!app/src/data/
 
 # infra local
 .docker/

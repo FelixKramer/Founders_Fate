@@ -1,0 +1,49 @@
+{
+  "id": "hiring-plan-ab",
+  "title": "Hiring Plan: Hire Fast vs. Stay Lean",
+  "description": "Aggressively staff up ahead of demand, or keep the team small until product-market fit?",
+  "archetype_compatibility": ["b2b_saas", "marketplace", "b2c"],
+  "difficulty": "intermediate",
+  "estimated_minutes": 20,
+  "decision": {
+    "prompt": "Choose your hiring velocity for the next 12 months.",
+    "options": [
+      {
+        "id": "hire-1-per-quarter",
+        "label": "Hire 1 per quarter",
+        "description": "Slow and deliberate — each hire is a high-conviction decision. Lower burn, slower capacity growth."
+      },
+      {
+        "id": "hire-2-per-quarter",
+        "label": "Hire 2 per quarter",
+        "description": "Moderate pace — builds capability without overstretching the runway or culture."
+      },
+      {
+        "id": "hire-aggressively",
+        "label": "Hire aggressively (4+ per quarter)",
+        "description": "Scale ahead of demand. High burn and management overhead, but positions you to capture market fast."
+      }
+    ]
+  },
+  "parameters": {
+    "current_headcount": {
+      "label": "Current Headcount",
+      "type": "number",
+      "default": 5,
+      "description": "Total number of full-time employees today."
+    },
+    "revenue_per_employee": {
+      "label": "Revenue per Employee ($)",
+      "type": "number",
+      "default": 80000,
+      "description": "Target annual revenue generated per employee at steady state."
+    },
+    "churn_risk_per_hire": {
+      "label": "Churn Risk per Hire",
+      "type": "percentage",
+      "default": 0.08,
+      "description": "Probability that a given new hire leaves within 12 months (as a decimal, e.g. 0.08 = 8%)."
+    }
+  },
+  "tags": ["hiring", "burn", "team-building"]
+}

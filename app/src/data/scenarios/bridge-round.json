@@ -1,0 +1,56 @@
+{
+  "id": "bridge-round",
+  "title": "Bridge Round Decision",
+  "description": "Series A fell through. Do you take a bridge at punishing terms, cut costs aggressively, or pursue a strategic acqui-hire?",
+  "archetype_compatibility": ["b2b_saas", "marketplace"],
+  "difficulty": "advanced",
+  "estimated_minutes": 25,
+  "decision": {
+    "prompt": "Your lead investor passed on Series A. Choose your path.",
+    "options": [
+      {
+        "id": "take-bridge",
+        "label": "Take bridge at 20% discount",
+        "description": "Accept dilutive bridge terms to buy 6–9 more months. Bet on hitting new milestones to re-raise."
+      },
+      {
+        "id": "cut-40-pct-team",
+        "label": "Cut 40% of team",
+        "description": "Aggressive right-sizing to extend runway without outside capital. Painful but preserves equity."
+      },
+      {
+        "id": "pursue-acquisition",
+        "label": "Pursue strategic acquisition",
+        "description": "Engage strategic buyers for an acqui-hire or full acquisition. Likely below your last valuation."
+      }
+    ]
+  },
+  "parameters": {
+    "months_runway": {
+      "label": "Months of Runway Remaining",
+      "type": "number",
+      "default": 4,
+      "description": "How many months of cash remain at current burn."
+    },
+    "arr": {
+      "label": "Annual Recurring Revenue ($)",
+      "type": "number",
+      "default": 800000,
+      "description": "Current ARR at time of decision."
+    },
+    "team_size": {
+      "label": "Team Size",
+      "type": "number",
+      "default": 18,
+      "description": "Total full-time headcount."
+    },
+    "investor_relations": {
+      "label": "Investor Relationship Quality",
+      "type": "select",
+      "default": "cold",
+      "options": ["warm", "cold", "hostile"],
+      "description": "Current state of your relationship with existing investors."
+    }
+  },
+  "tags": ["fundraising", "survival", "bridge", "series-a"]
+}

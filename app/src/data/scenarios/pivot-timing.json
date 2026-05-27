@@ -1,0 +1,57 @@
+{
+  "id": "pivot-timing",
+  "title": "Pivot Timing",
+  "description": "Your core product isn't getting traction. When do you pivot, and to what adjacent market?",
+  "archetype_compatibility": ["b2b_saas", "b2c", "solo"],
+  "difficulty": "advanced",
+  "estimated_minutes": 25,
+  "decision": {
+    "prompt": "Choose your pivot strategy and timeline.",
+    "options": [
+      {
+        "id": "pivot-now",
+        "label": "Pivot now (immediate)",
+        "description": "Cut losses immediately and redirect all resources to the new direction. Fastest to test the new thesis."
+      },
+      {
+        "id": "pivot-in-3-months",
+        "label": "Pivot in 3 months",
+        "description": "Run a structured wind-down of the current product while building evidence for the new one."
+      },
+      {
+        "id": "double-down",
+        "label": "Double down on current direction",
+        "description": "Commit fully to the existing product — push through the trough and bet that distribution catches up."
+      }
+    ]
+  },
+  "parameters": {
+    "current_mrr": {
+      "label": "Current MRR ($)",
+      "type": "number",
+      "default": 5000,
+      "description": "Monthly recurring revenue on the existing product."
+    },
+    "months_of_runway": {
+      "label": "Months of Runway Remaining",
+      "type": "number",
+      "default": 8,
+      "description": "How many months of cash you have left at current burn."
+    },
+    "nps_score": {
+      "label": "Net Promoter Score",
+      "type": "number",
+      "default": 20,
+      "min": -100,
+      "max": 100,
+      "description": "Current NPS score from your active users."
+    },
+    "paying_customers": {
+      "label": "Paying Customers",
+      "type": "number",
+      "default": 12,
+      "description": "Number of paying customers on the current product."
+    }
+  },
+  "tags": ["pivot", "product-market-fit", "strategy"]
+}

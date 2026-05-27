@@ -1,0 +1,61 @@
+{
+  "id": "gtm-sensitivity",
+  "title": "Go-To-Market Sensitivity Analysis",
+  "description": "Which GTM channel drives the best CAC payback, and how sensitive is your growth to channel mix?",
+  "archetype_compatibility": ["b2b_saas", "b2c", "marketplace"],
+  "difficulty": "intermediate",
+  "estimated_minutes": 20,
+  "decision": {
+    "prompt": "Choose your primary GTM channel for the next 6 months.",
+    "options": [
+      {
+        "id": "inbound",
+        "label": "Inbound",
+        "description": "Content, SEO, and community-led growth. Slower to build but compound returns and lower CAC over time."
+      },
+      {
+        "id": "outbound-sales",
+        "label": "Outbound Sales",
+        "description": "Direct outreach and SDR-led pipeline. Faster feedback loops, higher CAC, but predictable scaling."
+      },
+      {
+        "id": "product-led-growth",
+        "label": "Product-Led Growth",
+        "description": "Let the product drive acquisition via freemium, trials, and viral loops. Lowest CAC, but requires strong activation."
+      }
+    ]
+  },
+  "parameters": {
+    "cac_inbound": {
+      "label": "CAC — Inbound ($)",
+      "type": "number",
+      "default": 800,
+      "description": "Customer acquisition cost via inbound channels."
+    },
+    "cac_outbound": {
+      "label": "CAC — Outbound ($)",
+      "type": "number",
+      "default": 2400,
+      "description": "Customer acquisition cost via outbound sales."
+    },
+    "cac_plg": {
+      "label": "CAC — PLG ($)",
+      "type": "number",
+      "default": 200,
+      "description": "Customer acquisition cost via product-led growth."
+    },
+    "ltv": {
+      "label": "Customer LTV ($)",
+      "type": "number",
+      "default": 4000,
+      "description": "Average lifetime value of a customer."
+    },
+    "monthly_budget": {
+      "label": "Monthly GTM Budget ($)",
+      "type": "number",
+      "default": 20000,
+      "description": "Total monthly spend allocated to go-to-market activities."
+    }
+  },
+  "tags": ["gtm", "growth", "cac", "unit-economics"]
+}

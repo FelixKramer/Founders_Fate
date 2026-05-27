@@ -1,0 +1,55 @@
+{
+  "id": "vp-hire-timing",
+  "title": "VP of Sales Hire Timing",
+  "description": "When should a B2B SaaS founder hire their first VP of Sales — too early and they thrash, too late and you leave revenue on the table.",
+  "archetype_compatibility": ["b2b_saas"],
+  "difficulty": "intermediate",
+  "estimated_minutes": 15,
+  "decision": {
+    "prompt": "Choose when to bring on a VP of Sales.",
+    "options": [
+      {
+        "id": "hire-now-sub-500k",
+        "label": "Hire now (< $500k ARR)",
+        "description": "Bring in a VP early to build the sales motion from scratch. Risky if the playbook isn't proven yet."
+      },
+      {
+        "id": "hire-at-1m-arr",
+        "label": "Hire at $1M ARR",
+        "description": "Wait until you have a repeatable sales motion, then hire someone to scale it."
+      },
+      {
+        "id": "hire-at-2m-arr",
+        "label": "Hire at $2M ARR",
+        "description": "Founder-led sales all the way to $2M, then bring in professional sales leadership."
+      }
+    ]
+  },
+  "parameters": {
+    "current_arr": {
+      "label": "Current ARR ($)",
+      "type": "number",
+      "default": 300000,
+      "description": "Annual recurring revenue right now."
+    },
+    "founder_can_sell": {
+      "label": "Founder Can Sell",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the founding team has the capacity and skill to close deals without dedicated sales staff."
+    },
+    "avg_deal_size": {
+      "label": "Average Deal Size ($)",
+      "type": "number",
+      "default": 24000,
+      "description": "Average annual contract value per customer."
+    },
+    "sales_cycle_days": {
+      "label": "Sales Cycle (days)",
+      "type": "number",
+      "default": 45,
+      "description": "Average number of days from first contact to closed-won."
+    }
+  },
+  "tags": ["hiring", "sales", "b2b", "revenue"]
+}

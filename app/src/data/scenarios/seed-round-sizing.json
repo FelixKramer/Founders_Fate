@@ -1,0 +1,59 @@
+{
+  "id": "seed-round-sizing",
+  "title": "Seed Round Sizing",
+  "description": "How much should you raise in your seed round? Too little starves the runway; too much dilutes prematurely.",
+  "archetype_compatibility": ["b2b_saas", "b2c", "marketplace"],
+  "difficulty": "beginner",
+  "estimated_minutes": 15,
+  "decision": {
+    "prompt": "Choose your seed raise amount and the valuation cap you'll negotiate.",
+    "options": [
+      {
+        "id": "raise-500k",
+        "label": "Raise $500k",
+        "description": "Minimal dilution, tight runway — forces rapid prioritisation and lean execution."
+      },
+      {
+        "id": "raise-1-5m",
+        "label": "Raise $1.5M",
+        "description": "Standard seed size, 12–18 months of runway to find product-market fit."
+      },
+      {
+        "id": "raise-3m",
+        "label": "Raise $3M",
+        "description": "Extended runway and team-building capacity, but higher dilution and investor expectations."
+      }
+    ]
+  },
+  "parameters": {
+    "runway_months": {
+      "label": "Target Runway (months)",
+      "type": "number",
+      "default": 18,
+      "min": 6,
+      "max": 36,
+      "description": "How many months of runway you want the raise to cover."
+    },
+    "burn_rate_monthly": {
+      "label": "Monthly Burn Rate ($)",
+      "type": "number",
+      "default": 50000,
+      "description": "Current or projected monthly cash burn in dollars."
+    },
+    "arr_at_raise": {
+      "label": "ARR at Time of Raise ($)",
+      "type": "number",
+      "default": 0,
+      "description": "Annual recurring revenue at the time you close the round."
+    },
+    "team_size": {
+      "label": "Team Size",
+      "type": "number",
+      "default": 3,
+      "min": 1,
+      "max": 20,
+      "description": "Number of full-time employees (including founders) at time of raise."
+    }
+  },
+  "tags": ["fundraising", "dilution", "runway"]
+}

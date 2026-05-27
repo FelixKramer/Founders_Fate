@@ -1,0 +1,61 @@
+{
+  "id": "pricing-strategy",
+  "title": "Pricing Strategy Overhaul",
+  "description": "Your freemium conversion rate is 2%. Should you kill free, add usage-based pricing, or raise prices across the board?",
+  "archetype_compatibility": ["b2b_saas", "b2c", "solo"],
+  "difficulty": "beginner",
+  "estimated_minutes": 15,
+  "decision": {
+    "prompt": "Choose your pricing model change.",
+    "options": [
+      {
+        "id": "kill-freemium",
+        "label": "Kill freemium",
+        "description": "Remove the free tier entirely. Forces conversion but risks losing top-of-funnel volume and word-of-mouth."
+      },
+      {
+        "id": "add-usage-based",
+        "label": "Add usage-based tier",
+        "description": "Layer in a pay-as-you-go option alongside flat plans. Lowers friction for high-usage power users."
+      },
+      {
+        "id": "raise-prices-30pct",
+        "label": "Raise prices 30%",
+        "description": "Increase paid plan prices by 30%. Tests price elasticity and improves unit economics if churn stays flat."
+      }
+    ]
+  },
+  "parameters": {
+    "free_users": {
+      "label": "Free Users",
+      "type": "number",
+      "default": 5000,
+      "description": "Number of active users on the free tier."
+    },
+    "paid_users": {
+      "label": "Paid Users",
+      "type": "number",
+      "default": 100,
+      "description": "Number of users on a paid plan."
+    },
+    "mrr": {
+      "label": "Current MRR ($)",
+      "type": "number",
+      "default": 10000,
+      "description": "Monthly recurring revenue from paid subscribers."
+    },
+    "arpu": {
+      "label": "Average Revenue per User ($)",
+      "type": "number",
+      "default": 100,
+      "description": "Average monthly revenue per paid user."
+    },
+    "churn_rate": {
+      "label": "Monthly Churn Rate",
+      "type": "percentage",
+      "default": 0.05,
+      "description": "Monthly paid user churn rate as a decimal (e.g. 0.05 = 5%)."
+    }
+  },
+  "tags": ["pricing", "monetisation", "freemium"]
+}
