@@ -20,6 +20,11 @@ class Stage(str, Enum):
     PREMORTEM_ITER = "premortem_iter"
     PREMORTEM_SYNTH = "premortem_synth"
     CUSTOM_MODEL_ONTOLOGY = "custom_model_ontology"
+    # M5 additions
+    CONSEQUENCE_SCORING = "consequence_scoring"
+    NARRATIVE_GEN = "narrative_gen"
+    BACKTEST = "backtest"
+    PREMORTEM = "premortem"
 
     @classmethod
     def values(cls) -> set[str]:
@@ -32,9 +37,13 @@ STAGE_CACHE_TTL: dict[Stage, int] = {
     Stage.AGENT_PERSONA: 365 * 24 * 3600,       # 1 year
     Stage.NODE_NARRATIVE: 90 * 24 * 3600,       # 90 days
     Stage.CUSTOM_MODEL_ONTOLOGY: 30 * 24 * 3600,
-    # Cascade / DNA / premortem are highly contextual — don't cache by default.
+    Stage.NARRATIVE_GEN: 90 * 24 * 3600,        # 90 days (deterministic per scenario)
+    # Cascade / DNA / premortem / scoring are highly contextual — don't cache.
     Stage.CASCADE_STEP: 0,
     Stage.DNA_SYNTHESIS: 0,
     Stage.PREMORTEM_ITER: 0,
     Stage.PREMORTEM_SYNTH: 0,
+    Stage.CONSEQUENCE_SCORING: 0,
+    Stage.BACKTEST: 0,
+    Stage.PREMORTEM: 0,
 }

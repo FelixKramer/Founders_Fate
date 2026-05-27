@@ -49,6 +49,11 @@ stage_tier:
   premortem_iter: S
   premortem_synth: L
   custom_model_ontology: M
+  # M5 additions
+  consequence_scoring: M
+  narrative_gen: L
+  backtest: M
+  premortem: M
 
 # Optional overrides per stage.
 stage_overrides:
