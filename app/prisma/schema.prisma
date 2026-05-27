@@ -129,14 +129,21 @@ enum Archetype {
 model Profile {
   id                     String     @id @default(cuid())
   userId                 String     @unique
-  archetype              Archetype
+  archetype              Archetype?
+  displayName            String?
   tier                   String     @default("free") // mirrors latest Subscription.plan; denormalised for fast guard reads
-  cognitiveBaseline      Json // {risk_tolerance, optimism_bias, sector_familiarity, decision_velocity}
+  cognitiveBaseline      Json? // {risk_tolerance, optimism_bias, sector_familiarity, decision_velocity}
   simulationCount        Int        @default(0)
   dnaReportAvailable     Boolean    @default(false)
   cognitiveBaselineStale Boolean    @default(false)
   lastActiveAt           DateTime   @default(now())
   createdAt              DateTime   @default(now())
+  // M3 additions
+  onboardingCompleted    Boolean    @default(false)
+  answers                String?    // JSON array of 5 Likert answers (1–5)
+  timezone               String?
+  allowBenchmark         Boolean    @default(true)
+  marketingEmails        Boolean    @default(true)
   user                   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -153,21 +160,23 @@ enum SimulationStatus {
 }
 
 model SimulationRecord {
-  id           String            @id // sim_<cuid>
-  userId       String
-  scenarioId   String
-  status       SimulationStatus  @default(queued)
-  jobRef       String? // pointer into MiroFish uploads/simulations/<id>
-  variables    Json
-  variableHash String // sha256 of normalized variables — used for dup-detection
-  topInsight   String?
-  errorMessage String?
-  startedAt    DateTime?
-  completedAt  DateTime?
-  createdAt    DateTime          @default(now())
-  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  shares       Share[]
-  usageLogs    UsageLog[]
+  id            String            @id // sim_<cuid>
+  userId        String
+  scenarioId    String
+  status        SimulationStatus  @default(queued)
+  jobRef        String? // pointer into MiroFish uploads/simulations/<id>
+  variables     Json
+  variableHash  String // sha256 of normalized variables — used for dup-detection
+  topInsight    String?
+  errorMessage  String?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  baselineStale Boolean           @default(false)
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shares        Share[]
+  usageLogs     UsageLog[]
 
   @@index([userId, status])
   @@index([scenarioId, status])
