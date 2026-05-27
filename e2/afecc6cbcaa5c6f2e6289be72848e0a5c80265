@@ -1,0 +1,21 @@
+app/src/app/onboarding/questionnaire/page.tsx
+  s_17a852bebe789c::t_7514b70c1f16a9 1-136
+app/src/app/onboarding/archetype/page.tsx
+  s_17a852bebe789c::t_f9fd2755351822 1-176
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "e2afecc6cbcaa5c6f2e6289be72848e0a5c80265",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
