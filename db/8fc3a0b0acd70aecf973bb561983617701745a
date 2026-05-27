@@ -1,0 +1,38 @@
+app/src/app/layout.tsx
+  s_17a852bebe789c::t_6c49ddbf955c0f 66
+  s_17a852bebe789c::t_cc30c57d541da9 10
+  s_17a852bebe789c::t_f7429f77001fa8 11
+  s_17a852bebe789c::t_be80476ef63d61 67
+app/src/components/profile/DNAProgressCard.tsx
+  s_17a852bebe789c::t_aa46096849f88d 1-109
+app/src/components/profile/DNAReadyBadge.tsx
+  s_17a852bebe789c::t_2b36c98e9b8c42 1-103
+app/src/app/profile/page.tsx
+  s_17a852bebe789c::t_eac5ae315b3624 30
+  s_17a852bebe789c::t_572c040daedf20 451-452,455-484,512,516,529-530
+  s_17a852bebe789c::t_eff3f02e52e5a8 517,531-534
+  s_17a852bebe789c::t_7564cfc10bb10d 29
+  s_17a852bebe789c::t_41cc7d319e134d 44
+  s_17a852bebe789c::t_d0f15cbb9344e7 3,6,8
+  s_17a852bebe789c::t_42a1db0330826a 344-349
+  s_17a852bebe789c::t_77ba17074ef801 450
+app/messages/en.json
+  s_17a852bebe789c::t_83f3556eef44c2 290
+  s_17a852bebe789c::t_3e4fef06fcd86a 48-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "db8fc3a0b0acd70aecf973bb561983617701745a",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
