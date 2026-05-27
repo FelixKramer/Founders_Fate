@@ -1,0 +1,27 @@
+app/src/components/hub/ActiveSimsRow.tsx
+  s_17a852bebe789c::t_22b0327ee32940 1-78
+app/src/app/hub/page.tsx
+  s_17a852bebe789c::t_db8ab57e4fde65 1-120
+app/src/components/hub/RecommendedBanner.tsx
+  s_17a852bebe789c::t_61464fce3f6804 1-40
+app/src/lib/scenarios.ts
+  s_17a852bebe789c::t_2275b2ab8568e3 24,34
+app/src/components/hub/HubScenarioGridClient.tsx
+  s_17a852bebe789c::t_1822281a70d381 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7cfbe1aa85636046bef099adc0a14c5050b76eed",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
