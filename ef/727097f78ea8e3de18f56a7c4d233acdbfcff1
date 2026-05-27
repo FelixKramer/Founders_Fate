@@ -1,0 +1,25 @@
+app/src/app/api/cron/cleanup-shares/route.ts
+  s_17a852bebe789c::t_fe9dd76edcc6d5 1-56
+app/src/app/api/cron/cleanup-premortem/route.ts
+  s_17a852bebe789c::t_aaab7755ce1c79 1-79
+app/src/lib/email.ts
+  s_17a852bebe789c::t_b363304674f0be 1-110
+app/src/app/api/cron/cleanup-simulations/route.ts
+  s_17a852bebe789c::t_5806378dcfec1e 1-70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ef727097f78ea8e3de18f56a7c4d233acdbfcff1",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
