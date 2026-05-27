@@ -9,6 +9,8 @@ Endpoints:
   POST   /internal/v1/dna/generate
   GET    /internal/v1/dna/status/<job_id>
   GET    /internal/v1/dna/report/<user_id>
+  POST   /internal/v1/models/extract
+  GET    /internal/v1/models/<job_id>/status
 """
 from __future__ import annotations
 
@@ -17,11 +19,17 @@ import logging
 import os
 import time
 import threading
+import uuid
 from typing import Any
 
 from flask import Blueprint, abort, jsonify, request
 
 from llm_gateway import Stage, complete_json
+from simulation.ontology_extractor import (
+    extract_async,
+    get_status as get_ontology_status,
+    OntologyRequest,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -361,3 +369,45 @@ def dna_report(user_id: str):  # type: ignore[return]
         abort(404, description=f"No DNA report found for user {user_id!r}")
 
     return jsonify(report), 200
+
+
+# ── POST /internal/v1/models/extract ─────────────────────────────────────────
+
+
+@internal_bp.post("/models/extract")
+def extract_model_ontology():  # type: ignore[return]
+    """Accept a custom domain model payload, spawn async ontology extraction, return job_id."""
+    data = request.get_json(force=True)
+    if not data or not isinstance(data, dict):
+        abort(400, description="Request body must be a JSON object")
+
+    user_id = data.get("user_id")
+    model_id = data.get("model_id")
+    content = data.get("content")
+
+    if not user_id or not model_id or not content:
+        abort(400, description="Missing required fields: user_id, model_id, content")
+
+    job_id = str(uuid.uuid4())
+    req = OntologyRequest(
+        job_id=job_id,
+        user_id=str(user_id),
+        model_id=str(model_id),
+        content=str(content),
+        source_type=str(data.get("source_type", "text")),
+        name=str(data.get("name", "Custom Model")),
+    )
+    extract_async(req)
+    return jsonify({"job_id": job_id}), 202
+
+
+# ── GET /internal/v1/models/<job_id>/status ───────────────────────────────────
+
+
+@internal_bp.get("/models/<job_id>/status")
+def model_extract_status(job_id: str):  # type: ignore[return]
+    """Return current status of an ontology extraction job."""
+    status = get_ontology_status(job_id)
+    if status is None:
+        abort(404, description=f"Ontology job {job_id!r} not found")
+    return jsonify(status), 200
