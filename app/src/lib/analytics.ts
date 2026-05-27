@@ -49,6 +49,8 @@ export type EventMap = {
   fate_premortem_generated: { iteration_count: number; top_failure_mode: string };
   fate_valley_of_despair_alert: { days_since_last: number; simulation_count: number };
   fate_fidelity_check: { fidelity_score: number; deviation_areas: string[]; sample_size: number };
+  fate_marketplace_submitted: { userId: string; listingId: string; category: string };
+  fate_marketplace_scenario_used: { userId: string; listingId: string };
 };
 
 export type EventName = keyof EventMap;

@@ -24,6 +24,7 @@ const PUBLIC_PREFIXES = [
   "/privacy", // privacy policy
   "/cookies", // cookie policy
   "/waitlist", // alpha waitlist signup
+  "/marketplace", // Consequence Marketplace — browse is public; publish is auth-gated server-side
 ];
 
 // Admin console.
@@ -117,5 +118,7 @@ export const config = {
     "/cookies",
     "/waitlist",
     "/waitlist/:path*",
+    "/marketplace",
+    "/marketplace/:path*",
   ],
 };

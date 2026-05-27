@@ -192,7 +192,53 @@ export default async function HubPage() {
             <CustomModelsSection models={customModels} />
           </section>
         )}
+
+        {/* Marketplace CTA — shown when marketplace_enabled flag is on */}
+        <MarketplaceCTA userTier={userTier} />
       </div>
     </main>
+  );
+}
+
+async function MarketplaceCTA({ userTier }: { userTier: Tier }) {
+  let marketplaceEnabled = false;
+  try {
+    const flag = await db.featureFlag.findUnique({
+      where: { key: "marketplace_enabled" },
+    });
+    marketplaceEnabled = flag?.enabled ?? false;
+  } catch {
+    // Feature flag table may not exist in some environments
+  }
+
+  if (!marketplaceEnabled) return null;
+
+  return (
+    <section className="rounded-xl border border-violet-200 bg-violet-50 dark:border-violet-800 dark:bg-violet-950/30 px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h2 className="text-base font-semibold text-violet-900 dark:text-violet-200">
+          Consequence Marketplace
+        </h2>
+        <p className="text-sm text-violet-700 dark:text-violet-400 mt-0.5">
+          Discover community-authored simulation scenarios or publish your own domain models.
+        </p>
+      </div>
+      <div className="flex gap-2 shrink-0">
+        <Link
+          href="/marketplace"
+          className="inline-flex items-center justify-center rounded-md border border-violet-300 bg-white dark:bg-violet-900/40 px-4 py-2 text-sm font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-50 dark:hover:bg-violet-900/60 transition-colors"
+        >
+          Browse &rarr;
+        </Link>
+        {hasTier(userTier, "pro") && (
+          <Link
+            href="/marketplace/publish"
+            className="inline-flex items-center justify-center rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white hover:bg-violet-700 transition-colors"
+          >
+            Publish
+          </Link>
+        )}
+      </div>
+    </section>
   );
 }

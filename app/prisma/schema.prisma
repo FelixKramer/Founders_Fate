@@ -34,19 +34,20 @@ model User {
   suspended     Boolean   @default(false)
 
   // Relations
-  accounts          Account[]
-  sessions          Session[]
-  subscriptions     Subscription[]
-  apiKeys           ApiKey[]
-  profile           Profile?
-  simulations       SimulationRecord[]
-  shares            Share[]
-  usageLogs         UsageLog[]
-  adminActions      AdminAuditLog[]      @relation("AdminActor")
-  adminActionsOnMe  AdminAuditLog[]      @relation("AdminTarget")
-  customModels      CustomModel[]
-  userBadges        UserBadge[]
-  streak            Streak?
+  accounts             Account[]
+  sessions             Session[]
+  subscriptions        Subscription[]
+  apiKeys              ApiKey[]
+  profile              Profile?
+  simulations          SimulationRecord[]
+  shares               Share[]
+  usageLogs            UsageLog[]
+  adminActions         AdminAuditLog[]       @relation("AdminActor")
+  adminActionsOnMe     AdminAuditLog[]       @relation("AdminTarget")
+  customModels         CustomModel[]
+  userBadges           UserBadge[]
+  streak               Streak?
+  marketplaceScenarios MarketplaceScenario[] @relation("MarketplaceAuthor")
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -339,19 +340,20 @@ enum ModelStatus {
 }
 
 model CustomModel {
-  id           String      @id @default(cuid())
-  userId       String
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name         String
-  description  String?
-  sourceType   String      // "csv" | "json" | "text"
-  qualityScore Float?
-  status       ModelStatus @default(pending)
-  ontology     Json?       // extracted ontology from MiroFish
-  scenarioJson Json?       // auto-generated scenario template
-  miroJobId    String?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  id                 String               @id @default(cuid())
+  userId             String
+  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name               String
+  description        String?
+  sourceType         String               // "csv" | "json" | "text" | "marketplace"
+  qualityScore       Float?
+  status             ModelStatus          @default(pending)
+  ontology           Json?                // extracted ontology from MiroFish
+  scenarioJson       Json?                // auto-generated scenario template
+  miroJobId          String?
+  marketplaceListing MarketplaceScenario?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 
   @@index([userId])
 }
@@ -391,6 +393,44 @@ model Streak {
   longestStreak Int      @default(0)
   lastActiveAt  DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+// ------------------------------------------------------------
+// M20 — Consequence Marketplace
+// ------------------------------------------------------------
+
+enum MarketplaceStatus {
+  pending_review
+  approved
+  rejected
+  removed
+}
+
+model MarketplaceScenario {
+  id            String            @id @default(cuid())
+  customModelId String            @unique
+  customModel   CustomModel       @relation(fields: [customModelId], references: [id], onDelete: Cascade)
+  authorId      String
+  author        User              @relation("MarketplaceAuthor", fields: [authorId], references: [id])
+  title         String
+  description   String
+  tags          String[]
+  category      String            // "hiring" | "fundraising" | "gtm" | "pivot" | "operations" | "product"
+  archetypes    String[]
+  qualityScore  Float
+  status        MarketplaceStatus @default(pending_review)
+  reviewNotes   String?
+  reviewedAt    DateTime?
+  viewCount     Int               @default(0)
+  useCount      Int               @default(0)
+  scenarioJson  Json
+  publishedAt   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@index([category])
 }
 
 // ------------------------------------------------------------
