@@ -1,0 +1,24 @@
+services/mirofish/backend/pyproject.toml
+  s_17a852bebe789c::t_bf16bcc02e1718 41-43
+  s_17a852bebe789c::t_fb25839a4c16ed 67
+services/mirofish/backend/api/__init__.py
+  s_17a852bebe789c::t_6ab6d0136bf6cb 1-2
+services/mirofish/backend/app.py
+  s_17a852bebe789c::t_3850bf45e4c5c8 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5e3977eed9c36d56871647b86cfd5a6e39d9365f",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
