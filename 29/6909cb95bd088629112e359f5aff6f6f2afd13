@@ -1,0 +1,26 @@
+app/src/app/api/admin/fidelity/route.ts
+  s_17a852bebe789c::t_1d0db1fdb88f0f 1-31
+app/src/app/(admin)/admin/fidelity/page.tsx
+  s_17a852bebe789c::t_c34a1c05fb7d06 1-291
+app/src/app/api/admin/fidelity/run/route.ts
+  s_17a852bebe789c::t_790fa7cc2a476b 1-31
+app/src/components/admin/AdminShell.tsx
+  s_17a852bebe789c::t_456428fbf06e72 35
+  s_17a852bebe789c::t_1a1ffb4410607e 47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "296909cb95bd088629112e359f5aff6f6f2afd13",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
