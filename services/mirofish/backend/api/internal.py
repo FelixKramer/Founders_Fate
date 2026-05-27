@@ -6,12 +6,16 @@ Endpoints:
   POST   /internal/v1/simulation/<id>/cancel
   POST   /internal/v1/simulation/<id>/premortem
   GET    /internal/v1/simulation/status
+  POST   /internal/v1/dna/generate
+  GET    /internal/v1/dna/status/<job_id>
+  GET    /internal/v1/dna/report/<user_id>
 """
 from __future__ import annotations
 
 import hmac
 import logging
 import os
+import time
 import threading
 from typing import Any
 
@@ -35,6 +39,11 @@ MAX_CONCURRENT = int(os.environ.get("MAX_CONCURRENT_SIMS", "5"))
 
 _results: dict[str, dict[str, Any]] = {}
 _results_lock = threading.Lock()
+
+# ── DNA job registry ───────────────────────────────────────────────────────────
+
+_dna_jobs: dict[str, dict] = {}
+_dna_jobs_lock = threading.Lock()
 
 # ── Cancellation flags ─────────────────────────────────────────────────────────
 
@@ -273,3 +282,75 @@ def simulation_status():  # type: ignore[return]
     with _running_lock:
         active = len(_running)
     return jsonify({"active": active, "max": MAX_CONCURRENT}), 200
+
+
+# ── POST /internal/v1/dna/generate ───────────────────────────────────────────
+
+
+@internal_bp.post("/dna/generate")
+def dna_generate():  # type: ignore[return]
+    """Validate body, spawn background DNA report thread, return 202."""
+    body = request.get_json(silent=True)
+    if not body or not isinstance(body, dict):
+        abort(400, description="Request body must be a JSON object")
+
+    user_id: str | None = body.get("user_id")
+    simulation_summaries: list | None = body.get("simulation_summaries")
+
+    if not user_id or not isinstance(user_id, str):
+        abort(400, description="Missing required field: user_id")
+    if not simulation_summaries or not isinstance(simulation_summaries, list):
+        abort(400, description="Missing required field: simulation_summaries (must be a list)")
+    if len(simulation_summaries) < 3:
+        abort(400, description="At least 3 simulation_summaries are required to generate a DNA report")
+
+    job_id = f"dna_{user_id}_{int(time.time())}"
+
+    with _dna_jobs_lock:
+        _dna_jobs[job_id] = {"status": "queued", "result": None, "error": None}
+
+    from simulation.dna import generate_dna_report  # noqa: PLC0415
+
+    def _run() -> None:
+        with _dna_jobs_lock:
+            registry = _dna_jobs
+        generate_dna_report(user_id, simulation_summaries, job_id, registry)
+
+    t = threading.Thread(target=_run, name=f"dna-{job_id}", daemon=True)
+    t.start()
+
+    return jsonify({"job_id": job_id, "status": "queued"}), 202
+
+
+# ── GET /internal/v1/dna/status/<job_id> ──────────────────────────────────────
+
+
+@internal_bp.get("/dna/status/<job_id>")
+def dna_status(job_id: str):  # type: ignore[return]
+    """Return current status of a DNA generation job."""
+    with _dna_jobs_lock:
+        job = _dna_jobs.get(job_id)
+
+    if job is None:
+        abort(404, description=f"DNA job {job_id!r} not found")
+
+    return jsonify({
+        "status": job["status"],
+        "result": job["result"],
+        "error": job["error"],
+    }), 200
+
+
+# ── GET /internal/v1/dna/report/<user_id> ─────────────────────────────────────
+
+
+@internal_bp.get("/dna/report/<user_id>")
+def dna_report(user_id: str):  # type: ignore[return]
+    """Return the persisted DNA report for a user, or 404 if not yet generated."""
+    from simulation.dna import load_report  # noqa: PLC0415
+
+    report = load_report(user_id)
+    if report is None:
+        abort(404, description=f"No DNA report found for user {user_id!r}")
+
+    return jsonify(report), 200
