@@ -120,6 +120,72 @@ function buildWaitlistHTML(): string {
 </html>`.trim()
 }
 
+// ─── Pre-mortem complete email ────────────────────────────────────────────────
+
+/**
+ * Notify an enterprise user that their pre-mortem analysis has finished
+ * and their PDF report is ready to download.
+ */
+export async function sendPremortemCompleteEmail(
+  to: string,
+  jobId: string,
+  scenarioName: string,
+): Promise<void> {
+  const baseUrl = process.env.NEXTAUTH_URL ?? "https://founderfate.ai";
+  const subject = `Your pre-mortem analysis is ready — ${scenarioName}`;
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${subject}</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #111; background: #fff;">
+
+  <h2 style="color: #4f46e5; margin-bottom: 8px;">Your pre-mortem analysis is ready</h2>
+  <p style="color: #374151; line-height: 1.6;">
+    Your Monte Carlo analysis for <strong>${scenarioName}</strong> has completed.
+  </p>
+  <p style="margin: 24px 0;">
+    <a href="${baseUrl}/api/premortem/${jobId}/pdf"
+       style="background: #4f46e5; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block;">
+      Download PDF Report &darr;
+    </a>
+  </p>
+  <p style="color: #374151; line-height: 1.6;">
+    Log in to <a href="${baseUrl}/premortem" style="color: #4f46e5;">Founder Fate</a> to run another analysis.
+  </p>
+
+  <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;">
+
+  <p style="color: #9ca3af; font-size: 12px; line-height: 1.6;">
+    This report is AI-generated and does not constitute legal or financial advice.<br>
+    <a href="${baseUrl}/profile" style="color: #9ca3af;">Unsubscribe</a>
+    &nbsp;&middot;&nbsp;
+    <a href="${baseUrl}/privacy" style="color: #9ca3af;">Privacy Policy</a><br>
+    Founder Fate &middot; San Francisco, CA &middot; CAN-SPAM compliant
+  </p>
+
+</body>
+</html>`;
+
+  const resend = await getResend();
+  if (!resend) {
+    console.log("[email stub] premortem complete email not sent — RESEND_API_KEY not set", {
+      to,
+      subject,
+    });
+    return;
+  }
+
+  await resend.emails.send({
+    from: "Founder Fate <hello@founderfate.ai>",
+    to,
+    subject,
+    html,
+  });
+}
+
 // ─── Re-engagement email ───────────────────────────────────────────────────────
 
 function buildReEngagementHTML(name: string): string {
