@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 import os
+import threading
 from typing import Any
 
 from flask import Flask
@@ -26,7 +27,7 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
         app.config.update(config)
 
     # Blueprints
-    from api.internal import internal_bp
+    from api.internal import internal_bp, run_backtest_scenarios
     from api.progress import progress_bp
 
     app.register_blueprint(internal_bp)
@@ -35,6 +36,16 @@ def create_app(config: dict[str, Any] | None = None) -> Flask:
     @app.get("/health")
     def health():  # type: ignore[return-value]
         return {"ok": True, "service": "mirofish"}
+
+    # Run fidelity backtest once at startup in a background thread so the
+    # admin /fidelity page has an initial result immediately after boot.
+    if not app.config.get("TESTING"):
+        t = threading.Thread(
+            target=run_backtest_scenarios,
+            name="startup-fidelity-backtest",
+            daemon=True,
+        )
+        t.start()
 
     return app
 

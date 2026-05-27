@@ -14,6 +14,8 @@ Endpoints:
   POST   /internal/v1/premortem/parse-and-run
   GET    /internal/v1/premortem/<job_id>/status
   GET    /internal/v1/premortem/<job_id>/pdf
+  GET    /internal/v1/fidelity
+  POST   /internal/v1/fidelity/run
 """
 from __future__ import annotations
 
@@ -60,6 +62,29 @@ _dna_jobs_lock = threading.Lock()
 
 _cancel_flags: dict[str, threading.Event] = {}
 _cancel_lock = threading.Lock()
+
+# ── Fidelity backtest state ────────────────────────────────────────────────────
+
+_fidelity_result: dict[str, Any] | None = None
+_fidelity_lock = threading.Lock()
+_fidelity_running = False
+_FIDELITY_THRESHOLD = 0.60
+
+# Default scenarios to backtest — lightweight set for startup probe.
+_DEFAULT_BACKTEST_SCENARIOS = [
+    {
+        "scenario_id": "hire_first_engineer",
+        "archetype": "b2b_saas",
+        "decision_option_id": "hire_senior",
+        "parameters": {"budget": 150000, "runway_months": 18},
+    },
+    {
+        "scenario_id": "raise_seed_round",
+        "archetype": "marketplace",
+        "decision_option_id": "raise_1m",
+        "parameters": {"valuation": 5000000, "dilution": 0.2},
+    },
+]
 
 
 # ── Auth helper ────────────────────────────────────────────────────────────────
@@ -493,3 +518,103 @@ def premortem_job_pdf(job_id: str):  # type: ignore[return]
         as_attachment=True,
         download_name=f"premortem-{job_id[:8]}.pdf",
     )
+
+
+# ── Fidelity helpers (called from app.py on startup) ──────────────────────────
+
+
+def run_backtest_scenarios(scenarios: list[dict[str, Any]] | None = None) -> None:
+    """Run a fidelity backtest for the given scenarios and store the result.
+
+    Called from app.py in a background thread on startup.
+    Also callable via POST /internal/v1/fidelity/run.
+    """
+    global _fidelity_running  # noqa: PLW0603
+
+    from simulation.backtest import run_backtest  # noqa: PLC0415
+
+    with _fidelity_lock:
+        if _fidelity_running:
+            return  # already running, skip
+        _fidelity_running = True
+
+    scenarios_to_run = scenarios or _DEFAULT_BACKTEST_SCENARIOS
+    results = []
+    total_score = 0.0
+
+    try:
+        for s in scenarios_to_run:
+            try:
+                br = run_backtest(
+                    scenario_id=s["scenario_id"],
+                    archetype=s["archetype"],
+                    decision_option_id=s["decision_option_id"],
+                    parameters=s.get("parameters", {}),
+                    runs=3,
+                )
+                passed = br.fidelity_score >= _FIDELITY_THRESHOLD
+                results.append({
+                    "scenario_id": s["scenario_id"],
+                    "score": br.fidelity_score,
+                    "passed": passed,
+                })
+                total_score += br.fidelity_score
+            except Exception:
+                logger.exception("Backtest failed for scenario %s", s["scenario_id"])
+                results.append({
+                    "scenario_id": s["scenario_id"],
+                    "score": 0.0,
+                    "passed": False,
+                })
+
+        overall = total_score / len(results) if results else 0.0
+        payload: dict[str, Any] = {
+            "last_run_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "score": overall,
+            "scenario_count": len(results),
+            "passing": sum(1 for r in results if r["passed"]),
+            "threshold": _FIDELITY_THRESHOLD,
+            "results": results,
+        }
+        with _fidelity_lock:
+            global _fidelity_result  # noqa: PLW0603
+            _fidelity_result = payload
+    finally:
+        with _fidelity_lock:
+            _fidelity_running = False
+        logger.info("Fidelity backtest completed. Results stored.")
+
+
+# ── GET /internal/v1/fidelity ─────────────────────────────────────────────────
+
+
+@internal_bp.get("/fidelity")
+def get_fidelity():  # type: ignore[return]
+    """Return the latest fidelity backtest summary."""
+    with _fidelity_lock:
+        result = _fidelity_result
+        running = _fidelity_running
+
+    if result is None:
+        return jsonify({"score": None, "status": "not_run_yet", "running": running}), 200
+
+    return jsonify({**result, "running": running}), 200
+
+
+# ── POST /internal/v1/fidelity/run ────────────────────────────────────────────
+
+
+@internal_bp.post("/fidelity/run")
+def trigger_fidelity_run():  # type: ignore[return]
+    """Trigger an async fidelity backtest re-run."""
+    with _fidelity_lock:
+        if _fidelity_running:
+            return jsonify({"status": "already_running"}), 202
+
+    t = threading.Thread(
+        target=run_backtest_scenarios,
+        name="fidelity-backtest",
+        daemon=True,
+    )
+    t.start()
+    return jsonify({"status": "triggered"}), 202
