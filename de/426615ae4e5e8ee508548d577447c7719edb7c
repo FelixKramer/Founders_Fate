@@ -1,0 +1,33 @@
+app/src/components/sim/VariableEditorClient.tsx
+  s_17a852bebe789c::t_30e8e864c20ed1 1-10,12-185,187-491
+  s_17a852bebe789c::t_cb8544d642a2c4 11
+  s_17a852bebe789c::t_4fbc774190b7f8 186
+app/src/lib/contradiction-checks.ts
+  s_17a852bebe789c::t_9dd9d5c8779bc0 1-87
+app/src/lib/scenario-validation.ts
+  s_17a852bebe789c::t_758add3ef39cb2 61-62
+  s_17a852bebe789c::t_71ee35f18d97e9 1,3-11,14-60,63-84,87-90
+  s_17a852bebe789c::t_45a226f96f7961 85-86
+  s_17a852bebe789c::t_690d1773d02dfb 12-13
+  s_17a852bebe789c::t_db7f6eb98f1dd6 2
+app/src/app/sim/new/[scenarioId]/page.tsx
+  s_17a852bebe789c::t_ff99bacc66257d 1-28
+app/src/components/sim/UpgradePromptDialog.tsx
+  s_17a852bebe789c::t_dcae151093023a 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "de426615ae4e5e8ee508548d577447c7719edb7c",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
