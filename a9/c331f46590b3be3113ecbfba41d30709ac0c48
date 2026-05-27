@@ -1,0 +1,33 @@
+app/src/components/admin/InviteActions.tsx
+  s_17a852bebe789c::t_bc558c026db177 1-24
+app/src/app/api/admin/flags/[key]/route.ts
+  s_17a852bebe789c::t_a22d596f2c995b 1-38
+app/src/app/invite/[code]/page.tsx
+  s_17a852bebe789c::t_6abb26982acc5d 1-98
+app/src/app/(admin)/admin/flags/page.tsx
+  s_17a852bebe789c::t_4768635b815827 1-156
+app/src/app/api/admin/invites/route.ts
+  s_17a852bebe789c::t_8db6bbf916a264 1-70
+app/src/components/admin/InviteGenerateForm.tsx
+  s_17a852bebe789c::t_4555dc4fd43fb7 1-123
+app/src/app/(admin)/admin/invites/page.tsx
+  s_17a852bebe789c::t_6d4795794979b2 1-148
+app/src/app/api/admin/flags/route.ts
+  s_17a852bebe789c::t_292c6c82ad3a27 1-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a9c331f46590b3be3113ecbfba41d30709ac0c48",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
