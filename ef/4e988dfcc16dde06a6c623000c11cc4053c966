@@ -1,0 +1,21 @@
+app/src/app/api/cron/re-engagement-emails/route.ts
+  s_17a852bebe789c::t_e4d3b18306e385 1-120
+app/vercel.json
+  s_17a852bebe789c::t_6d7f7652676c09 3-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ef4e988dfcc16dde06a6c623000c11cc4053c966",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
