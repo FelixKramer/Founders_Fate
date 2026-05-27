@@ -1,0 +1,23 @@
+docs/STATUS-PAGE-SETUP.md
+  s_17a852bebe789c::t_911e4d10b3c115 1-27
+app/src/app/api/health/route.ts
+  s_17a852bebe789c::t_84ee1405842578 1-34
+docs/RUNBOOK.md
+  s_17a852bebe789c::t_e75f3197cdbc6b 1-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7309dc4c0e38b01210ff7218e57db2c84652f0a7",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
