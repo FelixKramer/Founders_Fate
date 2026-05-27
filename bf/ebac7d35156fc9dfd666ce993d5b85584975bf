@@ -1,0 +1,32 @@
+app/src/app/api/premortem/[jobId]/pdf/route.ts
+  s_17a852bebe789c::t_75950b09845171 1-51
+app/src/app/hub/page.tsx
+  s_17a852bebe789c::t_0f099b85d39e13 4,14
+  s_17a852bebe789c::t_936244bcb4cd2b 133-153
+app/src/app/api/premortem/[jobId]/status/route.ts
+  s_17a852bebe789c::t_5facfe70212be9 1-45
+app/src/app/premortem/PremortemClient.tsx
+  s_17a852bebe789c::t_f937fc94a00b69 1-233
+app/src/app/premortem/page.tsx
+  s_17a852bebe789c::t_35b0a6443a548b 1-34
+app/src/app/api/premortem/route.ts
+  s_17a852bebe789c::t_2ac758ce0b10ed 4-7,10-11,14,16,22,26-28,32-37,45,49,53,57
+app/src/lib/email.ts
+  s_17a852bebe789c::t_cc253d7bf11413 123-188
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "bfebac7d35156fc9dfd666ce993d5b85584975bf",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
