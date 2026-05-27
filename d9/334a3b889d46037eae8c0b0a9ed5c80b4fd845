@@ -1,0 +1,22 @@
+app/prisma/migrations/0008_m21_gamification/migration.sql
+  s_17a852bebe789c::t_55ccf33a2e9802 1-60
+app/prisma/schema.prisma
+  s_17a852bebe789c::t_060b01e7a94c2e 48-49
+  s_17a852bebe789c::t_e989555fb73b00 360-395
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d9334a3b889d46037eae8c0b0a9ed5c80b4fd845",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
