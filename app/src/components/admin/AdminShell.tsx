@@ -28,6 +28,10 @@ import {
   ClipboardList,
   BarChart2,
   ArrowLeft,
+  BookOpen,
+  CreditCard,
+  Mail,
+  ShieldAlert,
 } from "lucide-react";
 
 const navItems = [
@@ -39,6 +43,10 @@ const navItems = [
   { title: "Invites", href: "/admin/invites", icon: Ticket, exact: false },
   { title: "Health", href: "/admin/health", icon: Heart, exact: false },
   { title: "Audit Log", href: "/admin/audit", icon: ClipboardList, exact: false },
+  { title: "Scenarios", href: "/admin/scenarios", icon: BookOpen, exact: false },
+  { title: "Billing", href: "/admin/billing", icon: CreditCard, exact: false },
+  { title: "Emails", href: "/admin/emails", icon: Mail, exact: false },
+  { title: "Moderation", href: "/admin/moderation", icon: ShieldAlert, exact: false },
 ];
 
 function AdminSidebar({ role }: { role: string }) {
