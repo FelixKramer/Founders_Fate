@@ -36,6 +36,9 @@ jobs:
       - name: Typecheck
         run: bunx tsc --noEmit
 
+      - name: Run unit tests
+        run: bun run test
+
       - name: Build
         env:
           # Build needs to succeed without real secrets — use placeholders.
