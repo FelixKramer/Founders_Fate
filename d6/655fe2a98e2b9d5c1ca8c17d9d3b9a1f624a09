@@ -1,0 +1,36 @@
+app/src/lib/__tests__/contradiction-checks.test.ts
+  s_17a852bebe789c::t_f874f7568d9088 1-198
+app/src/lib/__tests__/errors.test.ts
+  s_17a852bebe789c::t_c376bb9da5e38d 1-220
+app/vitest.config.ts
+  s_17a852bebe789c::t_70a6e9de70d3dd 10-20
+app/src/lib/__tests__/scenarios.test.ts
+  s_17a852bebe789c::t_1e0002a4ff2836 1-182
+app/package.json
+  s_17a852bebe789c::t_04d571c3ad00a8 110-115
+  s_17a852bebe789c::t_53761cd1232047 10-12
+app/src/lib/__tests__/cookie-consent.test.ts
+  s_17a852bebe789c::t_5af684f3819fb2 1-36
+app/src/lib/__tests__/consequence-tree-utils.test.ts
+  s_17a852bebe789c::t_ca715372181bb3 1-273
+app/src/lib/__tests__/scenario-validation.test.ts
+  s_17a852bebe789c::t_e315c015f85cbc 1-247
+app/src/lib/__tests__/tier.test.ts
+  s_17a852bebe789c::t_2b4de9a7e5ea62 1-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d6655fe2a98e2b9d5c1ca8c17d9d3b9a1f624a09",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
