@@ -1,0 +1,27 @@
+.github/workflows/staging-deploy.yml
+  s_17a852bebe789c::t_e3839e1da7d32e 1-55
+services/mirofish/fly.staging.toml
+  s_17a852bebe789c::t_051cad3ffd1b22 1-31
+scripts/backup-postgres.sh
+  s_17a852bebe789c::t_3d5f91188453fb 1-27
+scripts/fly-snapshot.sh
+  s_17a852bebe789c::t_250cfc454bf24d 1-14
+scripts/restore-postgres.sh
+  s_17a852bebe789c::t_051a92b05a5af5 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "d16ecd5cede39b7d066ebdc387766cee799da8af",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
