@@ -1,0 +1,28 @@
+app/src/app/api/feedback/route.ts
+  s_17a852bebe789c::t_cb712c8d7521bb 1-58
+app/src/app/layout.tsx
+  s_17a852bebe789c::t_070f94e20a9db0 69
+  s_17a852bebe789c::t_942b6e62635654 12
+app/src/components/feedback/FeedbackWidget.tsx
+  s_17a852bebe789c::t_5d3d540decd045 1-194
+docs/LAUNCH-CHECKLIST.md
+  s_17a852bebe789c::t_c965743451e438 1-100
+docs/ADR-002-alpha-go-nogo.md
+  s_17a852bebe789c::t_7158b8cd778926 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "b43e8e5921d62dd57fbcad9a9a310bde8535788d",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
