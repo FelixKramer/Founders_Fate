@@ -1,0 +1,31 @@
+app/src/components/billing/UpgradeButton.tsx
+  s_17a852bebe789c::t_c33e444409b94d 1-60
+app/src/lib/stripe-products.ts
+  s_17a852bebe789c::t_b35c8bf2f33dd1 1-47
+app/src/app/pricing/page.tsx
+  s_17a852bebe789c::t_7895ea3de21b7c 1-132
+app/src/components/billing/PricingCard.tsx
+  s_17a852bebe789c::t_b4b5aa26f0d6ed 1-128
+app/messages/en.json
+  s_17a852bebe789c::t_e043892e574f75 184-221
+app/src/app/api/stripe/portal/route.ts
+  s_17a852bebe789c::t_35d81635e56ff3 1-40
+app/src/app/api/stripe/checkout/route.ts
+  s_17a852bebe789c::t_75bdf2d115996d 1-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "1513969fc9028962302b9c323a63cbacba631630",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
