@@ -44,6 +44,7 @@ model User {
   usageLogs         UsageLog[]
   adminActions      AdminAuditLog[]      @relation("AdminActor")
   adminActionsOnMe  AdminAuditLog[]      @relation("AdminTarget")
+  customModels      CustomModel[]
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -322,6 +323,35 @@ model InviteRedemption {
   inviteCode   InviteCode @relation(fields: [code], references: [code], onDelete: Cascade)
 
   @@unique([code, redeemedById])
+}
+
+// ------------------------------------------------------------
+// M14 — Custom Domain Models (Pro tier)
+// ------------------------------------------------------------
+
+enum ModelStatus {
+  pending
+  processing
+  ready
+  failed
+}
+
+model CustomModel {
+  id           String      @id @default(cuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  sourceType   String      // "csv" | "json" | "text"
+  qualityScore Float?
+  status       ModelStatus @default(pending)
+  ontology     Json?       // extracted ontology from MiroFish
+  scenarioJson Json?       // auto-generated scenario template
+  miroJobId    String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId])
 }
 
 // ------------------------------------------------------------
