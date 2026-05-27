@@ -1,0 +1,19 @@
+services/mirofish/backend/simulation/pipeline.py
+  s_17a852bebe789c::t_208fafd1c7dee2 30-129,258-260,284-291,298,300-316,341-361,365,367,369,373-378,380-403,416-419,424-425,427-432,434-457,468-475,481,483-488,490-509
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3e35f42d784ead5d7cd5dfd7aeb7ab1936f76dd5",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
