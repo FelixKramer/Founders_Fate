@@ -1,0 +1,31 @@
+app/src/components/admin/AdminShell.tsx
+  s_17a852bebe789c::t_8896b52e0f63bd 1-132
+app/src/app/(admin)/admin/page.tsx
+  s_17a852bebe789c::t_51d29107f0581c 1-187
+app/src/components/admin/ImpersonationBanner.tsx
+  s_17a852bebe789c::t_07fa428c39fb47 1-44
+app/src/components/billing/UpgradeDialog.tsx
+  s_17a852bebe789c::t_1e07acc3c13387 1-135
+app/src/app/(admin)/admin/layout.tsx
+  s_17a852bebe789c::t_0e1b1d43f5cc7e 1-27
+app/messages/en.json
+  s_17a852bebe789c::t_100308da4021c8 222-255
+app/src/components/billing/BillingPageClient.tsx
+  s_17a852bebe789c::t_852a0a0c8b0d40 1-295
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "1f0d7b4f6991de7e1cce6a23623b82e960486497",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
