@@ -1,0 +1,23 @@
+app/lighthouserc.js
+  s_17a852bebe789c::t_8e89b3236d067d 1-23
+docs/TEST-CASES.md
+  s_17a852bebe789c::t_c1fb8e99e34ed8 1-122
+scripts/load-test.js
+  s_17a852bebe789c::t_c71c7e32ee4508 1-123
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "c20da4d49533e2c2322d05b133a316ec9104ec64",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
