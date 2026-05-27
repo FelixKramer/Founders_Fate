@@ -1,0 +1,26 @@
+app/src/app/hub/page.tsx
+  s_17a852bebe789c::t_7cd9ebca9aaa02 12-14
+  s_17a852bebe789c::t_577434f4c03d21 34-35,44-55
+  s_17a852bebe789c::t_be0e053bdcf99c 82-86
+app/src/middleware.ts
+  s_17a852bebe789c::t_6a6358a5b37b1e 14,19-23
+  s_17a852bebe789c::t_696e0aea8b9f77 106-107
+app/src/components/billing/QuotaBar.tsx
+  s_17a852bebe789c::t_de06bcd22bc0fd 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "493574e21e15f608f8042c17c951b6cd70cd8a53",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
