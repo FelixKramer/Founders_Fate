@@ -1,0 +1,23 @@
+app/vercel.json
+  s_17a852bebe789c::t_0bc9feff3a2be5 1-8
+app/src/lib/scenarios.ts
+  s_17a852bebe789c::t_59027934ef7a53 1-99
+app/src/app/api/cron/refresh-baselines/route.ts
+  s_17a852bebe789c::t_bf4bc13b9fd5e7 1-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "dde73e7e6bf18a4faeb1595a5320ed94917c60d9",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
