@@ -10,6 +10,14 @@ export interface ConsequenceNode {
   parent_id: string | null;
   children: ConsequenceNode[];
   metadata: Record<string, unknown>;
+  /** Scoring confidence — how certain the model is about this node's score (0–1). */
+  confidence?: number;
+  /** 10th-percentile (pessimistic) score estimate — present when scoring produced uncertainty bands. */
+  lower_bound?: number;
+  /** 90th-percentile (optimistic) score estimate — present when scoring produced uncertainty bands. */
+  upper_bound?: number;
+  /** True if this is an explicit recovery/upside path where probability may exceed parent. */
+  is_recovery_path?: boolean;
 }
 
 export interface ConsequenceTree {

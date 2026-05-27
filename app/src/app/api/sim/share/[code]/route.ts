@@ -21,6 +21,10 @@ import { enforceLimit, limiters, rateLimitKey } from "@/lib/rate-limit";
 import { track } from "@/lib/analytics";
 import { mirofish } from "@/lib/mirofish";
 
+// This route uses Prisma (db) so it cannot run on the edge runtime.
+// Mark as dynamic to prevent accidental static caching of share responses.
+export const dynamic = "force-dynamic";
+
 export const GET = withErrorHandling(
   async (req: Request, { params }: { params: Promise<{ code: string }> }) => {
     // Rate limit by IP.
@@ -80,17 +84,27 @@ export const GET = withErrorHandling(
       { share_id: share.id, referrer },
     );
 
-    return NextResponse.json({
-      share: {
-        code: share.code,
-        expiresAt: share.expiresAt,
-        viewCount: share.viewCount + 1, // reflect the increment we just applied
+    return NextResponse.json(
+      {
+        share: {
+          code: share.code,
+          expiresAt: share.expiresAt,
+          viewCount: share.viewCount + 1, // reflect the increment we just applied
+        },
+        simulation: {
+          scenario_id: share.simulation.scenarioId,
+          results,
+        },
       },
-      simulation: {
-        scenario_id: share.simulation.scenarioId,
-        results,
+      {
+        headers: {
+          // Short public cache — CDN can serve repeat views without hitting DB,
+          // but staleness is bounded to 60s. stale-while-revalidate allows up to
+          // 5 minutes of serving stale content while refreshing in background.
+          "Cache-Control": "public, max-age=60, stale-while-revalidate=300",
+        },
       },
-    });
+    );
   },
 );
 

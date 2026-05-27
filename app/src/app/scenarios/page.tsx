@@ -7,7 +7,14 @@ import { ALL_SCENARIOS } from "@/lib/scenarios";
  *
  * Server component: ALL_SCENARIOS is imported directly (no fetch)
  * so the list is available at build time and cached statically.
+ *
+ * revalidate: ISR at 1-hour intervals ensures CDN-cached HTML stays fresh
+ * between deploys without requiring a full rebuild.
  */
+
+// ISR: re-render at most once per hour in production.
+export const revalidate = 3600;
+
 export default async function ScenariosPage() {
   const t = await getTranslations("fate.scenarios");
 

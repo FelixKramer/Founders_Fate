@@ -367,6 +367,62 @@ export function ConsequenceTreeComponent({
         .attr("font-weight", "bold")
         .attr("fill", "#fff")
         .text((d) => `${Math.round(d.data.probability * 100)}%`);
+
+      // Uncertainty band indicator — a thin horizontal bar below the node circle
+      // for nodes that have lower_bound and upper_bound from the scoring stage.
+      // Width of the bar represents the full [0,1] range; the filled segment
+      // represents [lower_bound, upper_bound]. Height is 4px, subtle opacity.
+      const BAND_WIDTH = 32; // px, spans the node
+      const BAND_HEIGHT = 4; // px
+      const BAND_OPACITY = 0.55;
+
+      nodes
+        .filter((d) => d.data.lower_bound != null && d.data.upper_bound != null)
+        .each(function (d) {
+          const nodeEl = d3.select(this);
+          const r =
+            d.children && d.children.length > 0
+              ? NODE_RADIUS_NORMAL
+              : NODE_RADIUS_LEAF;
+
+          const yOffset = r + 6; // just below the node circle
+          const lb = d.data.lower_bound ?? 0;
+          const ub = d.data.upper_bound ?? 1;
+          const fillColor = getColorForProbability(d.data.probability);
+
+          // Background track (full range)
+          nodeEl
+            .append("rect")
+            .attr("x", -BAND_WIDTH / 2)
+            .attr("y", yOffset)
+            .attr("width", BAND_WIDTH)
+            .attr("height", BAND_HEIGHT)
+            .attr("rx", 2)
+            .attr("fill", fillColor)
+            .attr("fill-opacity", 0.2)
+            .attr("aria-hidden", "true");
+
+          // Filled segment ([lower_bound, upper_bound])
+          const segX = -BAND_WIDTH / 2 + lb * BAND_WIDTH;
+          const segW = Math.max(2, (ub - lb) * BAND_WIDTH);
+          nodeEl
+            .append("rect")
+            .attr("x", segX)
+            .attr("y", yOffset)
+            .attr("width", segW)
+            .attr("height", BAND_HEIGHT)
+            .attr("rx", 2)
+            .attr("fill", fillColor)
+            .attr("fill-opacity", BAND_OPACITY)
+            .attr("aria-hidden", "true")
+            .append("title")
+            .text(
+              `Uncertainty band: ${Math.round(lb * 100)}%–${Math.round(ub * 100)}%` +
+              (d.data.confidence != null
+                ? ` (confidence: ${Math.round(d.data.confidence * 100)}%)`
+                : ""),
+            );
+        });
     });
   }, [visibleRoot, containerWidth, selectedNodeId, focusedNodeId, onNodeSelect, deltaHighlights]);
 
