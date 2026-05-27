@@ -21,7 +21,7 @@ export type Archetype = z.infer<typeof ArchetypeSchema>;
 
 // ---- Parameter descriptor ----
 
-const ParameterSchema = z.object({
+export const ParameterSchema = z.object({
   label: z.string(),
   type: z.enum(["number", "percentage", "boolean", "select"]),
   default: z.unknown(),
@@ -30,6 +30,8 @@ const ParameterSchema = z.object({
   options: z.array(z.string()).optional(),
   description: z.string(),
 });
+
+export type ScenarioParameter = z.infer<typeof ParameterSchema>;
 
 // ---- Decision option ----
 
