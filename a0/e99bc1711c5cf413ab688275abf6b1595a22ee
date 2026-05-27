@@ -1,0 +1,21 @@
+app/src/app/api/profile/route.ts
+  s_17a852bebe789c::t_87b3d02ca752cd 1-142
+app/src/app/api/profile/account/route.ts
+  s_17a852bebe789c::t_b5ba14a77db249 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a0e99bc1711c5cf413ab688275abf6b1595a22ee",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
