@@ -1,0 +1,76 @@
+{
+  "id": "international-expansion",
+  "title": "International Market Expansion",
+  "description": "Your SaaS has solid US PMF with $2M ARR. Model the decision to expand into Europe, APAC, or LATAM — including localization costs, go-to-market strategy, and the risk of distracting the core US growth engine.",
+  "archetype_compatibility": ["b2b_saas", "marketplace"],
+  "difficulty": "advanced",
+  "estimated_minutes": 25,
+  "decision": {
+    "prompt": "Choose your international go-to-market motion.",
+    "options": [
+      {
+        "id": "local-sales-hire",
+        "label": "Hire a local country manager",
+        "description": "Bring on a full-time country manager with local networks and language skills. High fixed cost ($150-250k/yr fully loaded) but fastest to enterprise deals and local credibility."
+      },
+      {
+        "id": "channel-partner",
+        "label": "Go via channel partners or resellers",
+        "description": "Partner with established local players who already have customer relationships. Lower upfront cost but slower ramp, margin sharing (20-40%), and risk of misaligned incentives."
+      },
+      {
+        "id": "product-led-remote",
+        "label": "Product-led, remote-first expansion",
+        "description": "Let inbound demand and self-serve growth lead. No local hire — support through existing team with localized pricing and onboarding. Cheapest but slowest enterprise penetration."
+      }
+    ]
+  },
+  "parameters": {
+    "current_arr_usd": {
+      "label": "Current US ARR ($)",
+      "type": "number",
+      "default": 2000000,
+      "min": 500000,
+      "max": 20000000,
+      "description": "Your annual recurring revenue in the home market at the time of expansion."
+    },
+    "expansion_budget_usd": {
+      "label": "Year 1 Expansion Budget ($)",
+      "type": "number",
+      "default": 600000,
+      "min": 100000,
+      "max": 5000000,
+      "description": "Dedicated budget for international expansion including headcount, marketing, and legal."
+    },
+    "target_region": {
+      "label": "Target Region",
+      "type": "select",
+      "default": "western_europe",
+      "options": ["western_europe", "uk_ireland", "apac", "latam", "canada", "middle_east"],
+      "description": "Primary international market to enter first."
+    },
+    "compliance_budget_usd": {
+      "label": "Regulatory Compliance Budget ($)",
+      "type": "number",
+      "default": 75000,
+      "min": 10000,
+      "max": 500000,
+      "description": "Legal and compliance investment for target region (GDPR, data residency, SOC 2, etc.)."
+    },
+    "target_intl_arr_yr2_usd": {
+      "label": "Year 2 International ARR Target ($)",
+      "type": "number",
+      "default": 400000,
+      "min": 50000,
+      "max": 5000000,
+      "description": "ARR goal from international customers by end of year 2."
+    },
+    "us_growth_slowdown_accepted": {
+      "label": "Accept US Growth Slowdown",
+      "type": "boolean",
+      "default": false,
+      "description": "Willing to accept an estimated 15-25% reduction in US growth velocity to fund international expansion."
+    }
+  },
+  "tags": ["international", "expansion", "saas", "enterprise", "localization", "gtm"]
+}

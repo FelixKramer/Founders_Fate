@@ -1,0 +1,77 @@
+{
+  "id": "solo-founder-productization",
+  "title": "Solo Founder: Service to Product Transition",
+  "description": "You run a profitable consulting business and have identified a repeatable problem worth productizing. Model the 18-month transition — how much consulting revenue to sacrifice, when to hire, and whether to build in public.",
+  "archetype_compatibility": ["solo", "b2b_saas"],
+  "difficulty": "beginner",
+  "estimated_minutes": 15,
+  "decision": {
+    "prompt": "Choose how you manage the consulting-to-product transition.",
+    "options": [
+      {
+        "id": "hard-cut",
+        "label": "Hard cut — go all-in on product",
+        "description": "Stop taking new consulting work immediately and dedicate 100% of time to the product. Fastest to market but requires significant personal runway."
+      },
+      {
+        "id": "gradual-transition",
+        "label": "Gradual transition over 6 months",
+        "description": "Wind down consulting 20% per month while building the product. Preserves cash flow but extends time to PMF and risks divided attention."
+      },
+      {
+        "id": "consulting-funds-product",
+        "label": "Keep consulting, hire engineer",
+        "description": "Maintain full consulting revenue and hire a contractor or part-time engineer to build the MVP. Slowest to your own involvement but preserves income."
+      }
+    ]
+  },
+  "parameters": {
+    "monthly_consulting_revenue_usd": {
+      "label": "Monthly Consulting Revenue ($)",
+      "type": "number",
+      "default": 25000,
+      "min": 5000,
+      "max": 150000,
+      "description": "Current reliable monthly consulting income you're willing to cannibalize."
+    },
+    "personal_runway_months": {
+      "label": "Personal Runway (months)",
+      "type": "number",
+      "default": 12,
+      "min": 3,
+      "max": 36,
+      "description": "How many months you can cover living expenses without consulting income."
+    },
+    "target_mrr_usd": {
+      "label": "Target MRR at 18 Months ($)",
+      "type": "number",
+      "default": 15000,
+      "min": 1000,
+      "max": 100000,
+      "description": "Monthly recurring revenue goal by month 18 to validate the transition."
+    },
+    "initial_price_per_month_usd": {
+      "label": "Initial Monthly Price ($)",
+      "type": "number",
+      "default": 99,
+      "min": 19,
+      "max": 999,
+      "description": "Starting price for your productized offering."
+    },
+    "existing_audience_size": {
+      "label": "Existing Audience Size",
+      "type": "number",
+      "default": 2000,
+      "min": 0,
+      "max": 100000,
+      "description": "Newsletter subscribers, Twitter/X followers, or LinkedIn connections you can leverage for early distribution."
+    },
+    "build_in_public": {
+      "label": "Build in Public",
+      "type": "boolean",
+      "default": true,
+      "description": "Share progress publicly to build audience and attract early customers."
+    }
+  },
+  "tags": ["solo-founder", "productization", "saas", "consulting", "bootstrapped"]
+}

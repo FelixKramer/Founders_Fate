@@ -1,0 +1,75 @@
+{
+  "id": "post-series-a-strategic-pivot",
+  "title": "Post-Series A: Strategic Pivot Decision",
+  "description": "You've raised $5M, have 14 months of runway, and are not hitting growth targets. Model the decision to pivot vs. double-down vs. wind-down — including the impact on team retention, investor confidence, and future fundraising.",
+  "archetype_compatibility": ["b2b_saas", "marketplace"],
+  "difficulty": "advanced",
+  "estimated_minutes": 30,
+  "decision": {
+    "prompt": "Choose your strategic direction with $5M raised and growth stalling.",
+    "options": [
+      {
+        "id": "adjacent-pivot",
+        "label": "Adjacent pivot — new ICP, same core product",
+        "description": "Keep the technology but target a different buyer or use case where you've seen unexpected traction. Preserves most of the team and product investment while changing distribution."
+      },
+      {
+        "id": "double-down",
+        "label": "Double down — cut costs and stay the course",
+        "description": "Reduce burn by 40% through layoffs and extend runway to 24+ months. Bet that the current market will mature and distribution will improve with more time."
+      },
+      {
+        "id": "wind-down-acqui-hire",
+        "label": "Pursue acqui-hire or strategic acquisition",
+        "description": "Engage strategic buyers while the team and technology still have value. Likely a below-valuation exit, but returns some capital to investors and provides soft landing for the team."
+      }
+    ]
+  },
+  "parameters": {
+    "remaining_runway_months": {
+      "label": "Remaining Runway (months)",
+      "type": "number",
+      "default": 14,
+      "min": 6,
+      "max": 30,
+      "description": "Months of runway before cash out at current burn rate."
+    },
+    "monthly_burn_usd": {
+      "label": "Monthly Burn Rate ($)",
+      "type": "number",
+      "default": 180000,
+      "min": 50000,
+      "max": 800000,
+      "description": "Current monthly cash burn."
+    },
+    "team_size": {
+      "label": "Current Team Size",
+      "type": "number",
+      "default": 18,
+      "min": 5,
+      "max": 80,
+      "description": "Full-time employees — affects restructuring costs and execution capacity."
+    },
+    "current_arr_usd": {
+      "label": "Current ARR ($)",
+      "type": "number",
+      "default": 420000,
+      "min": 0,
+      "max": 5000000,
+      "description": "Annual recurring revenue at the time of the pivot decision."
+    },
+    "arr_growth_rate_monthly": {
+      "label": "Monthly ARR Growth Rate",
+      "type": "percentage",
+      "default": 0.04,
+      "description": "Current monthly ARR growth rate as a decimal (e.g. 0.04 = 4% MoM)."
+    },
+    "investor_bridge_probability": {
+      "label": "Bridge Round Probability",
+      "type": "percentage",
+      "default": 0.40,
+      "description": "Estimated probability current investors will provide a bridge round if needed."
+    }
+  },
+  "tags": ["pivot", "series-a", "fundraising", "runway", "pmf", "venture-backed"]
+}
