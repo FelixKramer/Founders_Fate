@@ -181,6 +181,44 @@
         "upsideHeading": "Upside scenarios"
       }
     },
+    "billing": {
+      "pricing": {
+        "heading": "Simple, transparent pricing",
+        "subtitle": "Run founder-level consequence simulations. No surprises.",
+        "mostPopular": "Most popular",
+        "currentPlan": "Current plan",
+        "getStarted": "Get started",
+        "upgradePro": "Upgrade to Pro",
+        "contactSales": "Contact sales",
+        "perMonth": "/month",
+        "faqHeading": "Frequently asked questions"
+      },
+      "upgrade": {
+        "quotaExceeded": "You've used all {count} of your free simulations this month.",
+        "tierRequired": "{feature} requires a Pro or Enterprise plan.",
+        "spendCap": "You've reached your monthly AI usage limit.",
+        "ctaButton": "Upgrade to Pro →",
+        "maybeLater": "Maybe later"
+      },
+      "quota": {
+        "simsRemaining": "{remaining} simulation{s} remaining this month",
+        "simsUsedAll": "All {total} simulations used this month",
+        "unlimited": "Unlimited simulations",
+        "upgradePrompt": "Upgrade to run more simulations"
+      },
+      "portal": {
+        "heading": "Billing & Subscription",
+        "manageBilling": "Manage billing",
+        "currentPlan": "Current plan",
+        "renewsOn": "Renews {date}",
+        "invoices": "Recent invoices"
+      },
+      "success": {
+        "heading": "You're now on Pro!",
+        "subtitle": "Unlimited simulations, all scenarios, and priority AI routing.",
+        "cta": "Start simulating →"
+      }
+    },
     "profile": {
       "title": "My Profile",
       "tabs": {
