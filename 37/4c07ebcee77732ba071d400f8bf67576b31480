@@ -1,0 +1,26 @@
+services/mirofish/backend/api/internal.py
+  s_17a852bebe789c::t_74c920c4ba2830 22
+  s_17a852bebe789c::t_fa43baefbe76ac 364-442
+services/mirofish/backend/simulation/premortem.py
+  s_17a852bebe789c::t_241e5f00ddd3d6 1-172
+services/mirofish/backend/simulation/premortem_pdf.py
+  s_17a852bebe789c::t_488cf7b29c6a25 1-141
+services/mirofish/backend/requirements.txt
+  s_17a852bebe789c::t_a56f98cbb48435 30-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "374c07ebcee77732ba071d400f8bf67576b31480",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
