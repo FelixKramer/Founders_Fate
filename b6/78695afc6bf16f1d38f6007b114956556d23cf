@@ -1,0 +1,29 @@
+services/mirofish/backend/simulation/__init__.py
+  s_17a852bebe789c::t_2a784171c9aac3 1-2
+services/mirofish/backend/simulation/zep_wrapper.py
+  s_17a852bebe789c::t_03bd478f75b8db 1-59
+services/mirofish/backend/simulation/progress.py
+  s_17a852bebe789c::t_88de3de3bc7c30 1-59
+services/mirofish/backend/simulation/seed.py
+  s_17a852bebe789c::t_d376ca761a8e40 1-18
+services/mirofish/backend/simulation/errors.py
+  s_17a852bebe789c::t_98c6432767ef0e 1-14
+services/mirofish/backend/simulation/consequence_tree.py
+  s_17a852bebe789c::t_5e7b5016e132a9 1-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "b678695afc6bf16f1d38f6007b114956556d23cf",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
