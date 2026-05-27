@@ -1,0 +1,23 @@
+app/src/components/sim/ConsequenceTree.tsx
+  s_17a852bebe789c::t_37887bb45003e9 370-425
+app/src/lib/consequence-tree-utils.ts
+  s_17a852bebe789c::t_7ed6b72f726346 13-20
+services/mirofish/backend/simulation/probability_calibrator.py
+  s_17a852bebe789c::t_922e3d83dbfc18 1-124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a159d2f0bb52775cdb5d4e5236f2f99a2260cf98",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
