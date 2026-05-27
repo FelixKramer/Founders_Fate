@@ -27,6 +27,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 // Stage definitions — order matches the SSE stage codes
 const STAGES: ProgressStep[] = [
@@ -144,6 +145,32 @@ export function SimProgressView({
             scenario_id: simulationId,
             actual_runtime: durationMs,
           });
+
+          // Show achievement toasts for newly awarded badges
+          void (async () => {
+            try {
+              const completedAt = new Date().toISOString();
+              const res = await fetch("/api/achievements");
+              if (res.ok) {
+                const data = (await res.json()) as {
+                  badges: Array<{ emoji: string; name: string; awardedAt: string }>;
+                };
+                // Show toast for each badge awarded within the last 30 seconds
+                const cutoff = Date.now() - 30000;
+                for (const badge of data.badges) {
+                  if (new Date(badge.awardedAt).getTime() >= cutoff) {
+                    toast.success(`${badge.emoji} ${badge.name} unlocked!`, {
+                      description: "Achievement earned",
+                      duration: 4000,
+                    });
+                  }
+                }
+              }
+            } catch {
+              // Best-effort
+            }
+          })();
+
           router.push(`/sim/${simulationId}/results`);
         } else if (payload.event === "error") {
           es.close();

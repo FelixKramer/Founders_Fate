@@ -30,6 +30,7 @@ import {
 import { CCPAToggle } from "@/components/compliance/CCPAToggle";
 import { SharesTab } from "@/components/profile/SharesTab";
 import ModelsTab from "@/components/profile/ModelsTab";
+import AchievementsTab from "@/components/profile/AchievementsTab";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -449,7 +450,7 @@ function DangerTab() {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-const VALID_TABS = ["overview", "settings", "dna", "shares", "models", "danger"] as const;
+const VALID_TABS = ["overview", "settings", "dna", "shares", "models", "achievements", "danger"] as const;
 type TabValue = (typeof VALID_TABS)[number];
 
 export default function ProfilePage() {
@@ -523,6 +524,7 @@ export default function ProfilePage() {
             {(data.user.tier === "pro" || data.user.tier === "enterprise") && (
               <TabsTrigger value="models">Domain Models</TabsTrigger>
             )}
+            <TabsTrigger value="achievements">Achievements</TabsTrigger>
             <TabsTrigger value="danger">{t("tabs.danger")}</TabsTrigger>
           </TabsList>
 
@@ -553,6 +555,10 @@ export default function ProfilePage() {
                 </p>
               </div>
             )}
+          </TabsContent>
+
+          <TabsContent value="achievements" className="pt-2">
+            <AchievementsTab />
           </TabsContent>
 
           <TabsContent value="danger" className="pt-2">

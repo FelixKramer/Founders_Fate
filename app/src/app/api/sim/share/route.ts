@@ -96,6 +96,11 @@ export const POST = withErrorHandling(async (req: Request) => {
     { userId: user.id },
   );
 
+  // Award share badge (fire-and-forget)
+  void import("@/lib/achievements").then(({ awardBadge, BADGE_SLUGS }) =>
+    awardBadge(user.id, BADGE_SLUGS.SHARE_CREATED).catch(() => {}),
+  );
+
   const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
   return NextResponse.json(
     {

@@ -111,6 +111,19 @@ export const GET = withErrorHandling(
                 { userId: user.id },
               );
 
+              // Award achievements on completion (fire-and-forget)
+              void (async () => {
+                try {
+                  const { checkSimulationMilestones, updateStreak } = await import("@/lib/achievements");
+                  await Promise.all([
+                    checkSimulationMilestones(user.id),
+                    updateStreak(user.id),
+                  ]);
+                } catch {
+                  // Best-effort — never block SSE stream
+                }
+              })();
+
               enqueue(
                 sseEvent("done", JSON.stringify({ simulation_id: id, status: "completed" })),
               );

@@ -14,6 +14,7 @@ import { QuotaBar } from "@/components/billing/QuotaBar";
 import { MONTHLY_SIM_QUOTA, hasTier } from "@/lib/tier";
 import type { Tier } from "@/lib/tier";
 import { CustomModelsSection } from "@/components/hub/CustomModelsSection";
+import StreakWidget from "@/components/hub/StreakWidget";
 
 const ARCHETYPE_LABELS: Record<string, string> = {
   b2b_saas: "B2B SaaS",
@@ -116,14 +117,17 @@ export default async function HubPage() {
               Choose a scenario below and run your first consequence simulation.
             </p>
           </div>
-          {archetype && (
-            <Badge
-              variant="outline"
-              className="self-start sm:self-auto border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 px-3 py-1 text-sm"
-            >
-              {ARCHETYPE_LABELS[archetype] ?? archetype}
-            </Badge>
-          )}
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <StreakWidget />
+            {archetype && (
+              <Badge
+                variant="outline"
+                className="border-indigo-300 bg-indigo-50 text-indigo-700 dark:border-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300 px-3 py-1 text-sm"
+              >
+                {ARCHETYPE_LABELS[archetype] ?? archetype}
+              </Badge>
+            )}
+          </div>
         </section>
 
         {/* Continue where you left off */}

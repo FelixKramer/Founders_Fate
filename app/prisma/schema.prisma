@@ -45,6 +45,8 @@ model User {
   adminActions      AdminAuditLog[]      @relation("AdminActor")
   adminActionsOnMe  AdminAuditLog[]      @relation("AdminTarget")
   customModels      CustomModel[]
+  userBadges        UserBadge[]
+  streak            Streak?
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -352,6 +354,43 @@ model CustomModel {
   updatedAt    DateTime    @updatedAt
 
   @@index([userId])
+}
+
+// ------------------------------------------------------------
+// M21 — Gamification: Badges, UserBadges, Streaks
+// ------------------------------------------------------------
+
+model Badge {
+  id          String      @id @default(cuid())
+  slug        String      @unique  // "first_simulation", "dna_unlocked", etc.
+  name        String
+  description String
+  emoji       String
+  category    String      // "milestone" | "streak" | "social" | "tier"
+  createdAt   DateTime    @default(now())
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId   String
+  badge     Badge    @relation(fields: [badgeId], references: [id])
+  awardedAt DateTime @default(now())
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+}
+
+model Streak {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentStreak Int      @default(0)
+  longestStreak Int      @default(0)
+  lastActiveAt  DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // ------------------------------------------------------------
