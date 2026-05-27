@@ -282,12 +282,37 @@
         "refresh": "Refresh"
       }
     },
+    "share": {
+      "heading": "Share your simulation results",
+      "subtext": "Anyone with the link can view your results (read-only).",
+      "expiryLabel": "Link expires in",
+      "days7": "7 days",
+      "days30": "30 days",
+      "days90": "90 days",
+      "createButton": "Create share link",
+      "copyButton": "Copy",
+      "copiedButton": "Copied!",
+      "revokeButton": "Revoke link",
+      "revokeConfirm": "Are you sure? The link will stop working immediately.",
+      "viewCount": "Viewed {count} time{s}",
+      "expiresOn": "Expires {date}",
+      "publicBanner": "Shared simulation results",
+      "publicCta": "Run your own simulation →",
+      "disclaimer": "These are AI-generated simulations for educational purposes only."
+    },
+    "compare": {
+      "heading": "Comparing 2 simulation runs",
+      "scenarioMismatch": "Both simulations must use the same scenario.",
+      "statsTable": "Key metrics comparison",
+      "deltaLabel": "A: {a}% / B: {b}%"
+    },
     "profile": {
       "title": "My Profile",
       "tabs": {
         "overview": "Overview",
         "settings": "Settings",
         "dna": "Decision DNA",
+        "shares": "Shares",
         "danger": "Danger Zone"
       },
       "overview": {
@@ -310,6 +335,11 @@
         "saving": "Saving...",
         "saved": "Saved!"
       },
+      "sharesTab": "Shares",
+      "noShares": "No shared links yet",
+      "activeStatus": "Active",
+      "expiredStatus": "Expired",
+      "revokedStatus": "Revoked",
       "danger": {
         "title": "Danger Zone",
         "deleteAccount": "Delete Account",
