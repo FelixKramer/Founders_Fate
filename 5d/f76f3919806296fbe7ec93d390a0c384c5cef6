@@ -1,0 +1,29 @@
+app/src/app/api/sim/[id]/progress/route.ts
+  s_17a852bebe789c::t_ba74564dc003c2 114-126
+app/src/app/api/achievements/route.ts
+  s_17a852bebe789c::t_56c1de872af86b 1-43
+app/src/lib/achievements.ts
+  s_17a852bebe789c::t_2af43c93fc4ddd 4,38,41,59,92,120
+  s_17a852bebe789c::t_cb7d32380f49eb 1-3,5-8,10-37,39-40,42-58,60-91,93-119,121-141
+  s_17a852bebe789c::t_1b84f8a04114e4 9
+app/src/app/api/sim/share/route.ts
+  s_17a852bebe789c::t_341a93dc6f80ce 99-103
+app/src/app/api/stripe/webhook/route.ts
+  s_17a852bebe789c::t_23518caaebd544 89-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5df76f3919806296fbe7ec93d390a0c384c5cef6",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
