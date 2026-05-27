@@ -149,6 +149,10 @@ model Profile {
   dnaJobStartedAt        DateTime?
   dnaReportReady         Boolean    @default(false)
   dnaReportAt            DateTime?
+  // M13 additions
+  ccpaOptOut             Boolean    @default(false)
+  // M15 additions
+  reEngagementEmailSentAt DateTime?
   user                   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -182,6 +186,8 @@ model SimulationRecord {
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
   baselineStale     Boolean           @default(false)
+  // M15 additions — soft-delete for lifecycle cleanup
+  deletedAt         DateTime?
   user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   shares            Share[]
   usageLogs         UsageLog[]
