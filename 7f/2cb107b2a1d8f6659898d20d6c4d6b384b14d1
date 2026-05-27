@@ -1,0 +1,22 @@
+app/src/middleware.ts
+  s_17a852bebe789c::t_b713aebe47bf77 76-85
+app/messages/en.json
+  s_17a852bebe789c::t_c66563aa0f5421 72-84
+  s_17a852bebe789c::t_51f7f8c2e606ec 71,85-152
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7f2cb107b2a1d8f6659898d20d6c4d6b384b14d1",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
