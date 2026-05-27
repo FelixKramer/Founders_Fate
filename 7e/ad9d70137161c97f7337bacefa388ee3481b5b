@@ -1,0 +1,26 @@
+app/src/app/api/sim/run/route.ts
+  s_17a852bebe789c::t_6bf8f41965ad2f 1-164
+app/prisma/schema.prisma
+  s_17a852bebe789c::t_f34047243f55a1 197,206
+  s_17a852bebe789c::t_9d07c8ed4c5679 163-182
+app/src/lib/sim-checks.ts
+  s_17a852bebe789c::t_260584310c16eb 1-111
+app/prisma/migrations/0003_m6_sim_run/migration.sql
+  s_17a852bebe789c::t_378f3fc3343dad 1-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7ead9d70137161c97f7337bacefa388ee3481b5b",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
