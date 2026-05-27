@@ -1,0 +1,19 @@
+app/src/app/(admin)/admin/billing/page.tsx
+  s_17a852bebe789c::t_7976bb118e800d 1-142
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3b7e86cddc5a44c2cfeeb83044ed6e2a548221cc",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
