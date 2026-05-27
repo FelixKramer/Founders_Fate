@@ -24,6 +24,11 @@ async function init(): Promise<void> {
   }
 }
 
+/** Eagerly initialise the Amplitude browser SDK. Safe to call multiple times. */
+export async function initAmplitude(): Promise<void> {
+  await init();
+}
+
 export async function trackClient<E extends EventName>(
   name: E,
   props: EventMap[E],

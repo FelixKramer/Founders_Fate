@@ -17,6 +17,7 @@ import {
   flattenTree,
   countNodes,
 } from "@/lib/consequence-tree-utils";
+import { trackClient } from "@/lib/analytics-client";
 
 // ── D3 types (client-side only) ──────────────────────────────────────────────
 type D3HierarchyNode = {
@@ -278,6 +279,12 @@ export function ConsequenceTreeComponent({
         )
         .style("cursor", "pointer")
         .on("click", (_event, d) => {
+          void trackClient("fate_tree_node_clicked", {
+            simulation_id: tree.root.id,
+            node_id: d.data.id,
+            depth: d.depth,
+            has_narrative: Boolean(d.data.metadata?.narrative),
+          });
           onNodeSelect(d.data);
         })
         .on("focus", (_event, d) => {

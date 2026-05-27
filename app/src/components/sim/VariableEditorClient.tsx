@@ -19,6 +19,7 @@ import {
   type ContradictionWarning,
 } from "@/lib/contradiction-checks";
 import { UpgradePromptDialog } from "@/components/sim/UpgradePromptDialog";
+import { trackClient } from "@/lib/analytics-client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -154,6 +155,12 @@ export function VariableEditorClient({ scenario }: VariableEditorClientProps) {
 
     if (res.status === 201) {
       const json = (await res.json()) as { simulation_id: string };
+      void trackClient("fate_simulation_started", {
+        scenario_id: scenario.id,
+        archetype: scenario.archetype_compatibility[0] ?? "unknown",
+        tier: "free",
+        variable_count: paramEntries.length,
+      });
       router.push(`/sim/${json.simulation_id}`);
       return;
     }

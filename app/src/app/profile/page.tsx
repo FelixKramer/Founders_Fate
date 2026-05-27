@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { trackClient } from "@/lib/analytics-client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Pencil, Check, Loader2, AlertTriangle } from "lucide-react";
@@ -466,6 +467,9 @@ export default function ProfilePage() {
   function handleTabChange(value: string) {
     const tab = value as TabValue;
     setActiveTab(tab);
+    if (tab === "dna") {
+      void trackClient("fate_dna_report_opened", { insight_count: 0 });
+    }
     const params = new URLSearchParams(searchParams.toString());
     if (tab === "overview") {
       params.delete("tab");

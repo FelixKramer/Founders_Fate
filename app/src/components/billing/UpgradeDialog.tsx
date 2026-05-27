@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Zap } from "lucide-react";
+import { trackClient } from "@/lib/analytics-client";
 import {
   Dialog,
   DialogContent,
@@ -51,6 +52,15 @@ function getContent(reason: UpgradeReason, feature?: string) {
 function UpgradeDialogInner({ open, onClose, reason, feature }: UpgradeDialogProps) {
   const [loading, setLoading] = useState(false);
   const content = getContent(reason, feature);
+
+  useEffect(() => {
+    if (open) {
+      void trackClient("fate_upgrade_started", {
+        current_tier: "free",
+        source_page: reason,
+      });
+    }
+  }, [open, reason]);
 
   async function handleUpgrade() {
     const priceId = STRIPE_PRODUCTS.pro.priceId;

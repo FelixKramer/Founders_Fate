@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Loader2, Copy, Check, Link2, AlertTriangle } from "lucide-react";
+import { trackClient } from "@/lib/analytics-client";
 import {
   Dialog,
   DialogContent,
@@ -99,6 +100,10 @@ export function ShareModal({ simulationId, open, onClose }: ShareModalProps) {
         expiresAt: data.expiresAt,
         viewCount: 0,
         revokedAt: null,
+      });
+      void trackClient("fate_simulation_shared", {
+        simulation_id: simulationId,
+        expires_in_days: parseInt(expiryDays, 10),
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create share link");

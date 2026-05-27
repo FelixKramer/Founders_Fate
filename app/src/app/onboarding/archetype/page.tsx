@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { trackClient } from "@/lib/analytics-client";
 
 type Archetype = "b2b_saas" | "b2c" | "marketplace" | "hardware" | "solo";
 
@@ -79,6 +80,7 @@ export default function ArchetypePage() {
     if (!selected) return;
     // Store archetype in sessionStorage so the questionnaire page can read it
     sessionStorage.setItem("ff_archetype", selected);
+    void trackClient("fate_signup_completed", { auth_method: "credentials", archetype: selected });
     router.push("/onboarding/questionnaire");
   }
 

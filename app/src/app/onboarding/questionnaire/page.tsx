@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { trackClient } from "@/lib/analytics-client";
 
 const QUESTION_KEYS = ["q1", "q2", "q3", "q4", "q5"] as const;
 type QuestionKey = (typeof QUESTION_KEYS)[number];
@@ -51,6 +52,10 @@ export default function QuestionnairePage() {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message ?? "Submission failed");
       }
+      void trackClient("fate_profile_created", {
+        archetype: archetype,
+        question_count: QUESTION_KEYS.length,
+      });
       // Clear onboarding session state
       sessionStorage.removeItem("ff_archetype");
       sessionStorage.removeItem("ff_age_verified");

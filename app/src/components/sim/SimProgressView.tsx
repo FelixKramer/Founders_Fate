@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { trackClient } from "@/lib/analytics-client";
 import { ALL_SCENARIOS } from "@/lib/scenarios";
 import { ProgressSteps, type ProgressStep } from "@/components/ui/progress-steps";
 import { Progress } from "@/components/ui/progress";
@@ -103,6 +104,7 @@ export function SimProgressView({
   const esRef = useRef<EventSource | null>(null);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const unmountedRef = useRef(false);
+  const startTimeRef = useRef<number>(Date.now());
 
   // Get scenario name from local data
   // scenarioId is embedded in the URL; we derive it from the sim record elsewhere.
@@ -136,10 +138,22 @@ export function SimProgressView({
           setPct(data.pct);
         } else if (payload.event === "done") {
           es.close();
+          const durationMs = Date.now() - startTimeRef.current;
+          void trackClient("fate_simulation_completed", {
+            simulation_id: simulationId,
+            scenario_id: simulationId,
+            actual_runtime: durationMs,
+          });
           router.push(`/sim/${simulationId}/results`);
         } else if (payload.event === "error") {
           es.close();
-          setError(payload.data as SimError);
+          const errData = payload.data as SimError;
+          void trackClient("fate_simulation_failed", {
+            scenario_id: simulationId,
+            error_category: errData.code,
+            retry_count: 0,
+          });
+          setError(errData);
         }
       } catch {
         // malformed JSON; ignore
