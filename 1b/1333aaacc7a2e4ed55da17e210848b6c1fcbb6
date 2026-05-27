@@ -1,0 +1,22 @@
+services/mirofish/backend/simulation/dna.py
+  s_17a852bebe789c::t_d5563c6df5caa3 1-150
+services/mirofish/backend/api/internal.py
+  s_17a852bebe789c::t_e006ef1d8c661e 43-47
+  s_17a852bebe789c::t_0334762864fe5d 285-356
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "1b1333aaacc7a2e4ed55da17e210848b6c1fcbb6",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
