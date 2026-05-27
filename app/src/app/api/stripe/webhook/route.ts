@@ -86,6 +86,13 @@ async function handleCheckoutSessionCompleted(
   });
 
   await cascadeTierToProfile(userId, plan);
+
+  // Award pro-upgrade badge when user moves to a paid tier (fire-and-forget)
+  if (plan === "pro" || plan === "enterprise") {
+    void import("@/lib/achievements").then(({ awardBadge, BADGE_SLUGS }) =>
+      awardBadge(userId, BADGE_SLUGS.PRO_UPGRADE).catch(() => {}),
+    );
+  }
 }
 
 async function handleSubscriptionUpdated(
