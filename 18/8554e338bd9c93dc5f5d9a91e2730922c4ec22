@@ -1,0 +1,23 @@
+app/prisma/schema.prisma
+  s_17a852bebe789c::t_6acb8b49f385e8 341-354
+  s_17a852bebe789c::t_51121066df2064 360-396
+  s_17a852bebe789c::t_7aea99be959363 37-48
+app/prisma/migrations/0007_m20_marketplace/migration.sql
+  s_17a852bebe789c::t_ee8398d55ce787 1-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "188554e338bd9c93dc5f5d9a91e2730922c4ec22",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "unknown"
+    }
+  }
+}
