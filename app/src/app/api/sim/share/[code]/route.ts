@@ -6,12 +6,18 @@
  *
  * Auth: none
  * RateLimit: publicShare limiter (10 req/s per IP)
+ *
+ * DELETE /api/sim/share/:code
+ *
+ * Revokes a share link by setting revokedAt to now.
+ * Auth: requireSession() + ownership check via Share.simulationId → SimulationRecord.userId
  */
 
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { withErrorHandling, NotFoundError } from "@/lib/errors";
-import { enforceLimit, limiters } from "@/lib/rate-limit";
+import { requireSession } from "@/lib/guards";
+import { withErrorHandling, NotFoundError, ForbiddenError } from "@/lib/errors";
+import { enforceLimit, limiters, rateLimitKey } from "@/lib/rate-limit";
 import { track } from "@/lib/analytics";
 import { mirofish } from "@/lib/mirofish";
 
@@ -85,5 +91,44 @@ export const GET = withErrorHandling(
         results,
       },
     });
+  },
+);
+
+export const DELETE = withErrorHandling(
+  async (req: Request, { params }: { params: Promise<{ code: string }> }) => {
+    const user = await requireSession();
+    await enforceLimit(limiters.write, rateLimitKey(req, user.id));
+
+    const { code } = await params;
+
+    // Look up the share and verify ownership via the linked simulation.
+    const share = await db.share.findUnique({
+      where: { code },
+      select: {
+        id: true,
+        revokedAt: true,
+        simulation: {
+          select: { userId: true },
+        },
+      },
+    });
+
+    if (!share) throw new NotFoundError("share not found");
+    if (share.simulation.userId !== user.id) {
+      throw new ForbiddenError("not the owner of this share");
+    }
+    if (share.revokedAt !== null) {
+      // Already revoked — idempotent, return success.
+      return NextResponse.json({ revoked: true });
+    }
+
+    await db.share.update({
+      where: { id: share.id },
+      data: { revokedAt: new Date() },
+    });
+
+    void track("fate_share_revoked", { code }, { userId: user.id });
+
+    return NextResponse.json({ revoked: true });
   },
 );

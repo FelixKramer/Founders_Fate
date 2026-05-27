@@ -40,6 +40,7 @@ export type EventMap = {
   fate_simulation_compared: { sim1_id: string; sim2_id: string; delta_count: number };
   fate_simulation_shared: { simulation_id: string; expires_in_days: number };
   fate_shared_link_viewed: { share_id: string; referrer?: string };
+  fate_share_revoked: { code: string };
   fate_upgrade_started: { current_tier: string; source_page: string };
   fate_upgrade_completed: { tier: string; revenue_amount: number };
   fate_custom_model_created: { industry: string; source_type: string; ontology_size: number };

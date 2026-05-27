@@ -1,110 +1,55 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { useTranslations } from "next-intl";
-import {
-  AlertTriangle,
-  TrendingUp,
-  Clock,
-  Share2,
-  RotateCcw,
-  GitCompare,
-} from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { AlertTriangle, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConsequenceTreeComponent } from "@/components/sim/ConsequenceTree";
-import { CounterfactualPanel } from "@/components/sim/CounterfactualPanel";
 import { LinearTimeline } from "@/components/sim/LinearTimeline";
-import { ShareModal } from "@/components/sim/ShareModal";
 import {
   ConsequenceNode,
-  ConsequenceTree,
   SimulationResults,
-  flattenTree,
 } from "@/lib/consequence-tree-utils";
 import { DisclaimerFooter } from "@/components/compliance/DisclaimerFooter";
 
-interface ResultsViewProps {
-  simulationId: string;
+interface PublicResultsViewProps {
   results: SimulationResults;
   scenarioTitle: string;
 }
 
-export function ResultsView({
-  simulationId,
+export function PublicResultsView({
   results,
-  scenarioTitle,
-}: ResultsViewProps) {
-  const t = useTranslations("fate.sim.results");
-
-  const [selectedNode, setSelectedNode] = useState<ConsequenceNode | null>(
-    null,
-  );
-  const [panelOpen, setPanelOpen] = useState(false);
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-
-  const tree = results.consequence_tree;
-  const allNodes = React.useMemo(
-    () => flattenTree(tree.root),
-    [tree.root],
+  scenarioTitle: _scenarioTitle,
+}: PublicResultsViewProps) {
+  const [selectedNodeId, setSelectedNodeId] = useState<string | undefined>(
+    undefined,
   );
 
-  const handleNodeSelect = useCallback((node: ConsequenceNode) => {
-    setSelectedNode(node);
-    setPanelOpen(true);
+  // On the public page, node selection is a no-op (no counterfactual panel).
+  const handleNodeSelect = useCallback((_node: ConsequenceNode) => {
+    setSelectedNodeId(_node.id);
   }, []);
 
+  const tree = results.consequence_tree;
   const isSingleNode = tree.total_nodes <= 1;
 
   return (
-    <>
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-3 mb-6">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShareModalOpen(true)}
-          className="gap-2"
-        >
-          <Share2 className="h-4 w-4" />
-          {t("shareButton")}
-        </Button>
-
-        <Button asChild variant="outline" size="sm" className="gap-2">
-          <Link
-            href={`/sim/compare?a=${simulationId}`}
-          >
-            <GitCompare className="h-4 w-4" />
-            Compare
-          </Link>
-        </Button>
-
-        <Button asChild variant="outline" size="sm" className="gap-2">
-          <Link href="/hub">
-            <RotateCcw className="h-4 w-4" />
-            {t("runAnother")}
-          </Link>
-        </Button>
-
-        <Badge variant="secondary" className="ml-auto text-sm px-3 py-1">
-          {Math.round(results.confidence_score * 100)}% confidence
-        </Badge>
-
-        <Badge variant="outline" className="text-sm px-3 py-1 gap-1.5">
-          <Clock className="h-3.5 w-3.5" />
-          {t("timeline", { months: results.timeline_months })}
-        </Badge>
+    <div className="space-y-6">
+      {/* Decision context */}
+      <div className="rounded-lg border bg-card px-4 py-3 text-sm text-muted-foreground">
+        <span className="font-medium text-foreground">Decision: </span>
+        {results.decision_option_id}
+        {" · "}
+        <span className="font-medium text-foreground">Archetype: </span>
+        {results.archetype}
       </div>
 
       {/* Two-column layout */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
-        {/* Left — tree (60%) */}
+        {/* Left — consequence tree */}
         <div className="lg:col-span-3">
           <h2 className="text-base font-semibold mb-3 flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            {t("treeHeading")}
+            Consequence Tree
           </h2>
 
           {isSingleNode ? (
@@ -117,20 +62,20 @@ export function ResultsView({
             <ConsequenceTreeComponent
               tree={tree}
               onNodeSelect={handleNodeSelect}
-              selectedNodeId={selectedNode?.id}
+              selectedNodeId={selectedNodeId}
               className="min-h-[520px]"
             />
           )}
         </div>
 
-        {/* Right — narrative + risks + upside (40%) */}
+        {/* Right — sidebar */}
         <div className="lg:col-span-2 space-y-4">
           {/* Key risks */}
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-sm text-red-700 dark:text-red-400">
                 <AlertTriangle className="h-4 w-4" />
-                {t("keyRisksHeading")}
+                Key risks
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -156,7 +101,7 @@ export function ResultsView({
             <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
                 <TrendingUp className="h-4 w-4" />
-                {t("upsideHeading")}
+                Upside scenarios
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -177,7 +122,7 @@ export function ResultsView({
             </CardContent>
           </Card>
 
-          {/* Confidence meter */}
+          {/* Confidence */}
           <Card>
             <CardContent className="py-4">
               <div className="flex items-center justify-between mb-2 text-sm">
@@ -199,38 +144,20 @@ export function ResultsView({
         </div>
       </div>
 
-      {/* Bottom — full narrative */}
-      <div className="mt-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("narrativeHeading")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm leading-relaxed whitespace-pre-wrap text-foreground/80">
-              {results.narrative}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Narrative */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">What this means</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm leading-relaxed whitespace-pre-wrap text-foreground/80">
+            {results.narrative}
+          </p>
+        </CardContent>
+      </Card>
 
-      {/* Counterfactual panel */}
-      <CounterfactualPanel
-        node={selectedNode}
-        allNodes={allNodes}
-        open={panelOpen}
-        onClose={() => setPanelOpen(false)}
-        onNodeSelect={handleNodeSelect}
-      />
-
-      {/* Share modal */}
-      <ShareModal
-        simulationId={simulationId}
-        open={shareModalOpen}
-        onClose={() => setShareModalOpen(false)}
-      />
-
-      {/* Liability disclaimer */}
+      {/* AI liability disclaimer */}
       <DisclaimerFooter />
-    </>
+    </div>
   );
 }

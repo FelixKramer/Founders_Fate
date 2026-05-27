@@ -121,6 +121,13 @@ def run_simulation():  # type: ignore[return]
     if not isinstance(parameters, dict):
         abort(400, description="parameters must be a JSON object")
 
+    # Sanitize parameters to prevent prompt injection attacks.
+    from simulation.sanitizer import sanitize_parameters  # noqa: PLC0415
+    try:
+        parameters = sanitize_parameters(parameters)
+    except ValueError as exc:
+        abort(400, description=str(exc))
+
     # Concurrency limit
     with _running_lock:
         if len(_running) >= MAX_CONCURRENT:

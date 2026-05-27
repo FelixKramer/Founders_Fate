@@ -34,6 +34,8 @@ interface ConsequenceTreeProps {
   onNodeSelect: (node: ConsequenceNode) => void;
   selectedNodeId?: string;
   className?: string;
+  /** Optional map from node label (normalized) to { probA, probB } for delta highlighting. */
+  deltaHighlights?: Map<string, { probA: number; probB: number }>;
 }
 
 const DEEP_VIEW_THRESHOLD = 50;
@@ -46,6 +48,7 @@ export function ConsequenceTreeComponent({
   onNodeSelect,
   selectedNodeId,
   className,
+  deltaHighlights,
 }: ConsequenceTreeProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -305,6 +308,32 @@ export function ConsequenceTreeComponent({
         })
         .attr("fill-opacity", 0.85);
 
+      // Delta highlight rings — yellow outer ring on nodes with >20% probability difference.
+      if (deltaHighlights && deltaHighlights.size > 0) {
+        nodes
+          .filter((d) => {
+            const key = d.data.label.toLowerCase().trim();
+            return deltaHighlights.has(key);
+          })
+          .append("circle")
+          .attr("r", (d) =>
+            (d.children || (d as D3HierarchyNode).children
+              ? NODE_RADIUS_NORMAL
+              : NODE_RADIUS_LEAF) + 5,
+          )
+          .attr("fill", "none")
+          .attr("stroke", "#eab308") // yellow-500
+          .attr("stroke-width", 2.5)
+          .attr("stroke-dasharray", "4,2")
+          .append("title")
+          .text((d) => {
+            const key = d.data.label.toLowerCase().trim();
+            const delta = deltaHighlights.get(key);
+            if (!delta) return "";
+            return `A: ${Math.round(delta.probA * 100)}% / B: ${Math.round(delta.probB * 100)}%`;
+          });
+      }
+
       // Node labels
       nodes
         .append("text")
@@ -332,7 +361,7 @@ export function ConsequenceTreeComponent({
         .attr("fill", "#fff")
         .text((d) => `${Math.round(d.data.probability * 100)}%`);
     });
-  }, [visibleRoot, containerWidth, selectedNodeId, focusedNodeId, onNodeSelect]);
+  }, [visibleRoot, containerWidth, selectedNodeId, focusedNodeId, onNodeSelect, deltaHighlights]);
 
   return (
     <div ref={containerRef} className={`relative w-full ${className ?? ""}`}>
