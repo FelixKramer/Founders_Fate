@@ -160,23 +160,26 @@ enum SimulationStatus {
 }
 
 model SimulationRecord {
-  id            String            @id // sim_<cuid>
-  userId        String
-  scenarioId    String
-  status        SimulationStatus  @default(queued)
-  jobRef        String? // pointer into MiroFish uploads/simulations/<id>
-  variables     Json
-  variableHash  String // sha256 of normalized variables — used for dup-detection
-  topInsight    String?
-  errorMessage  String?
-  startedAt     DateTime?
-  completedAt   DateTime?
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  baselineStale Boolean           @default(false)
-  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  shares        Share[]
-  usageLogs     UsageLog[]
+  id                String            @id // sim_<cuid>
+  userId            String
+  scenarioId        String
+  decisionOptionId  String? // which decision option was chosen
+  status            SimulationStatus  @default(queued)
+  jobRef            String? // pointer into MiroFish uploads/simulations/<id>
+  variables         Json
+  variableHash      String // sha256 of normalized variables — used for dup-detection
+  archetype         String? // archetype used for this run (may override profile archetype)
+  seed              String? // HMAC-derived simulation seed
+  topInsight        String?
+  errorMessage      String?
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  baselineStale     Boolean           @default(false)
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shares            Share[]
+  usageLogs         UsageLog[]
 
   @@index([userId, status])
   @@index([scenarioId, status])
@@ -191,6 +194,7 @@ model Share {
   id           String           @id // shr_<cuid>
   simulationId String
   userId       String
+  code         String           @unique // 8-char url-safe share code
   expiresAt    DateTime
   viewCount    Int              @default(0)
   revokedAt    DateTime?
@@ -199,6 +203,7 @@ model Share {
   user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([expiresAt])
+  @@index([code])
 }
 
 // ------------------------------------------------------------
