@@ -163,7 +163,22 @@
         "upsideScenarios": "Upside scenarios",
         "confidence": "Confidence score",
         "timeline": "{months}-month outlook",
-        "treeComingSoon": "Consequence tree visualisation coming soon"
+        "treeComingSoon": "Consequence tree visualisation coming soon",
+        "treeHeading": "Consequence Tree",
+        "linearFallback": "Single outcome modelled",
+        "deepViewBanner": "Showing top 50 of {total} nodes",
+        "showAll": "Show all",
+        "showLess": "Show less",
+        "panelSeverity": "Severity",
+        "panelLikelihood": "Likelihood",
+        "panelReversibility": "Reversibility",
+        "panelChildren": "Leads to",
+        "shareButton": "Share results",
+        "runAnother": "Run another simulation",
+        "confidence2": "{pct}% confidence",
+        "narrativeHeading": "What this means for you",
+        "keyRisksHeading": "Key risks",
+        "upsideHeading": "Upside scenarios"
       }
     },
     "profile": {
