@@ -1,67 +1,72 @@
 "use client";
 
-import { Zap, Github, Twitter } from "lucide-react";
+import { Flame, Github, Twitter } from "lucide-react";
 
 const footerLinks = {
   Product: [
     { label: "Features", href: "#features" },
-    { label: "Pricing", href: "#pricing" },
     { label: "How It Works", href: "#how-it-works" },
-    { label: "FAQ", href: "#faq" },
-  ],
-  Resources: [
-    { label: "Documentation", href: "#" },
-    { label: "API Reference", href: "#" },
-    { label: "Examples", href: "#" },
-    { label: "Changelog", href: "#" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "Scenario Marketplace", href: "/marketplace" },
   ],
   Company: [
-    { label: "About", href: "#" },
     { label: "Blog", href: "#" },
-    { label: "Contact", href: "#" },
-    { label: "Affiliates", href: "#" },
+    { label: "Changelog", href: "#" },
+    { label: "Contact", href: "mailto:hello@founderfate.com" },
   ],
   Legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-    { label: "License", href: "#" },
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Cookie Policy", href: "/cookies" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-6 gap-8">
+    <footer className="border-t border-border bg-muted/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div className="col-span-2 md:col-span-1">
             <a href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center">
+                <Flame className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold tracking-tight">
-                Launch<span className="text-emerald-500">Pad</span>
+                Founder<span className="text-violet-600">Fate</span>
               </span>
             </a>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              The PostgREST-powered Next.js SaaS boilerplate.
-              Your database IS your API. Ship faster.
+              Consequence simulation for founders who want to see the future of their decisions
+              before they make them.
             </p>
-            <div className="flex gap-3">
-              <a href="#" className="w-9 h-9 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors">
-                <Github className="w-4 h-4" />
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/FelixKramer/Founders_Fate"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="GitHub"
+              >
+                <Github className="w-5 h-5" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-lg border border-border flex items-center justify-center hover:bg-muted transition-colors">
-                <Twitter className="w-4 h-4" />
+              <a
+                href="https://twitter.com/founderfate"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Twitter / X"
+              >
+                <Twitter className="w-5 h-5" />
               </a>
             </div>
           </div>
 
           {/* Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4 className="text-sm font-semibold mb-3">{category}</h4>
-              <ul className="space-y-2">
+          {Object.entries(footerLinks).map(([group, links]) => (
+            <div key={group}>
+              <h4 className="font-semibold text-sm mb-4">{group}</h4>
+              <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.label}>
                     <a
@@ -77,12 +82,11 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} LaunchPad. All rights reserved.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Built with PostgREST + Next.js + TypeScript
+        <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+          <p>© {new Date().getFullYear()} Founder Fate. All rights reserved.</p>
+          <p>
+            Simulations are for decision support only and do not constitute financial,
+            legal, or investment advice.
           </p>
         </div>
       </div>

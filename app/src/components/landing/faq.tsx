@@ -2,50 +2,66 @@
 
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    question: "How is this different from ShipFast or other Next.js boilerplates?",
+    question: "How accurate are the simulations?",
     answer:
-      "ShipFast and similar boilerplates require you to write and maintain custom API routes for every database table. LaunchPad uses PostgREST, which auto-generates your entire REST API directly from your PostgreSQL schema. This means zero API code to write, zero API code to maintain, and instant API updates whenever your schema changes. It's a fundamentally different — and faster — approach to building SaaS backends.",
+      "Probability estimates are anchored to real startup failure and success data from YC, NVCA, and CB Insights. The calibration engine enforces that child probabilities never exceed their parent and that sibling outcomes sum correctly. We publish confidence intervals on every node so you know where the model is uncertain. Think of it as a structured second opinion, not a crystal ball.",
   },
   {
-    question: "Is PostgREST production-ready?",
+    question: "What's the difference between a scenario and a custom model?",
     answer:
-      "Absolutely. PostgREST is used in production by thousands of companies worldwide, from startups to enterprises. It's battle-tested, handles millions of requests per day, and has been around since 2014. Companies like Netflix, Fox, and the French government use it. Combined with PostgreSQL's Row Level Security, it provides a security model that's actually more robust than hand-coded API routes.",
+      "Scenarios are pre-built simulation templates (e.g. 'B2B SaaS GTM launch') with calibrated variable ranges. Custom models are trained on data you upload — your own historical metrics, industry benchmarks, or deal data. Custom models require a Pro subscription and go through a quality-score gate (≥ 70%) before they're usable.",
   },
   {
-    question: "How does Row Level Security work with PostgREST?",
+    question: "Can I share results with my co-founder or board?",
     answer:
-      "PostgreSQL RLS policies run at the database level, meaning they're enforced regardless of how data is accessed. When a user makes a request, their JWT token is passed to PostgREST, which sets the database session to use that user's identity. RLS policies then automatically filter queries to only return data belonging to that user. It's security guaranteed by the database itself — not by your application code.",
+      "Yes. Every simulation result generates a shareable link you can send to anyone — they don't need a Founder Fate account to view it. You can also set an expiry date on the link. Enterprise users can export a full PDF pre-mortem report.",
   },
   {
-    question: "Can I still write custom API routes if I need them?",
+    question: "What is the Decision DNA report?",
     answer:
-      "Yes! LaunchPad uses Next.js App Router, so you can absolutely write custom API routes in the app/api directory for any logic that doesn't fit the CRUD pattern. PostgREST handles 90% of typical API needs (CRUD, filtering, joins, stored procedures), and Next.js API routes handle the rest (webhooks, third-party integrations, complex business logic).",
+      "After you've run at least five simulations, Founder Fate analyzes the patterns across your decisions — which variables you systematically over- or under-estimate, which risk nodes appear repeatedly, and how your archetype's known biases show up. It produces a founder-specific report you can share with coaches, investors, or future co-founders.",
   },
   {
-    question: "What about database migrations?",
+    question: "How does the Enterprise pre-mortem work?",
     answer:
-      "LaunchPad includes SQL migration files and a Docker Compose setup that automatically initializes your database. When you want to add a new table, you write a standard SQL migration, run it, and your API updates instantly. No need to update Prisma schemas, regenerate types, or modify API routes. The migration IS the API update.",
+      "Upload a business plan, pitch deck, or any document (PDF, DOCX, or URL). The system parses your key assumptions, runs Monte Carlo iterations across the probability space, and produces a 15-section PDF covering failure probability, top failure modes, sensitivity analysis by variable, and a risk mitigation checklist — with a liability disclaimer in the footer.",
   },
   {
-    question: "Does it work with Vercel / serverless deployments?",
+    question: "Is my data private?",
     answer:
-      "Your Next.js frontend deploys to Vercel like normal. PostgREST and PostgreSQL run separately (on Railway, Fly.io, Supabase, or any Docker host). This separation is actually an advantage — your database tier scales independently from your frontend, and you can use managed PostgreSQL services for even simpler deployment.",
+      "Yes. Your simulation parameters, results, and uploaded documents are tied to your account and are never shared with other users or used to train our models. Shared links expose only the result tree, not your inputs. You can delete all your data from the account settings page at any time.",
   },
   {
-    question: "What's included in the boilerplate?",
+    question: "What happens when I hit the Free tier limit?",
     answer:
-      "LaunchPad includes: Next.js 16 with App Router, TypeScript, Tailwind CSS + shadcn/ui, PostgREST client with React hooks, NextAuth.js (Google, GitHub, email), PostgreSQL schema with RLS policies, Docker Compose for local development, Stripe payment integration, dark mode, responsive dashboard with analytics, API key management, billing management, settings pages, and comprehensive documentation.",
+      "The Free plan gives you 5 simulations per month. When you reach the limit, you can upgrade to Pro for unlimited simulations or wait for the monthly reset. Your saved results and scenario history are never deleted — only new simulation runs are gated.",
   },
 ];
+
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-border last:border-0">
+      <button
+        className="w-full flex items-center justify-between py-5 text-left gap-4 hover:text-violet-600 transition-colors"
+        onClick={() => setOpen(!open)}
+      >
+        <span className="font-medium">{q}</span>
+        <ChevronDown
+          className={`w-4 h-4 shrink-0 text-muted-foreground transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <p className="text-sm text-muted-foreground pb-5 leading-relaxed">{a}</p>
+      )}
+    </div>
+  );
+}
 
 export function FAQ() {
   return (
@@ -57,35 +73,26 @@ export function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Badge variant="secondary" className="mb-4 border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300">
+          <Badge
+            variant="secondary"
+            className="mb-4 border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300"
+          >
             FAQ
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Frequently Asked Questions
+            Common questions
           </h2>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
+          className="bg-card rounded-2xl border border-border/60 px-6 divide-y divide-border"
         >
-          <Accordion type="single" collapsible className="space-y-3">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="bg-card border border-border/50 rounded-lg px-6"
-              >
-                <AccordionTrigger className="text-left text-sm font-medium hover:no-underline">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm text-muted-foreground leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          {faqs.map((faq) => (
+            <FAQItem key={faq.question} q={faq.question} a={faq.answer} />
+          ))}
         </motion.div>
       </div>
     </section>

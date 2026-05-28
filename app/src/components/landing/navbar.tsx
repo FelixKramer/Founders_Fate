@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X, Flame } from "lucide-react";
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -35,11 +35,11 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
-            <Zap className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center">
+            <Flame className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold tracking-tight">
-            Launch<span className="text-emerald-500">Pad</span>
+            Founder<span className="text-violet-600">Fate</span>
           </span>
         </a>
 
@@ -61,8 +61,8 @@ export function Navbar() {
           <Button variant="ghost" size="sm" asChild>
             <a href="/login">Log in</a>
           </Button>
-          <Button size="sm" className="bg-emerald-500 hover:bg-emerald-600 text-white" asChild>
-            <a href="/signup">Get Started</a>
+          <Button size="sm" className="bg-violet-600 hover:bg-violet-700 text-white" asChild>
+            <a href="/signup">Start Free</a>
           </Button>
         </div>
 
@@ -100,8 +100,8 @@ export function Navbar() {
                 <Button variant="ghost" size="sm" className="w-full" asChild>
                   <a href="/login">Log in</a>
                 </Button>
-                <Button size="sm" className="w-full bg-emerald-500 hover:bg-emerald-600 text-white" asChild>
-                  <a href="/signup">Get Started</a>
+                <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-700 text-white" asChild>
+                  <a href="/signup">Start Free</a>
                 </Button>
               </div>
             </div>

@@ -11,57 +11,54 @@ const plans = [
     name: "Free",
     price: "$0",
     period: "forever",
-    description: "Perfect for side projects and learning",
+    description: "Try the simulation engine and see if it changes how you think.",
     features: [
-      "Up to 1,000 API requests/month",
-      "Basic analytics dashboard",
-      "Community support (Discord)",
-      "1 API key",
-      "PostgREST auto-API",
-      "Row Level Security",
+      "5 simulations / month",
+      "7 scenario templates",
+      "Consequence tree visualization",
+      "Shareable result links",
+      "Community support",
     ],
     cta: "Start Free",
+    href: "/signup",
     highlighted: false,
   },
   {
     name: "Pro",
-    price: "$29",
+    price: "$49",
     period: "/month",
-    description: "For serious indie hackers and startups",
+    description: "For founders who run decisions through data, not intuition.",
     features: [
-      "Up to 50,000 API requests/month",
-      "Advanced analytics & charts",
-      "Priority email support",
-      "10 API keys",
-      "PostgREST auto-API",
-      "Row Level Security",
-      "Custom webhooks",
-      "Team collaboration (up to 5)",
-      "Stored procedures (RPC)",
+      "Unlimited simulations",
+      "All 12 scenario templates",
+      "Decision DNA report",
+      "Custom domain models",
+      "Scenario Marketplace access",
+      "Side-by-side comparison",
+      "Streaks & achievements",
+      "Priority support",
     ],
-    cta: "Start Pro Trial",
+    cta: "Start Pro",
+    href: "/signup?plan=pro",
     highlighted: true,
   },
   {
     name: "Enterprise",
-    price: "$99",
-    period: "/month",
-    description: "For teams that need everything",
+    price: "Custom",
+    period: "",
+    description: "For leadership teams that need pre-mortem reports and audit trails.",
     features: [
-      "Unlimited API requests",
-      "Real-time analytics",
-      "24/7 dedicated support + SLA",
-      "Unlimited API keys",
-      "PostgREST auto-API",
-      "Row Level Security",
-      "Custom webhooks",
-      "Unlimited team members",
-      "Stored procedures (RPC)",
-      "SSO / SAML authentication",
-      "Custom PostgREST schemas",
+      "Everything in Pro",
+      "Monte Carlo pre-mortem PDF",
+      "Business plan / deck upload",
+      "SSO / SAML",
+      "Team seats (unlimited)",
       "Dedicated account manager",
+      "99.9% SLA",
+      "Custom integrations",
     ],
     cta: "Contact Sales",
+    href: "mailto:hello@founderfate.com",
     highlighted: false,
   },
 ];
@@ -76,15 +73,18 @@ export function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Badge variant="secondary" className="mb-4 border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300">
+          <Badge
+            variant="secondary"
+            className="mb-4 border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300"
+          >
             Pricing
           </Badge>
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Simple, Transparent Pricing
+            Start free. Upgrade when it changes how you decide.
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Start free, scale as you grow. Every plan includes PostgREST — 
-            because your database should always be your API.
+            No trial periods. Free is free forever. Upgrade to Pro when you want
+            unlimited simulations and your Decision DNA report.
           </p>
         </motion.div>
 
@@ -100,15 +100,13 @@ export function Pricing() {
               <Card
                 className={`h-full relative ${
                   plan.highlighted
-                    ? "border-emerald-500 shadow-lg shadow-emerald-500/10 scale-105"
+                    ? "border-violet-500 shadow-lg shadow-violet-500/10 scale-105"
                     : "border-border/50"
                 }`}
               >
                 {plan.highlighted && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-emerald-500 text-white border-0 px-3">
-                      Most Popular
-                    </Badge>
+                    <Badge className="bg-violet-600 text-white border-0 px-3">Most Popular</Badge>
                   </div>
                 )}
                 <CardHeader className="pb-4">
@@ -116,25 +114,25 @@ export function Pricing() {
                   <CardDescription>{plan.description}</CardDescription>
                   <div className="mt-4">
                     <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground ml-1">{plan.period}</span>
+                    {plan.period && (
+                      <span className="text-muted-foreground ml-1">{plan.period}</span>
+                    )}
                   </div>
                 </CardHeader>
                 <CardContent>
                   <Button
                     className={`w-full mb-6 ${
-                      plan.highlighted
-                        ? "bg-emerald-500 hover:bg-emerald-600 text-white"
-                        : ""
+                      plan.highlighted ? "bg-violet-600 hover:bg-violet-700 text-white" : ""
                     }`}
                     variant={plan.highlighted ? "default" : "outline"}
                     asChild
                   >
-                    <a href="/signup">{plan.cta}</a>
+                    <a href={plan.href}>{plan.cta}</a>
                   </Button>
                   <ul className="space-y-3">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2 text-sm">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" />
                         <span>{feature}</span>
                       </li>
                     ))}
