@@ -1,0 +1,41 @@
+app/src/lib/consequence-tree-utils.ts
+  s_17a852bebe789c::t_7732d9dcf4a8b8 43,48-50
+services/mirofish/backend/app/__init__.py
+  s_17a852bebe789c::t_86469daff1a2ac 42-44
+services/mirofish/backend/app/api/simulation.py
+  s_17a852bebe789c::t_2e8120d1255e19 23-34,40-43
+app/src/lib/analytics.ts
+  s_17a852bebe789c::t_97824c3aa757e6 54
+app/src/lib/auth.ts
+  s_17a852bebe789c::t_b480870b80ece2 128
+  s_17a852bebe789c::t_e08f490ed2dc26 147-148
+app/src/middleware.ts
+  s_17a852bebe789c::t_228b17e427e81c 87-89,91-95
+app/src/lib/rate-limit.ts
+  s_17a852bebe789c::t_80d1473d04596d 22-23,25,27,32-39,43,45-51,56
+  s_17a852bebe789c::t_f19d93f6d43662 29,54,57,61
+services/mirofish/Dockerfile
+  s_17a852bebe789c::t_61a0ec4d7ab071 23
+app/src/lib/achievements.ts
+  s_17a852bebe789c::t_f8bc4f40ce3567 116
+  s_17a852bebe789c::t_4896a04a13f82f 34,37
+  s_17a852bebe789c::t_72b3094986bc55 88
+services/mirofish/backend/main.py
+  s_17a852bebe789c::t_ac0e4f7e65e2dc 1-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "55e864a9c958f0853b793d670f42444527260f99",
+  "prompts": {},
+  "sessions": {
+    "s_17a852bebe789c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "33d7b75d-b7ff-4c29-89eb-7671fa4c0544",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Felix Kramer <his.awesomenes@gmail.com>"
+    }
+  }
+}
