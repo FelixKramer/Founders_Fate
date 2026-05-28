@@ -40,12 +40,14 @@ export interface SimulationResults {
 
 /**
  * Flatten a consequence tree into a Map<id, ConsequenceNode> for O(1) lookup.
+ * Uses an index pointer instead of Array.shift() to keep BFS at O(N) rather than O(N²).
  */
 export function flattenTree(node: ConsequenceNode): Map<string, ConsequenceNode> {
   const map = new Map<string, ConsequenceNode>();
   const queue: ConsequenceNode[] = [node];
-  while (queue.length > 0) {
-    const current = queue.shift()!;
+  let head = 0;
+  while (head < queue.length) {
+    const current = queue[head++]!;
     map.set(current.id, current);
     for (const child of current.children) {
       queue.push(child);

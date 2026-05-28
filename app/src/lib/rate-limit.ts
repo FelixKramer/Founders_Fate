@@ -19,25 +19,46 @@ const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 const upstash = url && token ? new Redis({ url, token }) : null;
 
 // In-memory fallback. Per-process, not shared between workers — fine for local dev only.
+// Bounded to MAX_BUCKETS entries; expired buckets are evicted on every write to prevent
+// unbounded growth under sustained traffic from many distinct IPs.
 class MemoryLimiter {
+  private static readonly MAX_BUCKETS = 10_000;
   private buckets = new Map<string, { count: number; resetAt: number }>();
+
   constructor(
-    private limit: number,
+    private maxCount: number,
     private windowMs: number,
   ) {}
+
+  /** Evict all expired buckets. Runs O(N) but is bounded by MAX_BUCKETS. */
+  private evictExpired(now: number): void {
+    for (const [k, v] of this.buckets) {
+      if (v.resetAt < now) this.buckets.delete(k);
+    }
+  }
+
   async limit(key: string): Promise<{ success: boolean; reset: number; remaining: number }> {
     const now = Date.now();
     const b = this.buckets.get(key);
+
     if (!b || b.resetAt < now) {
+      // Evict expired entries before inserting a new bucket so the map stays bounded.
+      if (this.buckets.size >= MemoryLimiter.MAX_BUCKETS) this.evictExpired(now);
+      // If still at cap after eviction (all live), drop the oldest entry.
+      if (this.buckets.size >= MemoryLimiter.MAX_BUCKETS) {
+        const oldest = this.buckets.keys().next().value;
+        if (oldest !== undefined) this.buckets.delete(oldest);
+      }
       const reset = now + this.windowMs;
       this.buckets.set(key, { count: 1, resetAt: reset });
-      return { success: true, reset, remaining: this.limit - 1 };
+      return { success: true, reset, remaining: this.maxCount - 1 };
     }
-    if (b.count >= this.limit) {
+
+    if (b.count >= this.maxCount) {
       return { success: false, reset: b.resetAt, remaining: 0 };
     }
     b.count += 1;
-    return { success: true, reset: b.resetAt, remaining: this.limit - b.count };
+    return { success: true, reset: b.resetAt, remaining: this.maxCount - b.count };
   }
 }
 

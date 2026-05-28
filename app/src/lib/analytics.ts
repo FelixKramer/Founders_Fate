@@ -51,6 +51,7 @@ export type EventMap = {
   fate_fidelity_check: { fidelity_score: number; deviation_areas: string[]; sample_size: number };
   fate_marketplace_submitted: { userId: string; listingId: string; category: string };
   fate_marketplace_scenario_used: { userId: string; listingId: string };
+  fate_badge_awarded: { userId: string; badgeSlug: string; badgeName: string };
 };
 
 export type EventName = keyof EventMap;

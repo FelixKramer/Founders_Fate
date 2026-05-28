@@ -84,13 +84,15 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/suspended", request.url));
     }
 
-    // M3.1: Redirect to onboarding if the user hasn't completed it yet.
+    // M3.1: Redirect to onboarding if the user hasn't set their archetype yet.
+    // We read from the JWT token (server-authoritative) rather than a raw
+    // client-side cookie which any user could forge in DevTools.
     // Only applies to /hub (not to /onboarding itself, to avoid redirect loops).
-    if (
-      (pathname === "/hub" || pathname.startsWith("/hub/")) &&
-      !request.cookies.get("ff_onboarding_done")?.value
-    ) {
-      return NextResponse.redirect(new URL("/onboarding/archetype", request.url));
+    if (pathname === "/hub" || pathname.startsWith("/hub/")) {
+      const archetype = (token as { archetype?: string | null }).archetype;
+      if (!archetype) {
+        return NextResponse.redirect(new URL("/onboarding/archetype", request.url));
+      }
     }
 
     return NextResponse.next();

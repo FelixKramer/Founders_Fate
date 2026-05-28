@@ -39,8 +39,9 @@ def create_app(config_class=Config):
         logger.info("MiroFish Backend 启动中...")
         logger.info("=" * 50)
     
-    # 启用CORS
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    # 启用CORS — restrict to the configured Next.js origin; never use wildcard in production.
+    allowed_origins = os.environ.get("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    CORS(app, resources={r"/api/*": {"origins": [o.strip() for o in allowed_origins]}})
     
     # 注册模拟进程清理函数（确保服务器关闭时终止所有模拟进程）
     from .services.simulation_runner import SimulationRunner

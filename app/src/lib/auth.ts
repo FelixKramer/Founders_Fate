@@ -125,7 +125,7 @@ export const authOptions: NextAuthOptions = {
       const dbUser = await db.user.findFirst({
         where: { email: token.email! },
         include: {
-          profile: { select: { tier: true } },
+          profile: { select: { tier: true, archetype: true } },
         },
       });
 
@@ -144,6 +144,8 @@ export const authOptions: NextAuthOptions = {
       token.role = dbUser.role;
       token.suspended = dbUser.suspended;
       token.tier = dbUser.profile?.tier ?? "free";
+      // Used by middleware to redirect to /onboarding without trusting a mutable cookie.
+      token.archetype = dbUser.profile?.archetype ?? null;
 
       return token;
     },

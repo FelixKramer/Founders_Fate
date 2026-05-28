@@ -20,4 +20,4 @@ EXPOSE 8000
 ENV PYTHONUNBUFFERED=1
 ENV LLM_GATEWAY_MODE=live
 
-CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120", "app:create_app()"]
+CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--timeout", "120", "main:create_app()"]

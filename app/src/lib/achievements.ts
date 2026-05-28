@@ -1,9 +1,5 @@
 /**
  * Achievement award engine — M21 Gamification
- *
- * All Prisma model queries use (db as any) because the Badge/UserBadge/Streak
- * models are added via migration 0008 and the generated client types are updated
- * at deploy time.
  */
 
 import { db } from "@/lib/db";
@@ -35,10 +31,10 @@ export async function awardBadge(
   slug: BadgeSlug,
 ): Promise<{ badge: { name: string; emoji: string } } | null> {
   try {
-    const badge = await (db as any).badge.findUnique({ where: { slug } });
+    const badge = await db.badge.findUnique({ where: { slug } });
     if (!badge) return null;
 
-    const userBadge = await (db as any).userBadge.create({
+    const userBadge = await db.userBadge.create({
       data: { userId, badgeId: badge.id },
       include: { badge: true },
     });
@@ -89,7 +85,7 @@ export async function updateStreak(
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const yesterdayStart = new Date(todayStart.getTime() - 86400000);
 
-  const existing = await (db as any).streak.findUnique({ where: { userId } });
+  const existing = await db.streak.findUnique({ where: { userId } });
 
   let currentStreak = 1;
   let longestStreak = 1;
@@ -117,7 +113,7 @@ export async function updateStreak(
     }
   }
 
-  await (db as any).streak.upsert({
+  await db.streak.upsert({
     where: { userId },
     create: { userId, currentStreak, longestStreak, lastActiveAt: now },
     update: { currentStreak, longestStreak, lastActiveAt: now },

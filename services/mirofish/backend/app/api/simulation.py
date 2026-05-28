@@ -20,20 +20,27 @@ from ..models.project import ProjectManager
 logger = get_logger('mirofish.api.simulation')
 
 
-# Interview prompt 优化前缀
-# 添加此前缀可以避免Agent调用工具，直接用文本回复
+# NOTE: This file is part of the upstream MiroFish / OASIS social-simulation layer.
+# It is NOT registered by the Founder Fate production entry point (main.py).
+# Production simulation runs through api/internal.py → simulation/pipeline.py instead.
+#
+# The approach below (prepending a Chinese-language string to suppress tool calls) is
+# fragile — it depends on language-model behaviour that drifts between versions.
+# The correct approach is to pass tool_choice="none" (OpenAI-compatible) or
+# tool_choice={"type": "none"} (Anthropic) in the API request parameters so the model
+# is instructed at the protocol level rather than via prompt injection.
+# This file is left as-is to avoid breaking the upstream OASIS integration; the
+# tool_choice parameter should be wired in SimulationRunner.interview_agent() when
+# that path is activated.
 INTERVIEW_PROMPT_PREFIX = "结合你的人设、所有的过往记忆与行动，不调用任何工具直接用文本回复我："
 
 
 def optimize_interview_prompt(prompt: str) -> str:
     """
-    优化Interview提问，添加前缀避免Agent调用工具
-    
-    Args:
-        prompt: 原始提问
-        
-    Returns:
-        优化后的提问
+    Prepend a prefix asking the agent not to call tools and reply in plain text.
+
+    Deprecated approach: prefer passing tool_choice="none" to the LLM API call in
+    SimulationRunner.interview_agent() instead of relying on prompt-level instruction.
     """
     if not prompt:
         return prompt
